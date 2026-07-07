@@ -167,7 +167,8 @@
                         </div>
                         <ul>
                             <li>Restructured the complete test framework architecture across all DSP teams &mdash; transformed Robot Framework and pytest setups from zero reliability to single-click execution with full Jenkins CI integration, enabling unified test runs and reporting platform-wide.</li>
-                            <li>Created and owned the E2E performance testing framework &mdash; implemented auto-adaptive connection pooling, multi-signal detection (API, DB, Databricks, GraphQL), and dynamic polling to scale from 30 to 75,000+ concurrent devices with zero configuration changes.</li>
+                            <li>Created and owned the E2E performance testing framework for DSP file pipeline &mdash; realistic workload simulation, high-scale parallel concurrency, adaptive DB-primary polling with API fallback. Scaled from 30 to 75,000+ concurrent devices with per-stage latency distributions and automated HTML/Excel reporting.</li>
+                            <li>Developed pipeline qualification script for Jenkins CI &mdash; automated pass/fail validation with entry/exit criteria, UI and API test execution per release, enabling TQ teams to rely on pipeline reports with full traceability.</li>
                             <li>Redesigned the Data Platform test framework using pytest, adopted across all teams as the standard for data pipeline validation and quality gates.</li>
                             <li>Built automated daily report generation and distribution system with auto-trigger scheduling, delivering test execution reports to stakeholders at defined intervals.</li>
                             <li>Architected the AI Bug Analyser system &mdash; integrated with CI pipelines and Jira, designed as a hooks-based architecture stashed within each team's repo, executing with minimal per-team changes.</li>
