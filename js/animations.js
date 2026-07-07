@@ -13,9 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     loaderTl
-        .to('.loader-logo', { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.6)' })
-        .to('.loader-char', { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: 'power3.out' }, '-=0.2')
-        .to('.loader-progress', { width: '100%', duration: 0.8, ease: 'power2.inOut' }, '-=0.1')
+        .to('.loader-logo', { opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.8)' })
+        .to('.loader-progress', { width: '100%', duration: 0.9, ease: 'power2.inOut' }, '-=0.2')
         .to('.loader-inner', { opacity: 0, y: -30, duration: 0.3 })
         .to('#loader', { yPercent: -100, duration: 0.6, ease: 'power3.inOut' });
 
