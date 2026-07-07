@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karthik Raja - ATS Resume</title>
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='8' fill='%23c9a84c'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' dominant-baseline='middle' font-family='Inter,sans-serif' font-weight='900' font-size='15' fill='white'%3EKR%3C/text%3E%3C/svg%3E">
+    <style>
+        /* ATS Resume - intentionally plain, single-column, no graphics */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+            font-size: 11pt;
+            line-height: 1.45;
+            color: #000;
+            background: #e8e8e8;
+        }
+        .no-print { }
+        .print-bar {
+            position: sticky; top: 0; z-index: 100;
+            background: #1a1a1a; padding: 12px 0;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+        }
+        .print-bar-inner {
+            max-width: 800px; margin: 0 auto; padding: 0 24px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .print-bar a { color: #aaa; text-decoration: none; font-size: 13px; }
+        .print-bar a:hover { color: #fff; }
+        .print-bar-right { display: flex; align-items: center; gap: 16px; }
+        .btn-print {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 10px 22px; background: #c9a84c; color: #000;
+            border: none; border-radius: 6px; font-size: 13px;
+            font-weight: 700; cursor: pointer; font-family: inherit;
+        }
+        .btn-print:hover { background: #e8cc6e; }
+        .print-hint { font-size: 11px; color: #666; }
+        .resume {
+            max-width: 800px; margin: 20px auto;
+            background: #fff; padding: 36px 44px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 22pt; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+        .title-line { font-size: 11pt; color: #333; margin-bottom: 6px; }
+        .contact-line {
+            font-size: 9.5pt; color: #444;
+            margin-bottom: 16px; word-spacing: 1px;
+        }
+        .contact-line a { color: #444; text-decoration: none; }
+        hr {
+            border: none; border-top: 1.5px solid #000;
+            margin: 12px 0 10px;
+        }
+        hr.light { border-top: 0.5px solid #ccc; margin: 8px 0; }
+        h2 {
+            font-size: 12pt; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.8px;
+            margin-bottom: 6px; margin-top: 14px;
+        }
+        h3 { font-size: 11pt; font-weight: 700; margin-bottom: 1px; }
+        .job-header {
+            display: flex; justify-content: space-between;
+            align-items: baseline; margin-bottom: 1px;
+        }
+        .company-line { font-size: 10.5pt; color: #333; font-style: italic; margin-bottom: 4px; }
+        .period { font-size: 10pt; color: #333; font-style: italic; white-space: nowrap; }
+        .summary { margin-bottom: 10px; font-size: 10.5pt; color: #222; line-height: 1.5; }
+        .skills-block { font-size: 10.5pt; color: #222; line-height: 1.6; margin-bottom: 4px; }
+        .skills-block strong { color: #000; }
+        ul { padding-left: 18px; margin-bottom: 10px; }
+        li { font-size: 10.5pt; color: #222; margin-bottom: 3px; line-height: 1.45; }
+        .edu-line { margin-bottom: 4px; }
+        .edu-line strong { font-weight: 700; }
+        .edu-line span { color: #444; font-size: 10pt; }
+        .achievements li { margin-bottom: 4px; }
+        .lang { font-size: 10.5pt; color: #222; }
+
+        @media print {
+            .no-print { display: none !important; }
+            body { background: #fff; }
+            .resume { max-width: 100%; margin: 0; padding: 24px 32px; box-shadow: none; }
+            @page { size: A4; margin: 10mm; }
+        }
+        @media (max-width: 600px) {
+            .resume { padding: 20px 16px; }
+            .job-header { flex-direction: column; }
+            .print-bar-inner { flex-direction: column; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Print Controls -->
+    <div class="print-bar no-print">
+        <div class="print-bar-inner">
+            <div><a href="/">&larr; Back to Site</a> &nbsp;&middot;&nbsp; <a href="resume.html">Visual Resume</a></div>
+            <div class="print-bar-right">
+                <button onclick="window.print()" class="btn-print">Save as PDF (ATS)</button>
+                <span class="print-hint">Use &ldquo;Save as PDF&rdquo; &bull; Margins: None</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="resume">
+        <h1>Karthik Raja</h1>
+        <div class="title-line">Manager, Systems Automation | Test Architect</div>
+        <div class="contact-line">
+            (+91) 8148412598 &nbsp;|&nbsp;
+            <a href="mailto:karthikoff10@gmail.com">karthikoff10@gmail.com</a> &nbsp;|&nbsp;
+            <a href="https://www.linkedin.com/in/karthik-raja-624864b1/">linkedin.com/in/karthik-raja-624864b1</a> &nbsp;|&nbsp;
+            <a href="https://github.com/karthikraja14">github.com/karthikraja14</a> &nbsp;|&nbsp;
+            <a href="https://vystra.in">vystra.in</a> &nbsp;|&nbsp;
+            Bengaluru, India
+        </div>
+        <hr>
+
+        <!-- PROFESSIONAL SUMMARY -->
+        <h2>Professional Summary</h2>
+        <p class="summary">
+            Manager, Systems Automation with 10+ years in healthcare and MedTech quality engineering. At Johnson &amp; Johnson, transformed Digital Surgery Platform testing from zero reliability to single-click execution across six teams (30+ engineers) on Azure cloud. Designed five platform-wide systems: unified Robot/pytest framework with CI, E2E performance testing scaling from 30 to 75,000+ concurrent devices, data platform test framework, automated daily reporting, and an AI Bug Analyser with CI + Jira integration. Drove shift-left testing, quality gates in CI pipelines, and test strategy ownership. Test coverage: 40% to 85%+. Cycle time: reduced 40%. Experienced in leading teams of SDETs for automated system-level Design Verification of FDA/ISO/IEC regulated medical devices.
+        </p>
+
+        <!-- TECHNICAL SKILLS -->
+        <h2>Technical Skills</h2>
+        <p class="skills-block"><strong>Test Frameworks:</strong> Robot Framework, Pytest, Pytest-BDD, Selenium, BDD/Gherkin, Cucumber, REST Assured, Postman</p>
+        <p class="skills-block"><strong>Programming:</strong> Python, Groovy, Bash, Shell Scripting, SQL</p>
+        <p class="skills-block"><strong>CI/CD &amp; DevOps:</strong> Jenkins, Jenkins Pipeline-as-Code, Azure DevOps, Docker, Kubernetes, GitHub Actions, SonarQube</p>
+        <p class="skills-block"><strong>Cloud &amp; Data:</strong> Azure Cloud, MySQL, Cosmos DB, Databricks, GraphQL, JFrog Artifactory</p>
+        <p class="skills-block"><strong>Testing Types:</strong> Systems Automation, Design Verification, Verification &amp; Validation (V&amp;V), Performance Testing, API Testing, Integration Testing, Regression Testing, Embedded Systems/Firmware Testing, Security Testing</p>
+        <p class="skills-block"><strong>Tools &amp; Platforms:</strong> Jira, XRAY, Confluence, Git, Bitbucket, Allure Reports, CMake, Makefile</p>
+        <p class="skills-block"><strong>Methodologies:</strong> Agile (Scrum), SAFe, Shift-Left Testing, Continuous Testing, Risk-Based Testing, TDD, BDD</p>
+        <p class="skills-block"><strong>Domain &amp; Compliance:</strong> ISO 13485, IEC 62304, FDA 21 CFR Part 11, FDA SOP Compliance, Healthcare/MedTech, IoMT, Medical Device Software (Class II/III)</p>
+
+        <!-- WORK EXPERIENCE -->
+        <h2>Work Experience</h2>
+
+        <div class="job-header"><h3>Manager, Systems Automation</h3><span class="period">Aug 2026 &ndash; Present</span></div>
+        <div class="company-line">Insulet Corporation</div>
+        <ul>
+            <li>Lead a team of SDETs responsible for building automated verification frameworks for medical device system-level Design Verification, ensuring safety and effectiveness of products.</li>
+            <li>Develop, validate, and release automated test frameworks for formal verification leveraging existing frameworks and industry best practices across FDA/ISO/IEC regulated products.</li>
+            <li>Plan, prepare, and execute automated system-level tests for assigned projects during development and formal System Design Verification.</li>
+            <li>Drive continuous optimization of automated test processes using risk-based analysis and statistical methods to maximize test efficacy while minimizing testing time.</li>
+            <li>Oversee CI/CD integration for verification pipelines across multiple concurrent product initiatives, balancing competing needs for completion on time and budget.</li>
+            <li>Lead hiring, staffing, and team development decisions; conduct periodic evaluations, mentor new staff, and improve team effectiveness.</li>
+        </ul>
+
+        <div class="job-header"><h3>Lead Test Engineer</h3><span class="period">Mar 2023 &ndash; Jul 2026</span></div>
+        <div class="company-line">Johnson &amp; Johnson &mdash; Digital Surgery Platform (DSP)</div>
+        <ul>
+            <li>Restructured the complete test framework architecture across all DSP teams &mdash; transformed Robot Framework and pytest setups from zero reliability to single-click execution with full Jenkins CI integration, enabling unified test runs and reporting platform-wide.</li>
+            <li>Created and owned the E2E performance testing framework &mdash; implemented auto-adaptive connection pooling, multi-signal detection (API, DB, Databricks, GraphQL), and dynamic polling to scale from 30 to 75,000+ concurrent devices with zero configuration changes. Reduced API calls by 95% and DB connections by 95%.</li>
+            <li>Redesigned the Data Platform test framework using pytest, adopted across all teams as the standard for data pipeline validation and quality gates.</li>
+            <li>Built automated daily report generation and distribution system with auto-trigger scheduling, delivering test execution reports to stakeholders at defined intervals.</li>
+            <li>Architected the AI Bug Analyser system &mdash; integrated with CI pipelines and Jira, designed as a hooks-based architecture stashed within each team's repo, executing with minimal per-team changes (reference-only setup).</li>
+            <li>Increased test coverage from ~40% to 85%+ through negative testing, risk-based strategies, and 150+ automated regression scenarios. Managed six testing teams (30+ engineers) across all releases.</li>
+            <li>Modernized CI/CD pipelines for IoMT Embedded Device Agent SDK (C SDK): designed marker-based smart test execution across 224 BDD feature files and 64 test suites. Reduced pipeline configuration by 87% (4,704 lines to 631 lines). Created unified Jenkins prestage script serving all execution modes.</li>
+            <li>Implemented dynamic Artifactory SDK overlay for on-demand released version testing and dynamic package versioning with Git commit SHA traceability.</li>
+            <li>Drove shift-left testing and quality gate enforcement in CI pipelines; authored test strategy documents for every major release, presented to VP/Senior Director stakeholders.</li>
+            <li>Mentored 30+ engineers on automation best practices, framework adoption, and AI tools; established onboarding standards for new QE team members across DSP.</li>
+            <li>Led DB migration testing (Cosmos DB to MySQL), contributing to ~$500K in annual cost savings.</li>
+        </ul>
+
+        <div class="job-header"><h3>Senior Test Engineer</h3><span class="period">Oct 2021 &ndash; Jan 2023</span></div>
+        <div class="company-line">L&amp;T Technology Services (LTTS) &mdash; Client: Baxter</div>
+        <ul>
+            <li>Delivered E2E testing for Baxter Peritoneal Dialysis devices and New Product Development device under GDP guidelines.</li>
+            <li>Designed 500+ test cases (BVA, equivalence partitioning, decision tables) and built Python + Selenium + BDD automation for 80+ critical scenarios.</li>
+            <li>Authored ISO 13485-aligned verification artifacts and led ARB quality reviews; accelerated root cause analysis by 40% using Fishbone methods.</li>
+        </ul>
+
+        <div class="job-header"><h3>Test Engineer</h3><span class="period">Oct 2018 &ndash; Feb 2021</span></div>
+        <div class="company-line">Fresenius Medical Care</div>
+        <ul>
+            <li>Executed system integration and regression testing for hemodialysis software (Class II medical device, IEC 62304).</li>
+            <li>Developed 200+ test cases for patient monitoring systems; automated workflows using Python, saving 15+ hours/sprint.</li>
+            <li>Validated firmware updates on target hardware with zero field-reported critical defects.</li>
+        </ul>
+
+        <div class="job-header"><h3>Biomedical Engineer</h3><span class="period">Feb 2017 &ndash; Oct 2018</span></div>
+        <div class="company-line">Vijaya Hospital &amp; Apollo Hospitals</div>
+        <ul>
+            <li>Managed calibration and preventive maintenance of 50+ biomedical devices (ventilators, monitors, infusion pumps). Implemented equipment tracking that reduced downtime by 20%.</li>
+            <li>Supported critical-care equipment commissioning and contributed to NABH accreditation quality audits.</li>
+        </ul>
+
+        <!-- KEY ACHIEVEMENTS -->
+        <h2>Key Achievements</h2>
+        <ul class="achievements">
+            <li>5 platform-wide systems designed and delivered at J&amp;J: test framework, performance framework, data platform framework, daily reporting, AI Bug Analyser.</li>
+            <li>Test Coverage: 40% to 85%+ | Cycle time: 5 days to 1.5 days | Defect leakage: reduced 35%.</li>
+            <li>Performance scale: 30 to 75,000+ concurrent devices (250x) | API pressure reduced 95% | DB connections reduced 95%.</li>
+            <li>CI/CD modernization: 87% pipeline config reduction (4,704 to 631 lines) across IoMT SDK projects.</li>
+            <li>Cost impact: ~$500K saved via Cosmos DB to MySQL migration.</li>
+            <li>Strong/Strong rating in both 2024 and 2025 year-end evaluations at Johnson &amp; Johnson.</li>
+        </ul>
+
+        <!-- EDUCATION -->
+        <h2>Education</h2>
+        <div class="edu-line"><strong>MBA / PGDM</strong> &mdash; <span>Madras University (2022)</span></div>
+        <div class="edu-line"><strong>B.Tech, Electronics &amp; Instrumentation Engineering</strong> &mdash; <span>Anand Institute of Higher Technology (2016)</span></div>
+
+        <!-- LANGUAGES -->
+        <h2>Languages</h2>
+        <p class="lang">English | Tamil | Hindi | Malayalam</p>
+    </div>
+
+    <script>
+        if (window.location.hash === '#print') {
+            setTimeout(() => window.print(), 500);
+        }
+    </script>
+</body>
+</html>
