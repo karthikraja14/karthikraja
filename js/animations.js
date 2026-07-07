@@ -1,5 +1,5 @@
-/* ================================================================
-   VYSTRA — Ultra Animation Engine
+﻿/* ================================================================
+   VYSTRA â€” Ultra Animation Engine
    Themed transitions, text scramble, SVG draw-on, parallax
    ================================================================ */
 document.addEventListener('DOMContentLoaded', () => {
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(108,92,231,${p.o})`;
+                ctx.fillStyle = `rgba(201,168,76,${p.o})`;
                 ctx.fill();
             }
             // Lines
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         ctx.beginPath();
                         ctx.moveTo(pts[i].x, pts[i].y);
                         ctx.lineTo(pts[j].x, pts[j].y);
-                        ctx.strokeStyle = `rgba(108,92,231,${0.07 * (1 - d / 140)})`;
+                        ctx.strokeStyle = `rgba(201,168,76,${0.07 * (1 - d / 140)})`;
                         ctx.lineWidth = 0.6;
                         ctx.stroke();
                     }
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         ctx.beginPath();
                         ctx.moveTo(p.x, p.y);
                         ctx.lineTo(mouse.x, mouse.y);
-                        ctx.strokeStyle = `rgba(0,206,201,${0.12 * (1 - d / 160)})`;
+                        ctx.strokeStyle = `rgba(201,168,76,${0.12 * (1 - d / 160)})`;
                         ctx.lineWidth = 0.8;
                         ctx.stroke();
                     }
@@ -347,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 trigger: dot, start: 'top 80%',
                 onEnter: () => {
                     gsap.fromTo(dot, { scale: 0.5 }, { scale: 1, duration: 0.5, ease: 'back.out(3)' });
-                    gsap.to(dot, { boxShadow: '0 0 20px rgba(108,92,231,0.6)', duration: 0.3 });
+                    gsap.to(dot, { boxShadow: '0 0 20px rgba(201,168,76,0.6)', duration: 0.3 });
                 }
             });
         });
