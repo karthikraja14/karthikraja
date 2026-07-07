@@ -148,6 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tl = gsap.timeline({ delay: 1.6 });
         tl.to('.title-line-inner', { y: 0, duration: 1.1, ease: 'power4.out', stagger: 0.18 })
           .to('.hero-badge', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.7')
+          .to('.hero-tagline', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5')
           .to('.hero-subtitle', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.4')
           .to('.hero-actions', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.4')
           .to('.hero-metrics', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', onStart: animateCounters }, '-=0.3')
