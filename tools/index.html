@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JD Resume Tailor - Private</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#08080a;--card:#131316;--bdr:#222;--t1:#f2f0ec;--t2:#9a9690;--gold:#c9a84c;--gold2:#e8cc6e;--green:#4caf50;--red:#e74c3c;--font:'Segoe UI',sans-serif}
+body{font-family:var(--font);background:var(--bg);color:var(--t1);min-height:100vh}
+
+/* Gate */
+#gate{display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:16px}
+#gate h2{color:var(--gold);font-size:1.2rem}
+#gate input{padding:12px 20px;background:var(--card);border:1px solid var(--bdr);border-radius:8px;color:var(--t1);font-size:1rem;width:280px;text-align:center;font-family:var(--font)}
+#gate input:focus{outline:none;border-color:var(--gold)}
+#gate button{padding:10px 28px;background:var(--gold);color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:.9rem}
+#gate .error{color:var(--red);font-size:.85rem;display:none}
+
+/* Main App */
+#app{display:none;max-width:1100px;margin:0 auto;padding:24px}
+.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.top-bar h1{font-size:1.3rem;color:var(--gold)}
+.top-bar a{color:var(--t2);text-decoration:none;font-size:.85rem}
+.top-bar a:hover{color:var(--t1)}
+
+.input-section{margin-bottom:24px}
+.input-section label{display:block;font-size:.85rem;color:var(--t2);margin-bottom:8px;font-weight:600}
+textarea{width:100%;height:200px;padding:16px;background:var(--card);border:1px solid var(--bdr);border-radius:12px;color:var(--t1);font-family:var(--font);font-size:.9rem;line-height:1.6;resize:vertical}
+textarea:focus{outline:none;border-color:var(--gold)}
+.btn-row{display:flex;gap:12px;margin-top:12px}
+.btn{padding:12px 28px;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:.9rem;font-family:var(--font)}
+.btn-gold{background:var(--gold);color:#000}
+.btn-gold:hover{background:var(--gold2)}
+.btn-outline{background:transparent;color:var(--t2);border:1px solid var(--bdr)}
+.btn-outline:hover{border-color:var(--gold);color:var(--t1)}
+
+/* Results */
+#results{display:none}
+.score-card{display:flex;gap:24px;margin-bottom:24px;flex-wrap:wrap}
+.score-box{flex:1;min-width:200px;padding:24px;background:var(--card);border:1px solid var(--bdr);border-radius:12px;text-align:center}
+.score-num{font-size:2.5rem;font-weight:900;font-family:'Courier New',monospace}
+.score-num.high{color:var(--green)}.score-num.mid{color:var(--gold)}.score-num.low{color:var(--red)}
+.score-label{font-size:.8rem;color:var(--t2);margin-top:4px}
+
+.kw-section{margin-bottom:24px}
+.kw-section h3{font-size:.95rem;color:var(--t1);margin-bottom:12px}
+.kw-grid{display:flex;flex-wrap:wrap;gap:6px}
+.kw{padding:6px 14px;border-radius:100px;font-size:.8rem;font-weight:600}
+.kw-match{background:rgba(76,175,80,.15);border:1px solid rgba(76,175,80,.3);color:#4caf50}
+.kw-miss{background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.25);color:#e74c3c}
+.kw-extra{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);color:var(--gold2)}
+
+.resume-actions{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.suggestions{margin-top:24px;padding:20px;background:var(--card);border:1px solid var(--bdr);border-radius:12px}
+.suggestions h3{font-size:.95rem;margin-bottom:12px;color:var(--gold)}
+.suggestions ul{padding-left:20px}
+.suggestions li{font-size:.85rem;color:var(--t2);margin-bottom:6px;line-height:1.5}
+.suggestions li strong{color:var(--t1)}
+
+@media(max-width:600px){.score-card{flex-direction:column}.btn-row{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<!-- Password Gate -->
+<div id="gate">
+    <h2>Private Tool - Enter Access Code</h2>
+    <input type="password" id="pwd" placeholder="Access code" onkeydown="if(event.key==='Enter')unlock()">
+    <button onclick="unlock()">Enter</button>
+    <div class="error" id="gateError">Wrong code. Try again.</div>
+</div>
+
+<!-- Main App -->
+<div id="app">
+    <div class="top-bar">
+        <h1>JD Resume Tailor</h1>
+        <a href="/">&larr; Back to Site</a>
+    </div>
+
+    <div class="input-section">
+        <label>Paste the Job Description below:</label>
+        <textarea id="jdInput" placeholder="Paste the full job description here..."></textarea>
+        <div class="btn-row">
+            <button class="btn btn-gold" onclick="analyze()">Analyze &amp; Match</button>
+            <button class="btn btn-outline" onclick="document.getElementById('jdInput').value='';document.getElementById('results').style.display='none'">Clear</button>
+        </div>
+    </div>
+
+    <div id="results">
+        <div class="score-card">
+            <div class="score-box">
+                <div class="score-num" id="matchScore">0%</div>
+                <div class="score-label">Keyword Match</div>
+            </div>
+            <div class="score-box">
+                <div class="score-num" id="matchCount" style="color:var(--green)">0</div>
+                <div class="score-label">Keywords Matched</div>
+            </div>
+            <div class="score-box">
+                <div class="score-num" id="missCount" style="color:var(--red)">0</div>
+                <div class="score-label">Keywords Missing</div>
+            </div>
+        </div>
+
+        <div class="kw-section">
+            <h3>Matched Keywords (in your resume)</h3>
+            <div class="kw-grid" id="matchedKw"></div>
+        </div>
+
+        <div class="kw-section">
+            <h3>Missing Keywords (not in your resume - consider adding)</h3>
+            <div class="kw-grid" id="missingKw"></div>
+        </div>
+
+        <div class="kw-section">
+            <h3>Your Extra Keywords (not in JD but strengthen your profile)</h3>
+            <div class="kw-grid" id="extraKw"></div>
+        </div>
+
+        <div class="suggestions" id="suggestions"></div>
+
+        <div class="resume-actions">
+            <button class="btn btn-gold" onclick="openTailoredATS()">Open Tailored ATS Resume</button>
+            <button class="btn btn-outline" onclick="openTailoredVisual()">Open Tailored Visual Resume</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// Password: simple hash check (not cryptographic, but keeps casual visitors out)
+const CODE_HASH = 'a2FydGhpazE0'; // base64 of the password
+function unlock(){
+    const v = document.getElementById('pwd').value;
+    if(btoa(v) === CODE_HASH){
+        document.getElementById('gate').style.display='none';
+        document.getElementById('app').style.display='block';
+    } else {
+        document.getElementById('gateError').style.display='block';
+    }
+}
+
+// ===== RESUME DATA =====
+const RESUME_SKILLS = [
+    // Test frameworks
+    'robot framework','pytest','pytest-bdd','selenium','bdd','gherkin','cucumber',
+    'rest assured','postman','test automation','automated testing','test framework',
+    // Programming
+    'python','groovy','bash','shell scripting','sql',
+    // CI/CD
+    'jenkins','pipeline-as-code','azure devops','docker','kubernetes','github actions',
+    'sonarqube','ci/cd','ci cd','continuous integration','continuous delivery','devops',
+    // Cloud & Data
+    'azure','azure cloud','mysql','cosmos db','databricks','graphql','jfrog','artifactory',
+    // Testing types
+    'systems automation','system automation','design verification','verification and validation',
+    'v&v','performance testing','api testing','integration testing','regression testing',
+    'embedded systems','embedded','firmware','security testing','functional testing',
+    'system testing','acceptance testing','smoke testing','sanity testing',
+    'shift-left','shift left','risk-based testing','risk based','tdd','bdd',
+    'continuous testing','exploratory testing','mobile testing',
+    // Tools
+    'jira','xray','confluence','git','bitbucket','allure','cmake','makefile',
+    // Methodologies
+    'agile','scrum','safe','kanban','waterfall',
+    // Domain
+    'iso 13485','iec 62304','fda','21 cfr','fda 21 cfr part 11','sop','compliance',
+    'medical device','medtech','healthcare','iomt','class ii','class iii',
+    'design control','dhf','dhr','verification','validation',
+    // Leadership
+    'team leadership','team lead','people management','mentoring','hiring','staffing',
+    'stakeholder','cross-functional','project management',
+    // Perf specific
+    'scalability','load testing','stress testing','throughput','latency','concurrency',
+    'benchmarking','performance engineering',
+    // AI
+    'ai','artificial intelligence','machine learning','ml',
+    // General
+    'automation','quality assurance','qa','qe','quality engineering','sdet','test strategy',
+    'test plan','test cases','test execution','defect','bug','root cause analysis','rca',
+    'continuous improvement','process improvement','reporting','analytics','dashboard',
+    'data pipeline','data platform','etl','data validation'
+];
+
+const MY_SKILLS = new Set([
+    'robot framework','pytest','pytest-bdd','selenium','bdd','gherkin','cucumber',
+    'rest assured','postman','test automation','automated testing','test framework',
+    'python','groovy','bash','shell scripting','sql',
+    'jenkins','pipeline-as-code','azure devops','docker','kubernetes','github actions',
+    'sonarqube','ci/cd','continuous integration','continuous delivery','devops',
+    'azure','azure cloud','mysql','cosmos db','databricks','graphql','jfrog','artifactory',
+    'systems automation','system automation','design verification','verification and validation',
+    'v&v','performance testing','api testing','integration testing','regression testing',
+    'embedded systems','embedded','firmware','security testing','functional testing',
+    'system testing','shift-left','shift left','risk-based testing','risk based','tdd','bdd',
+    'continuous testing',
+    'jira','xray','confluence','git','bitbucket','allure','cmake','makefile',
+    'agile','scrum','safe',
+    'iso 13485','iec 62304','fda','21 cfr','fda 21 cfr part 11','sop','compliance',
+    'medical device','medtech','healthcare','iomt','class ii',
+    'design control','verification','validation',
+    'team leadership','team lead','people management','mentoring','hiring','staffing',
+    'stakeholder','cross-functional',
+    'scalability','load testing','throughput','latency','concurrency',
+    'performance engineering',
+    'ai','artificial intelligence',
+    'automation','quality assurance','qa','qe','quality engineering','sdet','test strategy',
+    'test plan','test cases','test execution','defect','bug','root cause analysis','rca',
+    'continuous improvement','process improvement','reporting','analytics',
+    'data pipeline','data platform','data validation'
+]);
+
+function analyze(){
+    const jd = document.getElementById('jdInput').value.toLowerCase();
+    if(!jd.trim()){alert('Please paste a JD first.');return;}
+
+    // Extract JD keywords
+    const jdKeywords = new Set();
+    for(const skill of RESUME_SKILLS){
+        if(jd.includes(skill)) jdKeywords.add(skill);
+    }
+    // Also check for common variations
+    const variations = {
+        'ci/cd':['cicd','ci cd','ci/cd'],
+        'v&v':['v&v','v and v','verification and validation','verification & validation'],
+        'shift-left':['shift-left','shift left'],
+        'risk-based testing':['risk-based','risk based'],
+        'fda 21 cfr part 11':['21 cfr','cfr part 11','fda 21 cfr'],
+        'embedded systems':['embedded','firmware'],
+        'systems automation':['system automation','systems automation'],
+        'test automation':['test automation','automated testing'],
+        'design verification':['design verification','design v&v'],
+    };
+    for(const [canonical, variants] of Object.entries(variations)){
+        for(const v of variants){
+            if(jd.includes(v)) jdKeywords.add(canonical);
+        }
+    }
+
+    // Match
+    const matched = [];
+    const missing = [];
+    const extra = [];
+
+    for(const kw of jdKeywords){
+        if(MY_SKILLS.has(kw)) matched.push(kw);
+        else missing.push(kw);
+    }
+    for(const kw of MY_SKILLS){
+        if(!jdKeywords.has(kw)) extra.push(kw);
+    }
+
+    // Score
+    const total = jdKeywords.size;
+    const score = total > 0 ? Math.round((matched.length / total) * 100) : 0;
+
+    // Display
+    const scoreEl = document.getElementById('matchScore');
+    scoreEl.textContent = score + '%';
+    scoreEl.className = 'score-num ' + (score >= 80 ? 'high' : score >= 60 ? 'mid' : 'low');
+    document.getElementById('matchCount').textContent = matched.length;
+    document.getElementById('missCount').textContent = missing.length;
+
+    document.getElementById('matchedKw').innerHTML = matched.sort().map(k => `<span class="kw kw-match">${k}</span>`).join('');
+    document.getElementById('missingKw').innerHTML = missing.sort().map(k => `<span class="kw kw-miss">${k}</span>`).join('');
+    document.getElementById('extraKw').innerHTML = extra.sort().slice(0,20).map(k => `<span class="kw kw-extra">${k}</span>`).join('');
+
+    // Suggestions
+    const sugEl = document.getElementById('suggestions');
+    let sugHtml = '<h3>Tailoring Suggestions</h3><ul>';
+    if(score >= 85) sugHtml += '<li><strong>Great match!</strong> Your resume already covers most JD keywords. Minor tweaks below.</li>';
+    else if(score >= 65) sugHtml += '<li><strong>Good base.</strong> Add the missing keywords to your skills section and relevant bullets.</li>';
+    else sugHtml += '<li><strong>Needs work.</strong> Several JD keywords are missing. Focus on adding them to skills and rewording bullets.</li>';
+
+    if(missing.length > 0){
+        sugHtml += `<li><strong>Add to Technical Skills:</strong> ${missing.join(', ')}</li>`;
+        sugHtml += '<li><strong>Mirror JD language:</strong> Use the exact phrases from the JD, not synonyms. If JD says "Design Verification", don\'t write "Design V&V".</li>';
+    }
+    sugHtml += '<li><strong>Reorder skills:</strong> Put the most JD-relevant categories first in your Technical Skills section.</li>';
+    sugHtml += '<li><strong>Front-load bullets:</strong> Move your most relevant achievements to the top of each job entry.</li>';
+    if(jd.includes('lead') || jd.includes('manage') || jd.includes('team')){
+        sugHtml += '<li><strong>Leadership emphasis:</strong> This JD values leadership. Make sure your team management bullets are prominent.</li>';
+    }
+    if(jd.includes('medical device') || jd.includes('fda') || jd.includes('iso')){
+        sugHtml += '<li><strong>Regulatory focus:</strong> Emphasize FDA/ISO/IEC compliance experience in your summary and bullets.</li>';
+    }
+    sugHtml += '</ul>';
+    sugEl.innerHTML = sugHtml;
+
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('results').scrollIntoView({behavior:'smooth'});
+}
+
+function openTailoredATS(){
+    window.open('/resume-ats.html','_blank');
+}
+function openTailoredVisual(){
+    window.open('/resume.html','_blank');
+}
+</script>
+</body>
+</html>
