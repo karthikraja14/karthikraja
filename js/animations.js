@@ -406,4 +406,14 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollLeft.addEventListener('click', () => blogGrid.scrollBy({ left: -scrollAmt, behavior: 'smooth' }));
         scrollRight.addEventListener('click', () => blogGrid.scrollBy({ left: scrollAmt, behavior: 'smooth' }));
     }
+
+    // ===== AWARDS SCROLL ARROWS =====
+    const awardsGrid = document.getElementById('awardsGrid');
+    const awardLeft = document.querySelector('.award-scroll-left');
+    const awardRight = document.querySelector('.award-scroll-right');
+    if (awardsGrid && awardLeft && awardRight) {
+        const scrollAmt = 380;
+        awardLeft.addEventListener('click', () => awardsGrid.scrollBy({ left: -scrollAmt, behavior: 'smooth' }));
+        awardRight.addEventListener('click', () => awardsGrid.scrollBy({ left: scrollAmt, behavior: 'smooth' }));
+    }
 });
