@@ -57,15 +57,18 @@ document.addEventListener('DOMContentLoaded', () => {
             scrollTrigger: { trigger: '.blog-post-body', start: 'top 80%' }
         });
 
-        // Blog list items
+        // Blog list items - use set+from pattern to avoid stuck invisible state
         gsap.utils.toArray('.blog-list-item').forEach((item, i) => {
+            gsap.set(item, { opacity: 1, y: 0 });
             gsap.from(item, {
                 y: 40, opacity: 0, duration: 0.6, delay: 0.1 + i * 0.1,
-                ease: 'power3.out'
+                ease: 'power3.out',
+                clearProps: 'all'
             });
         });
 
         // Filter buttons
+        gsap.set('.filter-btn', { opacity: 1, scale: 1 });
         gsap.from('.filter-btn', {
             scale: 0.8, opacity: 0, duration: 0.4, stagger: 0.05,
             ease: 'back.out(1.4)', delay: 0.3

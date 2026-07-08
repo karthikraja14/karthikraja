@@ -396,4 +396,14 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // ===== BLOG SCROLL ARROWS =====
+    const blogGrid = document.getElementById('blogGrid');
+    const scrollLeft = document.querySelector('.blog-scroll-left');
+    const scrollRight = document.querySelector('.blog-scroll-right');
+    if (blogGrid && scrollLeft && scrollRight) {
+        const scrollAmt = 380;
+        scrollLeft.addEventListener('click', () => blogGrid.scrollBy({ left: -scrollAmt, behavior: 'smooth' }));
+        scrollRight.addEventListener('click', () => blogGrid.scrollBy({ left: scrollAmt, behavior: 'smooth' }));
+    }
 });
