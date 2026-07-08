@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision Beyond the OR &mdash; Post-Operative Recovery Companion | Karthik Raja V</title>
+    <meta name="description" content="How I built a post-operative recovery companion at JNJ Hack4Health that helps patients complete daily check-ins and surfaces escalation signals.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='8' fill='%23c9a84c'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' dominant-baseline='middle' font-family='sans-serif' font-weight='900' font-size='12' fill='white'%3EKRV%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/blog.css">
+</head>
+<body>
+    <nav class="nav" id="nav">
+        <div class="nav-container">
+            <a href="/" class="nav-logo"><span class="logo-mark">KRV</span><span class="logo-text">Karthik Raja V</span></a>
+            <div class="nav-links" id="navLinks">
+                <a href="/#about" class="nav-link">About</a>
+                <a href="/#journey" class="nav-link">Journey</a>
+                <a href="/#products" class="nav-link">Products</a>
+                <a href="/blog/" class="nav-link">Blog</a>
+                <a href="/#contact" class="nav-link">Contact</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <article class="blog-post">
+        <div class="blog-post-header" style="opacity:1;transform:none">
+            <a href="/blog/" class="blog-back-link">&larr; Back to Blog</a>
+            <div class="blog-post-meta" style="opacity:1;transform:none">
+                <span class="blog-tag">Hackathon</span>
+                <span class="blog-date">July 2026</span>
+                <span class="blog-read-time">5 min read</span>
+            </div>
+            <h1 class="blog-post-title" style="opacity:1;transform:none">Vision Beyond the OR &mdash; Building a Post-Operative Recovery Companion</h1>
+        </div>
+
+        <div class="blog-post-body" style="opacity:1;transform:none">
+            <p>After surgery, patients often go home with instructions, medication schedules, and a long gap before the next follow-up. That leaves room for uncertainty, missed doses, and delayed escalation when symptoms are changing.</p>
+
+            <p>At <strong>Hack4Health</strong>, a healthcare hackathon conducted by Johnson &amp; Johnson, I set out to close that gap with a simple daily recovery companion that feels supportive for patients and useful for clinicians.</p>
+
+            <h2>The Problem</h2>
+
+            <p>Post-operative care has a critical blind spot. The moment a patient leaves the hospital, the care team loses visibility. Recovery happens at home, unsupervised, with a one-time discharge handoff and a follow-up appointment weeks away.</p>
+
+            <p>The result? Patients unsure if their symptoms are normal. Missed medication. Delayed escalation when recovery goes off track. And clinicians who only find out something went wrong at the next visit &mdash; or worse, in the ER.</p>
+
+            <h2>What I Built</h2>
+
+            <p><strong>Vision Beyond the OR</strong> is a recovery-support platform that helps patients complete daily check-ins, share symptoms in natural language, track medication adherence, and surface escalation signals when recovery moves off track.</p>
+
+            <h3>Patient Check-in Experience</h3>
+            <ul>
+                <li><strong>Daily symptom capture</strong> in plain language &mdash; no medical jargon required</li>
+                <li><strong>Medication adherence tracking</strong> &mdash; simple yes/no with optional notes</li>
+                <li><strong>Mobile-friendly flow</strong> for quick use at home, designed for low-friction input</li>
+            </ul>
+
+            <h3>AI-Assisted Recovery Support</h3>
+            <ul>
+                <li><strong>Supportive responses</strong> based on the patient&rsquo;s report &mdash; not diagnosis, but guidance</li>
+                <li><strong>Structured extraction</strong> of recovery signals from free-text input</li>
+                <li><strong>Clear safety boundary</strong> &mdash; this is not a diagnosis engine, it&rsquo;s a support tool</li>
+            </ul>
+
+            <h3>Provider-Facing Summary</h3>
+            <ul>
+                <li><strong>Recovery classification</strong>: expected, monitor, or escalate</li>
+                <li><strong>Concise summary</strong> of reasons and trends for fast clinical review</li>
+                <li><strong>Deterministic escalation rules</strong> &mdash; safety-critical decisions use rule-based logic, not AI predictions</li>
+            </ul>
+
+            <h2>How the System Works</h2>
+
+            <p>The flow is deliberately simple:</p>
+
+            <ol>
+                <li><strong>Patient completes a check-in</strong> &mdash; the flow collects symptoms, medication adherence, and optional recovery inputs.</li>
+                <li><strong>Input is interpreted</strong> &mdash; the system converts free text into a structured recovery snapshot.</li>
+                <li><strong>Rules decide the next action</strong> &mdash; deterministic logic marks the case as expected, monitor, or escalate.</li>
+                <li><strong>Provider summary is prepared</strong> &mdash; if needed, the dashboard gets a concise summary for follow-up review.</li>
+            </ol>
+
+            <h2>Why This Project Matters to Me</h2>
+
+            <p>I wanted to build something that is both practical and humane: practical because it helps organize follow-up care, and humane because it gives patients a clearer sense of support when they are recovering at home.</p>
+
+            <p>The most important part of the build was keeping the experience safe and understandable. It&rsquo;s designed to support recovery conversations, not replace clinical judgment.</p>
+
+            <p>Working in MedTech gives you a deep appreciation for the consequences of software in healthcare. This project was a chance to apply that mindset to a patient-facing problem, not just a testing infrastructure challenge.</p>
+
+            <h2>Mentorship</h2>
+
+            <p>This project was developed with guidance from <strong>Sharath Srinivasan</strong>, whose mentorship helped shape the presentation, product story, and build focus.</p>
+
+            <blockquote>
+                <p>&ldquo;The best healthcare software doesn&rsquo;t replace the clinician &mdash; it gives them better signal, faster.&rdquo;</p>
+            </blockquote>
+        </div>
+
+        <nav class="blog-post-nav">
+            <a href="building-in-public.html" class="blog-nav-link prev">
+                <span class="blog-nav-dir">&larr; Previous</span>
+                <span class="blog-nav-title">Building in Public: The Vystra Approach</span>
+            </a>
+            <a href="why-i-built-vystra-build.html" class="blog-nav-link next">
+                <span class="blog-nav-dir">Next &rarr;</span>
+                <span class="blog-nav-title">Why I Built Vystra Build</span>
+            </a>
+        </nav>
+    </article>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Karthik Raja V. All rights reserved.</p>
+                <p class="footer-made">Engineered in India with care.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="../js/blog.js"></script>
+</body>
+</html>

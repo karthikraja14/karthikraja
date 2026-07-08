@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A blog-style project recap for Vision Beyond the OR, a post-operative recovery companion built for a healthcare hackathon.">
+  <title>Vision Beyond the OR | Project Blog</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: rgba(15, 23, 42, 0.78);
+      --panel-strong: #111827;
+      --text: #e5eefb;
+      --muted: #9fb0cb;
+      --accent: #7dd3fc;
+      --accent-2: #a78bfa;
+      --line: rgba(148, 163, 184, 0.18);
+      --shadow: 0 24px 80px rgba(2, 6, 23, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(125, 211, 252, 0.18), transparent 30%),
+        radial-gradient(circle at top right, rgba(167, 139, 250, 0.15), transparent 32%),
+        linear-gradient(180deg, #050816 0%, #0b1020 46%, #0f172a 100%);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 72px;
+    }
+
+    .shell {
+      border: 1px solid var(--line);
+      background: rgba(2, 6, 23, 0.36);
+      backdrop-filter: blur(18px);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 22px 28px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(90deg, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.55));
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #08111f;
+      font-weight: 800;
+      box-shadow: 0 12px 30px rgba(125, 211, 252, 0.25);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+    }
+
+    .brand p {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(15, 23, 42, 0.72);
+      color: var(--muted);
+      font-size: 0.88rem;
+      white-space: nowrap;
+    }
+
+    .hero {
+      padding: 48px 28px 28px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .hero-card {
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.45));
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: #d8f3ff;
+      background: rgba(125, 211, 252, 0.12);
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      font-size: 0.84rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 16px 0 14px;
+      font-size: clamp(2.1rem, 4vw, 4rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+
+    .lead {
+      margin: 0;
+      max-width: 64ch;
+      font-size: 1.05rem;
+      color: #d8e3f4;
+    }
+
+    .hero-meta {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: rgba(15, 23, 42, 0.72);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .cta {
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(167, 139, 250, 0.22);
+      background: linear-gradient(135deg, rgba(167, 139, 250, 0.16), rgba(125, 211, 252, 0.08));
+    }
+
+    .cta strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.98rem;
+    }
+
+    .cta p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .content {
+      padding: 0 28px 32px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .section {
+      padding: 24px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .section h3 {
+      margin: 0 0 12px;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+    }
+
+    .section p {
+      margin: 0 0 12px;
+      color: #d4def0;
+    }
+
+    .section p:last-child {
+      margin-bottom: 0;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .card {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(148, 163, 184, 0.08);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+    }
+
+    .card h4 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+
+    .card p,
+    .card li {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .card ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+    }
+
+    .step .num {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(125, 211, 252, 0.14);
+      color: #c9f2ff;
+      font-weight: 700;
+    }
+
+    .step strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .footer {
+      padding: 0 28px 28px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 20px, 1120px);
+        padding: 10px 0 24px;
+      }
+
+      .topbar,
+      .hero,
+      .content,
+      .footer {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .stat-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <article class="shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="mark">VB</div>
+          <div>
+            <h1>Vision Beyond the OR</h1>
+            <p>Project blog for my healthcare hackathon build</p>
+          </div>
+        </div>
+        <div class="pill">Mentored by Sharath Srinivasan</div>
+      </header>
+
+      <section class="hero">
+        <div class="hero-card">
+          <span class="eyebrow">Blog post</span>
+          <h2>Building a post-operative recovery companion that stays with the patient after discharge</h2>
+          <p class="lead">
+            Vision Beyond the OR is my achievement from a healthcare hackathon: a recovery-support platform that helps patients complete daily check-ins, share symptoms in natural language, track medication adherence, and surface escalation signals when recovery moves off track.
+          </p>
+        </div>
+
+        <aside class="hero-meta">
+          <div class="stat-grid">
+            <div class="stat">
+              <strong>End-to-end</strong>
+              <span>Patient check-in, AI response, and provider summary flow</span>
+            </div>
+            <div class="stat">
+              <strong>Safety first</strong>
+              <span>Supportive guidance only, with deterministic escalation rules</span>
+            </div>
+            <div class="stat">
+              <strong>Voice-ready</strong>
+              <span>Designed for low-friction, mobile-friendly recovery updates</span>
+            </div>
+            <div class="stat">
+              <strong>Trackable</strong>
+              <span>Structured recovery signals for trend review over time</span>
+            </div>
+          </div>
+
+          <div class="cta">
+            <strong>What makes it meaningful</strong>
+            <p>
+              It turns post-op recovery into a guided experience instead of a one-time discharge handoff, while keeping company-specific details masked for public sharing.
+            </p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="content">
+        <section class="section">
+          <h3>The problem I set out to solve</h3>
+          <p>
+            After surgery, patients often go home with instructions, medication schedules, and a long gap before the next follow-up. That leaves room for uncertainty, missed drops, and delayed escalation when symptoms are changing.
+          </p>
+          <p>
+            The goal of this project was to close that gap with a simple daily recovery companion that feels supportive for patients and useful for clinicians.
+          </p>
+        </section>
+
+        <section class="section">
+          <h3>What I built</h3>
+          <div class="grid-3">
+            <div class="card">
+              <h4>Patient check-in experience</h4>
+              <ul>
+                <li>Daily symptom capture in plain language</li>
+                <li>Medication adherence tracking</li>
+                <li>Mobile-friendly flow for quick use at home</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h4>AI-assisted recovery support</h4>
+              <ul>
+                <li>Supportive responses based on the patient report</li>
+                <li>Structured extraction of recovery signals</li>
+                <li>Clear boundary: not a diagnosis engine</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h4>Provider-facing summary</h4>
+              <ul>
+                <li>Recovery classification: expected, monitor, or escalate</li>
+                <li>Short summary of reasons and trends</li>
+                <li>Built for fast review instead of noise</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <h3>How the system works</h3>
+          <div class="timeline">
+            <div class="step">
+              <div class="num">1</div>
+              <div>
+                <strong>Patient completes a check-in</strong>
+                <span>The flow collects symptoms, medication adherence, and optional recovery inputs.</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="num">2</div>
+              <div>
+                <strong>The input is interpreted</strong>
+                <span>The system converts free text into a structured recovery snapshot.</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="num">3</div>
+              <div>
+                <strong>Rules decide the next action</strong>
+                <span>Deterministic logic marks the case as expected, monitor, or escalate.</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="num">4</div>
+              <div>
+                <strong>Provider summary is prepared</strong>
+                <span>If needed, the dashboard gets a concise summary for follow-up review.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <h3>Why this project matters to me</h3>
+          <p>
+            I wanted to build something that is both practical and humane: practical because it helps organize follow-up care, and humane because it gives patients a clearer sense of support when they are recovering at home.
+          </p>
+          <p>
+            The most important part of the build was keeping the experience safe and understandable. It is designed to support recovery conversations, not replace clinical judgment.
+          </p>
+        </section>
+
+        <section class="section">
+          <h3>Mentorship and acknowledgement</h3>
+          <p>
+            This project was developed with guidance from Sharath Srinivasan, whose mentorship helped shape the presentation, product story, and build focus.
+          </p>
+        </section>
+
+        <section class="section">
+          <h3>Public-facing note</h3>
+          <p>
+            Any company, partner, or brand-specific references have been intentionally masked in this blog version so it can be shared publicly on my website without exposing internal or proprietary details.
+          </p>
+        </section>
+      </section>
+
+      <footer class="footer">
+        <p>Project: Vision Beyond the OR | Format: static blog HTML | Prepared for website publishing</p>
+      </footer>
+    </article>
+  </main>
+</body>
+</html>

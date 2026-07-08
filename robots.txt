@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Sitemap: https://karthikraja.in/sitemap.xml
+
+User-agent: *
+Disallow: /tools/
