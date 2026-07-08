@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog — Vystra</title>
-    <meta name="description" content="Thoughts on product building, engineering, and the journey from idea to shipped product. By a MedTech Validation Engineer who builds.">
-    <link rel="canonical" href="https://vystra.in/blog/">
+    <title>Blog &mdash; Karthik Raja V</title>
+    <meta name="description" content="Thoughts on test engineering, product building, and the journey from idea to shipped product.">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='8' fill='%23c9a84c'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' dominant-baseline='middle' font-family='sans-serif' font-weight='900' font-size='12' fill='white'%3EKRV%3C/text%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -13,131 +14,81 @@
     <link rel="stylesheet" href="../css/blog.css">
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="nav" id="nav">
         <div class="nav-container">
-            <a href="/" class="nav-logo">
-                <span class="logo-mark">V</span>
-                <span class="logo-text">VYSTRA</span>
-            </a>
+            <a href="/" class="nav-logo"><span class="logo-mark">KRV</span><span class="logo-text">Karthik Raja V</span></a>
             <div class="nav-links" id="navLinks">
-                <a href="/#about">About</a>
-                <a href="/#products">Products</a>
-                <a href="/blog/">Blog</a>
-                <a href="/#contact">Contact</a>
+                <a href="/#about" class="nav-link">About</a>
+                <a href="/#journey" class="nav-link">Journey</a>
+                <a href="/#products" class="nav-link">Products</a>
+                <a href="/blog/" class="nav-link">Blog</a>
+                <a href="/#contact" class="nav-link">Contact</a>
             </div>
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
         </div>
     </nav>
 
-    <!-- Blog Header -->
     <section class="blog-page-header">
         <div class="container">
-            <div class="hero-badge">
+            <div class="hero-badge" style="opacity:1;transform:none">
                 <span class="badge-dot"></span>
-                Build Logs & Insights
+                Build Logs &amp; Insights
             </div>
-            <h1 class="section-title">The Vystra <span class="gradient-text">Blog</span></h1>
-            <p class="section-desc">
-                Writing about product building, engineering decisions, MedTech insights, 
-                and the journey from idea to shipped product.
-            </p>
+            <h1 class="section-title" style="margin-top:16px">The <span class="gradient-text">Blog</span></h1>
+            <p class="section-desc" style="opacity:1;transform:none">Writing about test engineering, product building, and the journey from idea to shipped product.</p>
         </div>
     </section>
 
-    <!-- Blog Listing -->
-    <section class="blog-listing">
+    <section class="blog-listing" style="padding:48px 0 100px">
         <div class="container">
-            <!-- Filter Tags -->
             <div class="blog-filters">
                 <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="launch">Launch</button>
                 <button class="filter-btn" data-filter="engineering">Engineering</button>
+                <button class="filter-btn" data-filter="launch">Launch</button>
                 <button class="filter-btn" data-filter="product">Product</button>
-                <button class="filter-btn" data-filter="medtech">MedTech</button>
             </div>
-
             <div class="blog-list">
-                <!-- Post 1 -->
-                <article class="blog-list-item" data-category="launch">
-                    <div class="blog-list-date">
-                        <span class="date-month">Jul</span>
-                        <span class="date-year">2026</span>
-                    </div>
-                    <div class="blog-list-content">
-                        <div class="blog-meta">
-                            <span class="blog-tag">Launch</span>
-                            <span class="blog-read-time">5 min read</span>
-                        </div>
-                        <h2><a href="why-i-built-vystra-build.html">Why I Built Vystra Build — From Validation Engineer to Product Builder</a></h2>
-                        <p>How working in MedTech validation gave me the engineering discipline to build a construction management platform from scratch. The parallels between validating medical devices and shipping software products.</p>
+                <article class="blog-list-item" data-category="engineering" style="display:flex;gap:24px;padding:24px;border-radius:12px;transition:.3s">
+                    <div style="min-width:50px"><span style="font-family:var(--mono);font-weight:700;color:var(--t1)">Jul</span><br><span style="font-size:.75rem;color:var(--t3)">2026</span></div>
+                    <div>
+                        <div class="blog-meta"><span class="blog-tag">Engineering</span></div>
+                        <h2 style="font-size:1.15rem;font-weight:700;margin:8px 0"><a href="performance-testing-75k-devices.html">How I Built a Performance Framework That Scales to 75K Devices</a></h2>
+                        <p style="font-size:.9rem;color:var(--t2)">A deep-dive into realistic workload simulation, adaptive polling, and 95% API reduction at scale.</p>
                     </div>
                 </article>
-
-                <!-- Post 2 -->
-                <article class="blog-list-item" data-category="engineering">
-                    <div class="blog-list-date">
-                        <span class="date-month">Jul</span>
-                        <span class="date-year">2026</span>
-                    </div>
-                    <div class="blog-list-content">
-                        <div class="blog-meta">
-                            <span class="blog-tag">Engineering</span>
-                            <span class="blog-read-time">4 min read</span>
-                        </div>
-                        <h2><a href="building-in-public.html">Building in Public: The Vystra Approach</a></h2>
-                        <p>Why I'm documenting every product I build — the decisions, the failures, the architecture — and what you can learn from it. Transparency as a competitive advantage.</p>
+                <article class="blog-list-item" data-category="engineering" style="display:flex;gap:24px;padding:24px;border-radius:12px;transition:.3s">
+                    <div style="min-width:50px"><span style="font-family:var(--mono);font-weight:700;color:var(--t1)">Jul</span><br><span style="font-size:.75rem;color:var(--t3)">2026</span></div>
+                    <div>
+                        <div class="blog-meta"><span class="blog-tag">Engineering</span></div>
+                        <h2 style="font-size:1.15rem;font-weight:700;margin:8px 0"><a href="pipeline-qualification.html">Pipeline Qualification: Making CI/CD Reports Trustworthy</a></h2>
+                        <p style="font-size:.9rem;color:var(--t2)">How I proved Jenkins pipeline reliability with entry/exit criteria for MedTech release decisions.</p>
                     </div>
                 </article>
-
-                <!-- Post 3 -->
-                <article class="blog-list-item" data-category="product">
-                    <div class="blog-list-date">
-                        <span class="date-month">—</span>
-                        <span class="date-year">Soon</span>
+                <article class="blog-list-item" data-category="launch" style="display:flex;gap:24px;padding:24px;border-radius:12px;transition:.3s">
+                    <div style="min-width:50px"><span style="font-family:var(--mono);font-weight:700;color:var(--t1)">Jul</span><br><span style="font-size:.75rem;color:var(--t3)">2026</span></div>
+                    <div>
+                        <div class="blog-meta"><span class="blog-tag">Launch</span></div>
+                        <h2 style="font-size:1.15rem;font-weight:700;margin:8px 0"><a href="why-i-built-vystra-build.html">Why I Built Vystra Build &mdash; From Architect to Product Builder</a></h2>
+                        <p style="font-size:.9rem;color:var(--t2)">How MedTech discipline gave me the foundation to ship a construction management SaaS.</p>
                     </div>
-                    <div class="blog-list-content">
-                        <div class="blog-meta">
-                            <span class="blog-tag">Product</span>
-                            <span class="blog-read-time">Coming soon</span>
-                        </div>
-                        <h2><a href="#">Lessons from Shipping a SaaS to Indian Contractors</a></h2>
-                        <p>What I learned about pricing in ₹, building for mobile-first users, and creating software for non-tech-savvy professionals. Real numbers, real learnings.</p>
+                </article>
+                <article class="blog-list-item" data-category="engineering" style="display:flex;gap:24px;padding:24px;border-radius:12px;transition:.3s">
+                    <div style="min-width:50px"><span style="font-family:var(--mono);font-weight:700;color:var(--t1)">Jul</span><br><span style="font-size:.75rem;color:var(--t3)">2026</span></div>
+                    <div>
+                        <div class="blog-meta"><span class="blog-tag">Engineering</span></div>
+                        <h2 style="font-size:1.15rem;font-weight:700;margin:8px 0"><a href="building-in-public.html">Building in Public: The Vystra Approach</a></h2>
+                        <p style="font-size:.9rem;color:var(--t2)">Why I'm documenting every product I build &mdash; the decisions, the failures, the architecture.</p>
                     </div>
                 </article>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <span class="logo-mark">V</span>
-                    <span class="logo-text">VYSTRA</span>
-                    <p class="footer-tagline">Engineering products that matter.</p>
-                </div>
-                <div class="footer-links">
-                    <div class="footer-col">
-                        <h5>Products</h5>
-                        <a href="https://build.vystra.in" target="_blank" rel="noopener">Vystra Build</a>
-                        <a href="https://build.vystra.in/calculators" target="_blank" rel="noopener">Free Calculators</a>
-                    </div>
-                    <div class="footer-col">
-                        <h5>Company</h5>
-                        <a href="/#about">About</a>
-                        <a href="/blog/">Blog</a>
-                        <a href="/#contact">Contact</a>
-                    </div>
-                </div>
-            </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Vystra. All rights reserved. Built in India.</p>
+                <p>&copy; 2026 Karthik Raja V. All rights reserved.</p>
+                <p class="footer-made">Engineered in India with care.</p>
             </div>
         </div>
     </footer>
@@ -146,24 +97,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="../js/blog.js"></script>
     <script>
-        // Blog filter functionality
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const blogItems = document.querySelectorAll('.blog-list-item');
-
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.filter-btn').forEach(btn=>{
+            btn.addEventListener('click',()=>{
+                document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
                 btn.classList.add('active');
-
-                const filter = btn.dataset.filter;
-                blogItems.forEach(item => {
-                    if (filter === 'all' || item.dataset.category === filter) {
-                        item.style.display = '';
-                        item.style.opacity = '0';
-                        requestAnimationFrame(() => { item.style.opacity = '1'; });
-                    } else {
-                        item.style.display = 'none';
-                    }
+                const f=btn.dataset.filter;
+                document.querySelectorAll('.blog-list-item').forEach(item=>{
+                    item.style.display=(f==='all'||item.dataset.category===f)?'flex':'none';
                 });
             });
         });

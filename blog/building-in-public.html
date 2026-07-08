@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Building in Public: The Vystra Approach — Vystra Blog</title>
-    <meta name="description" content="Why I'm documenting every product I build — the decisions, the failures, the architecture — and what you can learn from it.">
-    <link rel="canonical" href="https://vystra.in/blog/building-in-public.html">
-    <meta property="og:title" content="Building in Public: The Vystra Approach">
-    <meta property="og:type" content="article">
+    <title>Building in Public: The Vystra Approach | Karthik Raja V</title>
+    <meta name="description" content="Why I document every product built &mdash; decisions, failures, architecture. The rules of building in public at Vystra.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='8' fill='%23c9a84c'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' dominant-baseline='middle' font-family='sans-serif' font-weight='900' font-size='12' fill='white'%3EKRV%3C/text%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -15,116 +13,79 @@
     <link rel="stylesheet" href="../css/blog.css">
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="nav" id="nav">
         <div class="nav-container">
-            <a href="/" class="nav-logo">
-                <span class="logo-mark">V</span>
-                <span class="logo-text">VYSTRA</span>
-            </a>
+            <a href="/" class="nav-logo"><span class="logo-mark">KRV</span><span class="logo-text">Karthik Raja V</span></a>
             <div class="nav-links" id="navLinks">
-                <a href="/#about">About</a>
-                <a href="/#products">Products</a>
-                <a href="/blog/">Blog</a>
-                <a href="/#contact">Contact</a>
+                <a href="/#about" class="nav-link">About</a>
+                <a href="/#journey" class="nav-link">Journey</a>
+                <a href="/#products" class="nav-link">Products</a>
+                <a href="/blog/" class="nav-link">Blog</a>
+                <a href="/#contact" class="nav-link">Contact</a>
             </div>
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
         </div>
     </nav>
 
-    <!-- Blog Post -->
-    <article>
-        <div class="blog-post-header container">
-            <a href="/blog/" class="blog-back-link">← Back to Blog</a>
-            <div class="blog-post-meta">
+    <article class="blog-post">
+        <div class="blog-post-header" style="opacity:1;transform:none">
+            <a href="/blog/" class="blog-back-link">&larr; Back to Blog</a>
+            <div class="blog-post-meta" style="opacity:1;transform:none">
                 <span class="blog-tag">Engineering</span>
                 <span class="blog-date">July 2026</span>
                 <span class="blog-read-time">4 min read</span>
             </div>
-            <h1 class="blog-post-title">Building in Public: The Vystra Approach</h1>
+            <h1 class="blog-post-title" style="opacity:1;transform:none">Building in Public: The Vystra Approach</h1>
         </div>
 
-        <div class="blog-post-body">
-            <p>
-                There's a growing movement of indie makers and engineers who build in public — 
-                sharing their revenue numbers, user counts, technical decisions, and even failures. 
-                I'm joining that movement, but with an engineer's perspective.
-            </p>
+        <div class="blog-post-body" style="opacity:1;transform:none">
+            <p>Most product builders share the highlight reel &mdash; the launch day, the growth chart, the feature announcement. They skip the part where nothing worked, the architecture was wrong, or the market didn&rsquo;t care.</p>
 
-            <h2>Why Document the Journey?</h2>
+            <p>This blog exists to document everything. Not just the wins, but the decisions, the failures, and the architecture behind every product built under Vystra.</p>
 
-            <p>
-                Three reasons:
-            </p>
+            <h2>Why Document?</h2>
 
-            <ol>
-                <li><strong>Accountability.</strong> Writing about what I'm building forces me to think clearly about why I'm building it. If I can't explain a decision in a blog post, maybe it's not a good decision.</li>
-                <li><strong>Knowledge sharing.</strong> The Indian indie maker ecosystem is growing. I want to contribute real, actionable insights — not just success stories, but the messy reality of shipping products.</li>
-                <li><strong>Personal record.</strong> Future me will want to look back and understand why certain choices were made. Documentation is a validation engineer's instinct.</li>
-            </ol>
-
-            <h2>What I'll Cover</h2>
-
-            <p>
-                This blog will be a mix of:
-            </p>
+            <p>Three reasons:</p>
 
             <ul>
-                <li><strong>Build logs</strong> — Technical deep-dives into architecture decisions, tech stack choices, and engineering trade-offs.</li>
-                <li><strong>Product thinking</strong> — How I identify problems worth solving, validate ideas, and decide what to build next.</li>
-                <li><strong>Market insights</strong> — Lessons from building for Indian markets: pricing, UX for non-tech users, mobile-first design.</li>
-                <li><strong>MedTech × Tech</strong> — How my validation engineering background influences how I think about software quality.</li>
+                <li><strong>Accountability</strong> &mdash; writing down your reasoning forces you to actually have reasoning. It&rsquo;s easy to ship something on instinct. It&rsquo;s harder to explain why you made a specific technical or product decision. The act of documenting keeps you honest.</li>
+                <li><strong>Knowledge sharing</strong> &mdash; the Indian tech ecosystem is growing fast, but practical build logs are rare. There&rsquo;s no shortage of tutorials. There&rsquo;s a massive shortage of &ldquo;here&rsquo;s what I actually did, here&rsquo;s what went wrong, and here&rsquo;s what I&rsquo;d do differently.&rdquo;</li>
+                <li><strong>Personal record</strong> &mdash; two years from now, I want to look back and see exactly how decisions were made. Not a polished narrative, but the raw truth of what happened.</li>
             </ul>
 
-            <h2>The Rules I'm Setting</h2>
+            <h2>What This Blog Will Cover</h2>
 
-            <blockquote>
-                <p>Be honest. Share the failures. Don't optimize for looking smart — optimize for being useful.</p>
-            </blockquote>
+            <ul>
+                <li><strong>Build logs</strong> &mdash; detailed breakdowns of how each product and feature is built. Architecture decisions, technology choices, trade-offs, and implementation details.</li>
+                <li><strong>Product thinking</strong> &mdash; how I identify problems, validate ideas, and decide what to build next. The frameworks and mental models behind product decisions.</li>
+                <li><strong>Market insights</strong> &mdash; what I learn about the industries I&rsquo;m building for. Construction, professional services, and whatever comes next.</li>
+                <li><strong>MedTech x Tech</strong> &mdash; how working in regulated medical technology shapes the way I approach product engineering. The crossover between validation mindset and startup speed.</li>
+            </ul>
 
-            <p>
-                Every post will aim to teach something concrete. No fluff, no motivation porn. 
-                Just an engineer sharing what he learned while building products that matter.
-            </p>
+            <h2>The Rules</h2>
 
-            <p>
-                Welcome to the Vystra blog. Let's build.
-            </p>
+            <p>Every post on this blog follows three rules:</p>
+
+            <ol>
+                <li><strong>Be honest</strong> &mdash; if something failed, say it failed. If a decision was wrong, explain why. No revisionist history.</li>
+                <li><strong>Share failures</strong> &mdash; the failures are more instructive than the successes. A post about what went wrong is worth more than ten posts about what went right.</li>
+                <li><strong>Optimize for being useful</strong> &mdash; every post should leave the reader with something actionable. A technique they can use, a mistake they can avoid, or a way of thinking they hadn&rsquo;t considered.</li>
+            </ol>
+
+            <p>This isn&rsquo;t content marketing. It&rsquo;s an engineering log that happens to be public.</p>
+
+            <p>Welcome to the blog. Let&rsquo;s build.</p>
         </div>
     </article>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <span class="logo-mark">V</span>
-                    <span class="logo-text">VYSTRA</span>
-                    <p class="footer-tagline">Engineering products that matter.</p>
-                </div>
-                <div class="footer-links">
-                    <div class="footer-col">
-                        <h5>Products</h5>
-                        <a href="https://build.vystra.in" target="_blank" rel="noopener">Vystra Build</a>
-                    </div>
-                    <div class="footer-col">
-                        <h5>Company</h5>
-                        <a href="/#about">About</a>
-                        <a href="/blog/">Blog</a>
-                        <a href="/#contact">Contact</a>
-                    </div>
-                </div>
-            </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Vystra. All rights reserved. Built in India.</p>
+                <p>&copy; 2026 Karthik Raja V. All rights reserved.</p>
+                <p class="footer-made">Engineered in India with care.</p>
             </div>
         </div>
     </footer>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="../js/blog.js"></script>

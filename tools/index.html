@@ -3,300 +3,347 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JD Resume Tailor - Private</title>
+<title>JD Resume Tailor</title>
 <meta name="robots" content="noindex, nofollow">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#08080a;--card:#131316;--bdr:#222;--t1:#f2f0ec;--t2:#9a9690;--gold:#c9a84c;--gold2:#e8cc6e;--green:#4caf50;--red:#e74c3c;--font:'Segoe UI',sans-serif}
+:root{--bg:#08080a;--card:#131316;--bdr:#222;--t1:#f2f0ec;--t2:#9a9690;--t3:#5a5752;--gold:#c9a84c;--gold2:#e8cc6e;--green:#4caf50;--red:#e74c3c;--font:'Segoe UI',sans-serif}
 body{font-family:var(--font);background:var(--bg);color:var(--t1);min-height:100vh}
-
-/* Gate */
 #gate{display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:16px}
 #gate h2{color:var(--gold);font-size:1.2rem}
 #gate input{padding:12px 20px;background:var(--card);border:1px solid var(--bdr);border-radius:8px;color:var(--t1);font-size:1rem;width:280px;text-align:center;font-family:var(--font)}
 #gate input:focus{outline:none;border-color:var(--gold)}
 #gate button{padding:10px 28px;background:var(--gold);color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:.9rem}
-#gate .error{color:var(--red);font-size:.85rem;display:none}
-
-/* Main App */
+#gate .err{color:var(--red);font-size:.85rem;display:none}
 #app{display:none;max-width:1100px;margin:0 auto;padding:24px}
-.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-.top-bar h1{font-size:1.3rem;color:var(--gold)}
+.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:8px}
+.top-bar h1{font-size:1.2rem;color:var(--gold)}
 .top-bar a{color:var(--t2);text-decoration:none;font-size:.85rem}
 .top-bar a:hover{color:var(--t1)}
-
-.input-section{margin-bottom:24px}
-.input-section label{display:block;font-size:.85rem;color:var(--t2);margin-bottom:8px;font-weight:600}
-textarea{width:100%;height:200px;padding:16px;background:var(--card);border:1px solid var(--bdr);border-radius:12px;color:var(--t1);font-family:var(--font);font-size:.9rem;line-height:1.6;resize:vertical}
+textarea{width:100%;height:180px;padding:14px;background:var(--card);border:1px solid var(--bdr);border-radius:10px;color:var(--t1);font-family:var(--font);font-size:.88rem;line-height:1.5;resize:vertical}
 textarea:focus{outline:none;border-color:var(--gold)}
-.btn-row{display:flex;gap:12px;margin-top:12px}
-.btn{padding:12px 28px;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:.9rem;font-family:var(--font)}
-.btn-gold{background:var(--gold);color:#000}
-.btn-gold:hover{background:var(--gold2)}
-.btn-outline{background:transparent;color:var(--t2);border:1px solid var(--bdr)}
-.btn-outline:hover{border-color:var(--gold);color:var(--t1)}
-
-/* Results */
+.btn-row{display:flex;gap:10px;margin:12px 0;flex-wrap:wrap}
+.btn{padding:11px 24px;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:.85rem;font-family:var(--font)}
+.btn-gold{background:var(--gold);color:#000}.btn-gold:hover{background:var(--gold2)}
+.btn-out{background:transparent;color:var(--t2);border:1px solid var(--bdr)}.btn-out:hover{border-color:var(--gold);color:var(--t1)}
+label{display:block;font-size:.82rem;color:var(--t2);margin-bottom:6px;font-weight:600}
 #results{display:none}
-.score-card{display:flex;gap:24px;margin-bottom:24px;flex-wrap:wrap}
-.score-box{flex:1;min-width:200px;padding:24px;background:var(--card);border:1px solid var(--bdr);border-radius:12px;text-align:center}
-.score-num{font-size:2.5rem;font-weight:900;font-family:'Courier New',monospace}
-.score-num.high{color:var(--green)}.score-num.mid{color:var(--gold)}.score-num.low{color:var(--red)}
-.score-label{font-size:.8rem;color:var(--t2);margin-top:4px}
-
-.kw-section{margin-bottom:24px}
-.kw-section h3{font-size:.95rem;color:var(--t1);margin-bottom:12px}
-.kw-grid{display:flex;flex-wrap:wrap;gap:6px}
-.kw{padding:6px 14px;border-radius:100px;font-size:.8rem;font-weight:600}
-.kw-match{background:rgba(76,175,80,.15);border:1px solid rgba(76,175,80,.3);color:#4caf50}
-.kw-miss{background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.25);color:#e74c3c}
-.kw-extra{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);color:var(--gold2)}
-
-.resume-actions{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
-.suggestions{margin-top:24px;padding:20px;background:var(--card);border:1px solid var(--bdr);border-radius:12px}
-.suggestions h3{font-size:.95rem;margin-bottom:12px;color:var(--gold)}
-.suggestions ul{padding-left:20px}
-.suggestions li{font-size:.85rem;color:var(--t2);margin-bottom:6px;line-height:1.5}
-.suggestions li strong{color:var(--t1)}
-
-@media(max-width:600px){.score-card{flex-direction:column}.btn-row{flex-direction:column}}
+.scores{display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.score-box{flex:1;min-width:140px;padding:18px;background:var(--card);border:1px solid var(--bdr);border-radius:10px;text-align:center}
+.score-num{font-size:2rem;font-weight:900;font-family:'Courier New',monospace}
+.score-num.hi{color:var(--green)}.score-num.md{color:var(--gold)}.score-num.lo{color:var(--red)}
+.score-lbl{font-size:.75rem;color:var(--t3);margin-top:2px}
+.kw-sec{margin-bottom:16px}
+.kw-sec h3{font-size:.9rem;color:var(--t1);margin-bottom:8px}
+.kw-grid{display:flex;flex-wrap:wrap;gap:5px}
+.kw{padding:5px 12px;border-radius:100px;font-size:.78rem;font-weight:600}
+.kw-g{background:rgba(76,175,80,.12);border:1px solid rgba(76,175,80,.25);color:#4caf50}
+.kw-r{background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.2);color:#e74c3c}
+.tips{padding:16px;background:var(--card);border:1px solid var(--bdr);border-radius:10px;margin-bottom:16px}
+.tips h3{font-size:.9rem;margin-bottom:8px;color:var(--gold)}
+.tips li{font-size:.82rem;color:var(--t2);margin-bottom:4px;line-height:1.4;margin-left:16px}
+.tips li strong{color:var(--t1)}
+.gen-section{margin-top:20px;padding:20px;background:var(--card);border:1px solid var(--bdr);border-radius:10px}
+.gen-section h3{font-size:.95rem;color:var(--gold);margin-bottom:12px}
+.gen-btns{display:flex;gap:10px;flex-wrap:wrap}
+/* Resume preview modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;overflow-y:auto;padding:20px}
+.modal-bar{position:sticky;top:0;z-index:10;background:#1a1a1a;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;border-radius:8px 8px 0 0;margin-bottom:0}
+.modal-bar button{padding:8px 20px;border:none;border-radius:6px;font-weight:700;cursor:pointer;font-size:.82rem;font-family:var(--font)}
+.modal-bar .btn-print{background:var(--gold);color:#000}
+.modal-bar .btn-close{background:#333;color:#fff}
+.modal-content{background:#fff;max-width:850px;margin:0 auto;border-radius:0 0 8px 8px;overflow:hidden}
+.modal-content iframe{width:100%;height:80vh;border:none}
+@media(max-width:600px){.scores{flex-direction:column}.btn-row{flex-direction:column}.btn{width:100%;text-align:center}}
 </style>
 </head>
 <body>
-
-<!-- Password Gate -->
 <div id="gate">
-    <h2>Private Tool - Enter Access Code</h2>
+    <h2>JD Resume Tailor &mdash; Private</h2>
     <input type="password" id="pwd" placeholder="Access code" onkeydown="if(event.key==='Enter')unlock()">
     <button onclick="unlock()">Enter</button>
-    <div class="error" id="gateError">Wrong code. Try again.</div>
+    <div class="err" id="gErr">Wrong code.</div>
+</div>
+<div id="app">
+    <div class="top-bar"><h1>JD Resume Tailor</h1><a href="/">&larr; Back to Site</a></div>
+    <label>Paste the Job Description:</label>
+    <textarea id="jd" placeholder="Paste the full JD text here..."></textarea>
+    <div class="btn-row">
+        <button class="btn btn-gold" onclick="analyze()">Analyze &amp; Generate</button>
+        <button class="btn btn-out" onclick="reset()">Clear</button>
+    </div>
+    <div id="results">
+        <div class="scores">
+            <div class="score-box"><div class="score-num" id="sBefore">0%</div><div class="score-lbl">Before Tailoring</div></div>
+            <div class="score-box"><div class="score-num" id="sAfter" style="color:var(--green)">0%</div><div class="score-lbl">After Tailoring</div></div>
+            <div class="score-box"><div class="score-num" style="color:var(--green)" id="sMatch">0</div><div class="score-lbl">Matched</div></div>
+            <div class="score-box"><div class="score-num" style="color:var(--red)" id="sMiss">0</div><div class="score-lbl">Were Missing</div></div>
+        </div>
+        <div class="kw-sec"><h3>Matched Keywords</h3><div class="kw-grid" id="kwMatch"></div></div>
+        <div class="kw-sec"><h3>Missing Keywords (auto-added to tailored resume)</h3><div class="kw-grid" id="kwMiss"></div></div>
+        <div class="tips" id="tips"></div>
+        <div class="gen-section">
+            <h3>Tailored Resumes Ready</h3>
+            <p style="font-size:.85rem;color:var(--t2);margin-bottom:12px">Missing keywords have been added to your Technical Skills. Bullets reordered by JD relevance.</p>
+            <div class="gen-btns">
+                <button class="btn btn-gold" onclick="showResume('ats')">View ATS Resume</button>
+                <button class="btn btn-out" onclick="showResume('visual')">View Visual Resume</button>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- Main App -->
-<div id="app">
-    <div class="top-bar">
-        <h1>JD Resume Tailor</h1>
-        <a href="/">&larr; Back to Site</a>
-    </div>
-
-    <div class="input-section">
-        <label>Paste the Job Description below:</label>
-        <textarea id="jdInput" placeholder="Paste the full job description here..."></textarea>
-        <div class="btn-row">
-            <button class="btn btn-gold" onclick="analyze()">Analyze &amp; Match</button>
-            <button class="btn btn-outline" onclick="document.getElementById('jdInput').value='';document.getElementById('results').style.display='none'">Clear</button>
-        </div>
-    </div>
-
-    <div id="results">
-        <div class="score-card">
-            <div class="score-box">
-                <div class="score-num" id="matchScore">0%</div>
-                <div class="score-label">Keyword Match</div>
-            </div>
-            <div class="score-box">
-                <div class="score-num" id="matchCount" style="color:var(--green)">0</div>
-                <div class="score-label">Keywords Matched</div>
-            </div>
-            <div class="score-box">
-                <div class="score-num" id="missCount" style="color:var(--red)">0</div>
-                <div class="score-label">Keywords Missing</div>
+<!-- Resume Modal -->
+<div class="modal-overlay" id="modal">
+    <div style="max-width:850px;margin:0 auto">
+        <div class="modal-bar">
+            <span style="color:#aaa;font-size:.82rem" id="modalTitle">ATS Resume</span>
+            <div style="display:flex;gap:8px">
+                <button class="btn-print" onclick="printResume()">Save as PDF</button>
+                <button class="btn-close" onclick="closeModal()">Close</button>
             </div>
         </div>
-
-        <div class="kw-section">
-            <h3>Matched Keywords (in your resume)</h3>
-            <div class="kw-grid" id="matchedKw"></div>
-        </div>
-
-        <div class="kw-section">
-            <h3>Missing Keywords (not in your resume - consider adding)</h3>
-            <div class="kw-grid" id="missingKw"></div>
-        </div>
-
-        <div class="kw-section">
-            <h3>Your Extra Keywords (not in JD but strengthen your profile)</h3>
-            <div class="kw-grid" id="extraKw"></div>
-        </div>
-
-        <div class="suggestions" id="suggestions"></div>
-
-        <div class="resume-actions">
-            <button class="btn btn-gold" onclick="openTailoredATS()">Open Tailored ATS Resume</button>
-            <button class="btn btn-outline" onclick="openTailoredVisual()">Open Tailored Visual Resume</button>
-        </div>
+        <div class="modal-content"><iframe id="resumeFrame"></iframe></div>
     </div>
 </div>
 
 <script>
-// Password: simple hash check (not cryptographic, but keeps casual visitors out)
-const CODE_HASH = 'a2FydGhpazE0'; // base64 of the password
-function unlock(){
-    const v = document.getElementById('pwd').value;
-    if(btoa(v) === CODE_HASH){
-        document.getElementById('gate').style.display='none';
-        document.getElementById('app').style.display='block';
-    } else {
-        document.getElementById('gateError').style.display='block';
-    }
-}
+const CODE='a2FydGhpazE0';
+function unlock(){btoa(document.getElementById('pwd').value)===CODE?(document.getElementById('gate').style.display='none',document.getElementById('app').style.display='block'):document.getElementById('gErr').style.display='block'}
+function reset(){document.getElementById('jd').value='';document.getElementById('results').style.display='none'}
 
-// ===== RESUME DATA =====
-const RESUME_SKILLS = [
-    // Test frameworks
-    'robot framework','pytest','pytest-bdd','selenium','bdd','gherkin','cucumber',
-    'rest assured','postman','test automation','automated testing','test framework',
-    // Programming
-    'python','groovy','bash','shell scripting','sql',
-    // CI/CD
-    'jenkins','pipeline-as-code','azure devops','docker','kubernetes','github actions',
-    'sonarqube','ci/cd','ci cd','continuous integration','continuous delivery','devops',
-    // Cloud & Data
-    'azure','azure cloud','mysql','cosmos db','databricks','graphql','jfrog','artifactory',
-    // Testing types
-    'systems automation','system automation','design verification','verification and validation',
-    'v&v','performance testing','api testing','integration testing','regression testing',
-    'embedded systems','embedded','firmware','security testing','functional testing',
-    'system testing','acceptance testing','smoke testing','sanity testing',
-    'shift-left','shift left','risk-based testing','risk based','tdd','bdd',
-    'continuous testing','exploratory testing','mobile testing',
-    // Tools
-    'jira','xray','confluence','git','bitbucket','allure','cmake','makefile',
-    // Methodologies
-    'agile','scrum','safe','kanban','waterfall',
-    // Domain
-    'iso 13485','iec 62304','fda','21 cfr','fda 21 cfr part 11','sop','compliance',
-    'medical device','medtech','healthcare','iomt','class ii','class iii',
-    'design control','dhf','dhr','verification','validation',
-    // Leadership
-    'team leadership','team lead','people management','mentoring','hiring','staffing',
-    'stakeholder','cross-functional','project management',
-    // Perf specific
-    'scalability','load testing','stress testing','throughput','latency','concurrency',
-    'benchmarking','performance engineering',
-    // AI
-    'ai','artificial intelligence','machine learning','ml',
-    // General
-    'automation','quality assurance','qa','qe','quality engineering','sdet','test strategy',
-    'test plan','test cases','test execution','defect','bug','root cause analysis','rca',
-    'continuous improvement','process improvement','reporting','analytics','dashboard',
-    'data pipeline','data platform','etl','data validation'
-];
+// ===== MASTER RESUME DATA =====
+const R = {
+    name: 'KARTHIK RAJA V',
+    title: 'Manager, Systems Automation | Test Architect',
+    contact: '(+91) 8148412598 | karthikoff10@gmail.com | linkedin.com/in/karthik-raja-624864b1 | github.com/karthikraja14 | karthikraja.in | Bengaluru, India',
+    summary: 'Manager, Systems Automation with 10+ years in healthcare and MedTech quality engineering. At Johnson & Johnson, transformed Digital Surgery Platform testing from zero reliability to single-click execution across six teams (30+ engineers) on Azure cloud. Designed five platform-wide systems: unified Robot/pytest framework with CI, E2E performance testing scaling from 30 to 75,000+ concurrent devices, data platform test framework, automated daily reporting, and an AI Bug Analyser with CI + Jira integration. Drove shift-left testing, quality gates in CI pipelines, and test strategy ownership. Test coverage: 40% to 85%+. Cycle time: reduced 40%.',
+    skills: {
+        'Test Frameworks': ['Robot Framework','Pytest','Pytest-BDD','Selenium','BDD/Gherkin','Cucumber','REST Assured','Postman'],
+        'Programming': ['Python','Groovy','Bash','Shell Scripting','SQL'],
+        'CI/CD & DevOps': ['Jenkins','Pipeline-as-Code','Azure DevOps','Docker','Kubernetes','GitHub Actions','SonarQube'],
+        'Cloud & Data': ['Azure Cloud','MySQL','Cosmos DB','Databricks','GraphQL','JFrog Artifactory'],
+        'Testing Types': ['Systems Automation','Design Verification','V&V','Performance Testing','API Testing','Integration Testing','Regression Testing','Embedded/Firmware Testing','Security Testing'],
+        'Tools & Platforms': ['Jira','XRAY','Confluence','Git','Bitbucket','Allure Reports','CMake','Makefile'],
+        'Methodologies': ['Agile (Scrum)','SAFe','Shift-Left Testing','Continuous Testing','Risk-Based Testing','TDD','BDD'],
+        'Domain & Compliance': ['ISO 13485','IEC 62304','FDA 21 CFR Part 11','FDA SOP Compliance','Healthcare/MedTech','IoMT','Medical Device Software']
+    },
+    jobs: [
+        {title:'Manager, Systems Automation',company:'Insulet Corporation',period:'Aug 2026 - Present',
+         bullets:['Lead a team of SDETs building automated verification frameworks for medical device system-level Design Verification.','Develop, validate, and release automated test frameworks for formal verification across FDA/ISO/IEC regulated products.','Plan, prepare, and execute automated system-level tests during development and formal System Design Verification.','Drive continuous optimization of automated test processes using risk-based analysis and statistical methods.','Oversee CI/CD integration for verification pipelines across multiple concurrent product initiatives.','Lead hiring, staffing, and team development decisions; conduct periodic evaluations and mentoring.'],
+         tags:['v&v','design verification','fda','systems automation','team leadership','medical device','ci/cd','risk-based testing']},
+        {title:'Lead Test Engineer',company:'Johnson & Johnson - Digital Surgery Platform (DSP)',period:'Mar 2023 - Jul 2026',
+         bullets:['Restructured the complete test framework architecture across all DSP teams - transformed Robot Framework and pytest setups from zero reliability to single-click execution with full Jenkins CI integration.','Created E2E performance testing framework for DSP file pipeline - realistic workload simulation, adaptive DB-primary polling with API fallback, scaled from 30 to 75,000+ concurrent devices. Reduced API calls by 95% and DB connections by 95%.','Built comprehensive performance observability: per-stage/per-device latency distributions (p65/p95/p99), throughput metrics, Databricks Jobs API integration, automated HTML/Excel/JSON reporting.','Developed pipeline qualification script for Jenkins CI - automated pass/fail validation with entry/exit criteria enforcement for every release cycle.','Redesigned the Data Platform test framework using pytest, adopted across all teams as the standard.','Built automated daily report generation and distribution system with auto-trigger scheduling.','Architected the AI Bug Analyser system - integrated with CI pipelines and Jira.','Increased test coverage from ~40% to 85%+ through negative testing, risk-based strategies, and 150+ automated regression scenarios.','Modernized CI/CD pipelines for IoMT Embedded Device Agent SDK: 87% pipeline config reduction.','Mentored 30+ engineers on automation best practices and AI tools.','Led DB migration testing (Cosmos DB to MySQL), ~$500K annual cost savings.'],
+         tags:['robot framework','pytest','jenkins','azure','python','performance testing','iomt','ci/cd','shift-left','ai']},
+        {title:'Senior Test Engineer',company:'L&T Technology Services (LTTS) - Client: Baxter',period:'Oct 2021 - Jan 2023',
+         bullets:['Delivered E2E testing for Baxter Peritoneal Dialysis devices under GDP guidelines.','Designed 500+ test cases (BVA, equivalence partitioning) and built Python + Selenium + BDD automation for 80+ critical scenarios.','Authored ISO 13485-aligned verification artifacts; accelerated root cause analysis by 40%.'],
+         tags:['python','selenium','bdd','iso 13485','medical device']},
+        {title:'Test Engineer',company:'Fresenius Medical Care',period:'Oct 2018 - Feb 2021',
+         bullets:['System integration and regression testing for hemodialysis software (Class II, IEC 62304).','Developed 200+ test cases for patient monitoring; automated workflows saving 15+ hrs/sprint.','Validated firmware updates with zero field-reported critical defects.'],
+         tags:['python','iec 62304','medical device','firmware']},
+        {title:'Biomedical Engineer',company:'Vijaya Hospital & Apollo Hospitals',period:'Feb 2017 - Oct 2018',
+         bullets:['Managed calibration and preventive maintenance of 50+ biomedical devices. Reduced downtime by 20%.','Supported NABH accreditation quality audits.'],
+         tags:['biomedical','quality']}
+    ],
+    achievements: ['5 platform-wide systems designed and delivered at J&J.','Test Coverage: 40% to 85%+ | Cycle time: 5 days to 1.5 days | Defect leakage: reduced 35%.','Performance scale: 30 to 75,000+ concurrent devices (250x) | API pressure reduced 95%.','CI/CD modernization: 87% pipeline config reduction across IoMT SDK projects.','Cost impact: ~$500K saved via Cosmos DB to MySQL migration.','Strong/Strong rating in both 2024 and 2025 year-end evaluations at Johnson & Johnson.'],
+    education: ['MBA / PGDM - Madras University (2022)','B.Tech, Electronics & Instrumentation Engineering - Anand Institute of Higher Technology (2016)'],
+    languages: 'English | Tamil | Hindi | Malayalam'
+};
 
-const MY_SKILLS = new Set([
-    'robot framework','pytest','pytest-bdd','selenium','bdd','gherkin','cucumber',
-    'rest assured','postman','test automation','automated testing','test framework',
-    'python','groovy','bash','shell scripting','sql',
-    'jenkins','pipeline-as-code','azure devops','docker','kubernetes','github actions',
-    'sonarqube','ci/cd','continuous integration','continuous delivery','devops',
-    'azure','azure cloud','mysql','cosmos db','databricks','graphql','jfrog','artifactory',
-    'systems automation','system automation','design verification','verification and validation',
-    'v&v','performance testing','api testing','integration testing','regression testing',
-    'embedded systems','embedded','firmware','security testing','functional testing',
-    'system testing','shift-left','shift left','risk-based testing','risk based','tdd','bdd',
-    'continuous testing',
-    'jira','xray','confluence','git','bitbucket','allure','cmake','makefile',
-    'agile','scrum','safe',
-    'iso 13485','iec 62304','fda','21 cfr','fda 21 cfr part 11','sop','compliance',
-    'medical device','medtech','healthcare','iomt','class ii',
-    'design control','verification','validation',
-    'team leadership','team lead','people management','mentoring','hiring','staffing',
-    'stakeholder','cross-functional',
-    'scalability','load testing','throughput','latency','concurrency',
-    'performance engineering',
-    'ai','artificial intelligence',
-    'automation','quality assurance','qa','qe','quality engineering','sdet','test strategy',
-    'test plan','test cases','test execution','defect','bug','root cause analysis','rca',
-    'continuous improvement','process improvement','reporting','analytics',
-    'data pipeline','data platform','data validation'
-]);
+// All known keywords
+const ALL_KW = new Set();
+Object.values(R.skills).forEach(arr=>arr.forEach(s=>ALL_KW.add(s.toLowerCase())));
+R.jobs.forEach(j=>j.tags.forEach(t=>ALL_KW.add(t)));
+['test automation','automated testing','quality assurance','qa','qe','sdet','test strategy','test plan','test cases','defect','rca','data pipeline','etl','scalability','load testing','throughput','latency','concurrency','embedded systems','embedded','firmware','verification','validation','medical device software','class ii','class iii','stakeholder','cross-functional','project management','team leadership','team lead','people management','mentoring','hiring','continuous improvement','agile','scrum','safe','kanban','mobile testing','acceptance testing','smoke testing','exploratory testing'].forEach(k=>ALL_KW.add(k));
+
+let lastMissing = [];
 
 function analyze(){
-    const jd = document.getElementById('jdInput').value.toLowerCase();
-    if(!jd.trim()){alert('Please paste a JD first.');return;}
+    const jd = document.getElementById('jd').value.toLowerCase();
+    if(!jd.trim()){alert('Paste a JD first.');return;}
 
-    // Extract JD keywords
-    const jdKeywords = new Set();
-    for(const skill of RESUME_SKILLS){
-        if(jd.includes(skill)) jdKeywords.add(skill);
+    const jdKw = new Set();
+    for(const kw of ALL_KW){ if(jd.includes(kw)) jdKw.add(kw); }
+    // Variations
+    const vars={'ci/cd':['cicd','ci cd'],'v&v':['v&v','v and v','verification and validation','verification & validation'],'shift-left testing':['shift-left','shift left'],'risk-based testing':['risk-based','risk based'],'fda 21 cfr part 11':['21 cfr','cfr part 11'],'embedded/firmware testing':['embedded','firmware'],'systems automation':['system automation'],'design verification':['design v&v'],'test automation':['test automation','automated testing']};
+    for(const [c,vs] of Object.entries(vars)) for(const v of vs) if(jd.includes(v)) jdKw.add(c);
+
+    // My skills flat
+    const myKw = new Set();
+    Object.values(R.skills).forEach(arr=>arr.forEach(s=>myKw.add(s.toLowerCase())));
+    R.jobs.forEach(j=>j.tags.forEach(t=>myKw.add(t)));
+
+    const matched=[],missing=[];
+    for(const kw of jdKw){
+        let found=false;
+        for(const mk of myKw){ if(mk.includes(kw)||kw.includes(mk)){found=true;break;} }
+        if(found) matched.push(kw); else missing.push(kw);
     }
-    // Also check for common variations
-    const variations = {
-        'ci/cd':['cicd','ci cd','ci/cd'],
-        'v&v':['v&v','v and v','verification and validation','verification & validation'],
-        'shift-left':['shift-left','shift left'],
-        'risk-based testing':['risk-based','risk based'],
-        'fda 21 cfr part 11':['21 cfr','cfr part 11','fda 21 cfr'],
-        'embedded systems':['embedded','firmware'],
-        'systems automation':['system automation','systems automation'],
-        'test automation':['test automation','automated testing'],
-        'design verification':['design verification','design v&v'],
-    };
-    for(const [canonical, variants] of Object.entries(variations)){
-        for(const v of variants){
-            if(jd.includes(v)) jdKeywords.add(canonical);
-        }
-    }
+    lastMissing = missing;
 
-    // Match
-    const matched = [];
-    const missing = [];
-    const extra = [];
+    const total=jdKw.size;
+    const beforeScore = total>0?Math.round((matched.length/total)*100):0;
+    const afterScore = total>0?Math.round(((matched.length+missing.length)/total)*100):100;
 
-    for(const kw of jdKeywords){
-        if(MY_SKILLS.has(kw)) matched.push(kw);
-        else missing.push(kw);
-    }
-    for(const kw of MY_SKILLS){
-        if(!jdKeywords.has(kw)) extra.push(kw);
-    }
+    const bEl=document.getElementById('sBefore');
+    bEl.textContent=beforeScore+'%';
+    bEl.className='score-num '+(beforeScore>=80?'hi':beforeScore>=60?'md':'lo');
+    document.getElementById('sAfter').textContent=afterScore+'%';
+    document.getElementById('sMatch').textContent=matched.length;
+    document.getElementById('sMiss').textContent=missing.length;
 
-    // Score
-    const total = jdKeywords.size;
-    const score = total > 0 ? Math.round((matched.length / total) * 100) : 0;
+    document.getElementById('kwMatch').innerHTML=matched.sort().map(k=>`<span class="kw kw-g">${k}</span>`).join('');
+    document.getElementById('kwMiss').innerHTML=missing.sort().map(k=>`<span class="kw kw-r">${k}</span>`).join('');
 
-    // Display
-    const scoreEl = document.getElementById('matchScore');
-    scoreEl.textContent = score + '%';
-    scoreEl.className = 'score-num ' + (score >= 80 ? 'high' : score >= 60 ? 'mid' : 'low');
-    document.getElementById('matchCount').textContent = matched.length;
-    document.getElementById('missCount').textContent = missing.length;
+    // Tips
+    let h='<h3>Tailoring Actions Taken</h3><ul>';
+    if(missing.length>0) h+=`<li><strong>${missing.length} missing keywords</strong> auto-added to Technical Skills in tailored resume.</li>`;
+    h+='<li>Bullets reordered to prioritize JD-relevant achievements.</li>';
+    if(jd.includes('lead')||jd.includes('manag')||jd.includes('team')) h+='<li>Leadership bullets prioritized.</li>';
+    if(jd.includes('medical device')||jd.includes('fda')||jd.includes('iso')) h+='<li>Regulatory/compliance keywords emphasized.</li>';
+    h+=`<li><strong>Score improved: ${beforeScore}% &rarr; ${afterScore}%</strong></li>`;
+    h+='</ul>';
+    document.getElementById('tips').innerHTML=h;
 
-    document.getElementById('matchedKw').innerHTML = matched.sort().map(k => `<span class="kw kw-match">${k}</span>`).join('');
-    document.getElementById('missingKw').innerHTML = missing.sort().map(k => `<span class="kw kw-miss">${k}</span>`).join('');
-    document.getElementById('extraKw').innerHTML = extra.sort().slice(0,20).map(k => `<span class="kw kw-extra">${k}</span>`).join('');
-
-    // Suggestions
-    const sugEl = document.getElementById('suggestions');
-    let sugHtml = '<h3>Tailoring Suggestions</h3><ul>';
-    if(score >= 85) sugHtml += '<li><strong>Great match!</strong> Your resume already covers most JD keywords. Minor tweaks below.</li>';
-    else if(score >= 65) sugHtml += '<li><strong>Good base.</strong> Add the missing keywords to your skills section and relevant bullets.</li>';
-    else sugHtml += '<li><strong>Needs work.</strong> Several JD keywords are missing. Focus on adding them to skills and rewording bullets.</li>';
-
-    if(missing.length > 0){
-        sugHtml += `<li><strong>Add to Technical Skills:</strong> ${missing.join(', ')}</li>`;
-        sugHtml += '<li><strong>Mirror JD language:</strong> Use the exact phrases from the JD, not synonyms. If JD says "Design Verification", don\'t write "Design V&V".</li>';
-    }
-    sugHtml += '<li><strong>Reorder skills:</strong> Put the most JD-relevant categories first in your Technical Skills section.</li>';
-    sugHtml += '<li><strong>Front-load bullets:</strong> Move your most relevant achievements to the top of each job entry.</li>';
-    if(jd.includes('lead') || jd.includes('manage') || jd.includes('team')){
-        sugHtml += '<li><strong>Leadership emphasis:</strong> This JD values leadership. Make sure your team management bullets are prominent.</li>';
-    }
-    if(jd.includes('medical device') || jd.includes('fda') || jd.includes('iso')){
-        sugHtml += '<li><strong>Regulatory focus:</strong> Emphasize FDA/ISO/IEC compliance experience in your summary and bullets.</li>';
-    }
-    sugHtml += '</ul>';
-    sugEl.innerHTML = sugHtml;
-
-    document.getElementById('results').style.display = 'block';
+    document.getElementById('results').style.display='block';
     document.getElementById('results').scrollIntoView({behavior:'smooth'});
 }
 
-function openTailoredATS(){
-    window.open('/resume-ats.html','_blank');
+function buildTailoredSkills(){
+    const s={...R.skills};
+    // Add missing keywords to a new "Additional Skills" category
+    if(lastMissing.length>0){
+        s['JD-Matched Skills (Added)'] = lastMissing.map(k=>k.split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' '));
+    }
+    return s;
 }
-function openTailoredVisual(){
-    window.open('/resume.html','_blank');
+
+function reorderBullets(job, jdText){
+    const jd = jdText.toLowerCase();
+    const scored = job.bullets.map(b=>{
+        let score=0;
+        const bl=b.toLowerCase();
+        for(const kw of ALL_KW) if(jd.includes(kw)&&bl.includes(kw)) score++;
+        return {text:b,score};
+    });
+    scored.sort((a,b)=>b.score-a.score);
+    return scored.map(s=>s.text);
+}
+
+function generateATSHtml(){
+    const jd=document.getElementById('jd').value;
+    const sk=buildTailoredSkills();
+    let h=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${R.name} - Tailored ATS Resume</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:11pt;line-height:1.45;color:#000;padding:24px 32px;max-width:800px;margin:0 auto}
+h1{font-size:22pt;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.tl{font-size:11pt;color:#333;margin-bottom:6px}.cl{font-size:9.5pt;color:#444;margin-bottom:14px}
+hr{border:none;border-top:1.5px solid #000;margin:10px 0 8px}
+h2{font-size:12pt;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin:12px 0 6px}
+h3{font-size:11pt;font-weight:700;margin-bottom:1px}
+.jh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1px}
+.co{font-size:10.5pt;color:#333;font-style:italic;margin-bottom:4px}
+.pe{font-size:10pt;color:#333;font-style:italic;white-space:nowrap}
+.sk{font-size:10.5pt;color:#222;line-height:1.6;margin-bottom:3px}.sk strong{color:#000}
+.sm{font-size:10.5pt;color:#222;line-height:1.5;margin-bottom:8px}
+ul{padding-left:18px;margin-bottom:8px}li{font-size:10.5pt;color:#222;margin-bottom:2px;line-height:1.4}
+.ed{margin-bottom:4px}.ed strong{font-weight:700}.ed span{color:#444;font-size:10pt}
+@media print{body{padding:0}@page{size:A4;margin:10mm}}
+</style></head><body>`;
+    h+=`<h1>${R.name}</h1><div class="tl">${R.title}</div><div class="cl">${R.contact}</div><hr>`;
+    h+=`<h2>Professional Summary</h2><p class="sm">${R.summary}</p>`;
+    h+=`<h2>Technical Skills</h2>`;
+    for(const [cat,items] of Object.entries(sk)){
+        h+=`<p class="sk"><strong>${cat}:</strong> ${items.join(', ')}</p>`;
+    }
+    h+=`<h2>Work Experience</h2>`;
+    for(const job of R.jobs){
+        const bullets=reorderBullets(job,jd);
+        h+=`<div class="jh"><h3>${job.title}</h3><span class="pe">${job.period}</span></div>`;
+        h+=`<div class="co">${job.company}</div><ul>`;
+        for(const b of bullets) h+=`<li>${b}</li>`;
+        h+=`</ul>`;
+    }
+    h+=`<h2>Key Achievements</h2><ul>`;
+    for(const a of R.achievements) h+=`<li>${a}</li>`;
+    h+=`</ul><h2>Education</h2>`;
+    for(const e of R.education) h+=`<div class="ed"><strong>${e.split(' - ')[0]}</strong> &mdash; <span>${e.split(' - ')[1]||''}</span></div>`;
+    h+=`<h2>Languages</h2><p style="font-size:10.5pt">${R.languages}</p>`;
+    h+=`</body></html>`;
+    return h;
+}
+
+function generateVisualHtml(){
+    const jd=document.getElementById('jd').value;
+    const sk=buildTailoredSkills();
+    let h=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${R.name} - Tailored Visual Resume</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',sans-serif;font-size:10pt;color:#000;background:#fff;max-width:900px;margin:0 auto}
+.hdr{display:flex;justify-content:space-between;align-items:flex-start;padding:28px 32px 20px;border-bottom:3px solid #1a5276;background:linear-gradient(135deg,#fafafa,#f5f5f5)}
+.hdr h1{font-size:1.8rem;font-weight:900;color:#1a5276;letter-spacing:.03em;margin-bottom:2px}
+.hdr .sub{font-size:.95rem;color:#555;margin-bottom:8px}
+.hdr .cl{font-size:.72rem;color:#555;display:flex;flex-wrap:wrap;gap:3px}
+.hdr .cl a{color:#2980b9;text-decoration:none}
+.hdr img{width:85px;height:85px;border-radius:8px;object-fit:cover;border:2px solid #1a5276}
+.body{display:grid;grid-template-columns:240px 1fr}
+.side{background:#f0f4f7;padding:20px 16px;border-right:1px solid #e0e0e0}
+.side h2{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#1a5276;margin-bottom:8px;padding-bottom:4px;border-bottom:2px solid #1a5276;margin-top:16px}
+.side h2:first-child{margin-top:0}
+.side li{font-size:.72rem;color:#333;padding:2px 0 2px 12px;position:relative;line-height:1.35;list-style:none}
+.side li::before{content:'\\25B8';position:absolute;left:0;color:#1a5276;font-size:.6rem;top:3px}
+.side .ed{margin-bottom:8px}.side .ed strong{display:block;font-size:.74rem}.side .ed span{font-size:.68rem;color:#555}
+.main{padding:20px 24px}
+.main h2{font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#1a5276;margin-bottom:6px;padding-bottom:4px;border-bottom:2px solid #1a5276;margin-top:12px}
+.main h2:first-child{margin-top:0}
+.sm{font-size:.78rem;color:#333;line-height:1.5;margin-bottom:6px}
+.jh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1px;margin-top:10px}
+.jh h3{font-size:.84rem;font-weight:700}
+.jh .pe{font-size:.72rem;color:#2980b9;font-style:italic}
+.co{font-size:.74rem;color:#555;font-style:italic;margin-bottom:3px}
+.main ul{padding-left:14px;margin-bottom:6px}.main li{font-size:.74rem;color:#333;margin-bottom:2px;line-height:1.4}
+@media print{body{max-width:100%}@page{size:A4;margin:8mm}}
+</style></head><body>`;
+    h+=`<div class="hdr"><div><h1>${R.name}</h1><div class="sub">${R.title}</div><div class="cl">${R.contact.split(' | ').map((c,i)=>i>0?' | '+c:c).join('')}</div></div><img src="/assets/photo.jpg" alt="${R.name}"></div>`;
+    h+=`<div class="body"><div class="side">`;
+    h+=`<h2>Core Competencies</h2><ul>`;
+    for(const [cat,items] of Object.entries(sk)){
+        for(const item of items) h+=`<li>${item}</li>`;
+    }
+    h+=`</ul><h2>Education</h2>`;
+    for(const e of R.education){
+        const parts=e.split(' - ');
+        h+=`<div class="ed"><strong>${parts[0]}</strong><span>${parts[1]||''}</span></div>`;
+    }
+    h+=`<h2>Languages</h2><p style="font-size:.72rem;color:#333">${R.languages}</p>`;
+    h+=`<h2>Achievements</h2><ul>`;
+    for(const a of R.achievements) h+=`<li>${a}</li>`;
+    h+=`</ul></div><div class="main">`;
+    h+=`<h2>Profile Summary</h2><p class="sm">${R.summary}</p>`;
+    h+=`<h2>Work Experience</h2>`;
+    for(const job of R.jobs){
+        const bullets=reorderBullets(job,jd);
+        h+=`<div class="jh"><h3>${job.title}</h3><span class="pe">${job.period}</span></div><div class="co">${job.company}</div><ul>`;
+        for(const b of bullets) h+=`<li>${b}</li>`;
+        h+=`</ul>`;
+    }
+    h+=`</div></div></body></html>`;
+    return h;
+}
+
+function showResume(type){
+    const html = type==='ats' ? generateATSHtml() : generateVisualHtml();
+    const frame=document.getElementById('resumeFrame');
+    frame.srcdoc=html;
+    document.getElementById('modalTitle').textContent=type==='ats'?'Tailored ATS Resume':'Tailored Visual Resume';
+    document.getElementById('modal').style.display='block';
+    document.body.style.overflow='hidden';
+}
+
+function printResume(){
+    document.getElementById('resumeFrame').contentWindow.print();
+}
+
+function closeModal(){
+    document.getElementById('modal').style.display='none';
+    document.body.style.overflow='';
 }
 </script>
 </body>

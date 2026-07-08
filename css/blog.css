@@ -1,5 +1,13 @@
 ﻿/* ===== BLOG PAGE STYLES ===== */
 
+/* Restore cursor on blog pages (no custom cursor JS here) */
+body, body *, body a, body button, body .btn, body .nav-link, body .nav-toggle {
+    cursor: auto !important;
+}
+a, a *, button, .btn, .nav-link, .blog-read-more, .filter-btn, .blog-back-link, .back-link {
+    cursor: pointer !important;
+}
+
 .blog-page-header {
     padding: 160px 0 80px;
     border-bottom: 1px solid var(--border);

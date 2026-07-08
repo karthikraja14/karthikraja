@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipeline Qualification: How I Made CI/CD Reports Trustworthy | Karthik Raja V</title>
+    <meta name="description" content="Building a pipeline qualification framework for Jenkins CI in regulated MedTech to prove that testing infrastructure itself is reliable.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='8' fill='%23c9a84c'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' dominant-baseline='middle' font-family='sans-serif' font-weight='900' font-size='12' fill='white'%3EKRV%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/blog.css">
+</head>
+<body>
+    <nav class="nav" id="nav">
+        <div class="nav-container">
+            <a href="/" class="nav-logo"><span class="logo-mark">KRV</span><span class="logo-text">Karthik Raja V</span></a>
+            <div class="nav-links" id="navLinks">
+                <a href="/#about" class="nav-link">About</a>
+                <a href="/#journey" class="nav-link">Journey</a>
+                <a href="/#products" class="nav-link">Products</a>
+                <a href="/blog/" class="nav-link">Blog</a>
+                <a href="/#contact" class="nav-link">Contact</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <article class="blog-post">
+        <div class="blog-post-header" style="opacity:1;transform:none">
+            <a href="/blog/" class="blog-back-link">&larr; Back to Blog</a>
+            <div class="blog-post-meta" style="opacity:1;transform:none">
+                <span class="blog-tag">Engineering</span>
+                <span class="blog-date">July 2026</span>
+                <span class="blog-read-time">5 min read</span>
+            </div>
+            <h1 class="blog-post-title" style="opacity:1;transform:none">Pipeline Qualification: How I Made CI/CD Reports Trustworthy</h1>
+        </div>
+
+        <div class="blog-post-body" style="opacity:1;transform:none">
+            <p>In most software teams, the CI/CD pipeline is treated as infrastructure &mdash; it runs tests, generates reports, and everyone trusts the output. In regulated MedTech, that trust has to be earned.</p>
+
+            <p>If your pipeline says all tests passed and a release goes out based on that report, you need to prove that the pipeline itself is reliable. Not assumed reliable. Proven reliable.</p>
+
+            <h2>The Problem</h2>
+
+            <p>Our Jenkins CI pipeline ran hundreds of automated tests across UI and API layers. The pipeline generated test reports that were included in release packages and reviewed by Technical Quality (TQ) teams before any software shipped.</p>
+
+            <p>But there was a gap: the pipeline itself had never been qualified. Nobody had systematically verified that:</p>
+
+            <ul>
+                <li>A passing test in the pipeline actually represented a genuine pass in the system under test.</li>
+                <li>A failing test was correctly detected, reported, and categorized.</li>
+                <li>The pipeline consistently produced the same results given the same inputs.</li>
+                <li>Edge cases &mdash; timeouts, infrastructure flakiness, partial failures &mdash; were handled correctly rather than silently swallowed.</li>
+            </ul>
+
+            <p>The pipeline said PASS, but nobody had proved it was telling the truth.</p>
+
+            <h2>The Solution</h2>
+
+            <p>I built a pipeline qualification framework with three layers:</p>
+
+            <h3>Entry Criteria Validation</h3>
+
+            <p>Before any test execution begins, the framework validates that all prerequisites are met. Environment configuration, service availability, test data state, and dependency versions are all checked programmatically. If entry criteria fail, the pipeline stops with a clear diagnostic rather than running tests against an invalid environment and producing misleading results.</p>
+
+            <h3>Controlled Pass/Fail Scenarios</h3>
+
+            <p>The core of the qualification framework is a set of controlled test scenarios across both UI and API test suites:</p>
+
+            <ul>
+                <li><strong>Known-pass scenarios</strong> &mdash; tests designed to pass against a known-good system state. The framework verifies they are reported as PASS with correct details.</li>
+                <li><strong>Known-fail scenarios</strong> &mdash; tests designed to fail in specific, predictable ways. The framework verifies they are reported as FAIL with accurate error messages, correct categorization, and proper evidence capture (screenshots, logs, API responses).</li>
+                <li><strong>Edge case scenarios</strong> &mdash; tests that exercise timeout handling, retry logic, and partial failure modes. The framework verifies these are handled gracefully rather than producing false positives or silent failures.</li>
+            </ul>
+
+            <h3>Exit Criteria Enforcement</h3>
+
+            <p>After test execution, the framework validates that all expected outputs were generated correctly. Report completeness, result accuracy, artifact generation, and notification delivery are all verified. If any exit criteria fail, the qualification run is flagged as incomplete.</p>
+
+            <h2>How It Runs</h2>
+
+            <p>The qualification framework is embedded directly in Jenkins. It runs as a dedicated qualification stage that can be triggered on every release or on-demand. The framework:</p>
+
+            <ul>
+                <li>Executes the full qualification suite against the current pipeline configuration.</li>
+                <li>Compares actual pipeline behavior against expected behavior for every controlled scenario.</li>
+                <li>Generates a qualification report with pass/fail status for each verification point.</li>
+                <li>Produces qualification evidence that can be included in the release package.</li>
+            </ul>
+
+            <p>Every release cycle, the qualification runs. If the pipeline has changed &mdash; new test frameworks, updated plugins, infrastructure changes &mdash; the qualification catches any behavioral regressions.</p>
+
+            <h2>The Impact</h2>
+
+            <p>The qualification framework changed how TQ teams interact with pipeline reports:</p>
+
+            <ul>
+                <li><strong>TQ teams now rely on pipeline reports</strong> with confidence, because there&rsquo;s systematic evidence that the pipeline accurately represents test outcomes.</li>
+                <li><strong>Qualification evidence is part of the release package</strong> &mdash; alongside test reports, there&rsquo;s now a qualification report that proves the testing infrastructure was validated for that release.</li>
+                <li><strong>Pipeline changes are no longer invisible</strong> &mdash; any modification to the pipeline triggers re-qualification, ensuring that infrastructure changes don&rsquo;t silently alter test reporting behavior.</li>
+            </ul>
+
+            <p>It&rsquo;s not glamorous work. But in a regulated environment, the difference between &ldquo;tests passed&rdquo; and &ldquo;we can prove tests passed correctly&rdquo; is the difference between shipping with confidence and shipping with hope.</p>
+
+            <blockquote>
+                <p>&ldquo;In MedTech, it&rsquo;s not enough for tests to pass. You need to prove that your testing system itself is trustworthy.&rdquo;</p>
+            </blockquote>
+        </div>
+    </article>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Karthik Raja V. All rights reserved.</p>
+                <p class="footer-made">Engineered in India with care.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="../js/blog.js"></script>
+</body>
+</html>

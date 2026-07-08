@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How I Built a Performance Testing Framework That Scales to 75K Devices | Karthik Raja V</title>
+    <meta name="description" content="Deep-dive into building an E2E performance testing framework for a digital surgery platform, scaling from 30 to 75K+ devices.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='8' fill='%23c9a84c'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' dominant-baseline='middle' font-family='sans-serif' font-weight='900' font-size='12' fill='white'%3EKRV%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/blog.css">
+</head>
+<body>
+    <nav class="nav" id="nav">
+        <div class="nav-container">
+            <a href="/" class="nav-logo"><span class="logo-mark">KRV</span><span class="logo-text">Karthik Raja V</span></a>
+            <div class="nav-links" id="navLinks">
+                <a href="/#about" class="nav-link">About</a>
+                <a href="/#journey" class="nav-link">Journey</a>
+                <a href="/#products" class="nav-link">Products</a>
+                <a href="/blog/" class="nav-link">Blog</a>
+                <a href="/#contact" class="nav-link">Contact</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <article class="blog-post">
+        <div class="blog-post-header" style="opacity:1;transform:none">
+            <a href="/blog/" class="blog-back-link">&larr; Back to Blog</a>
+            <div class="blog-post-meta" style="opacity:1;transform:none">
+                <span class="blog-tag">Engineering</span>
+                <span class="blog-date">July 2026</span>
+                <span class="blog-read-time">6 min read</span>
+            </div>
+            <h1 class="blog-post-title" style="opacity:1;transform:none">How I Built a Performance Testing Framework That Scales to 75K Devices</h1>
+        </div>
+
+        <div class="blog-post-body" style="opacity:1;transform:none">
+            <p>When you&rsquo;re building a digital surgery platform, performance isn&rsquo;t a nice-to-have &mdash; it&rsquo;s a safety requirement. Devices in operating rooms need to sync reliably, workflows need to complete within strict time windows, and the system needs to handle scale without degradation.</p>
+
+            <p>I was tasked with building an end-to-end performance testing framework from scratch. Here&rsquo;s how it went.</p>
+
+            <h2>The Problem</h2>
+
+            <p>The existing performance testing setup had three critical gaps:</p>
+
+            <ul>
+                <li><strong>No realistic workload</strong> &mdash; tests used synthetic data that didn&rsquo;t represent actual device behavior. API calls were fired in isolation without the sequencing and dependencies that real workflows have.</li>
+                <li><strong>No concurrency</strong> &mdash; tests ran devices sequentially. In production, thousands of devices operate simultaneously, creating contention patterns that sequential tests can&rsquo;t reveal.</li>
+                <li><strong>No observability</strong> &mdash; when a test failed or showed degradation, there was no way to pinpoint where the bottleneck was. Results were pass/fail with no latency breakdown.</li>
+            </ul>
+
+            <p>The result was a performance testing system that gave false confidence. Tests passed, but nobody knew if the system would hold under real load.</p>
+
+            <h2>The Solution</h2>
+
+            <p>I rebuilt the framework around three core principles:</p>
+
+            <h3>Realistic SQLite Workload Generation</h3>
+
+            <p>Instead of firing raw API calls, the framework generates realistic SQLite databases that mirror actual device data. Each simulated device has a complete data profile &mdash; configuration, surgical records, sync history, and metadata. This means the system under test processes the same data shapes and volumes it sees in production.</p>
+
+            <h3>Adaptive Concurrency with Parallel Device Workers</h3>
+
+            <p>The framework runs parallel device workers that simulate concurrent device operations. Concurrency levels are configurable and can ramp up dynamically to stress specific subsystems. Each worker operates independently, maintaining its own state and sync cycle, just like real devices.</p>
+
+            <h3>DB-Primary Polling with API Fallback</h3>
+
+            <p>One of the biggest wins was rethinking how the framework checks workflow progress. Instead of polling the API for status updates (which itself creates load), the framework queries the database directly for state changes and falls back to API calls only when necessary. This reduced API calls during test execution by 95%, meaning the framework measures the system&rsquo;s actual performance without inflating it with monitoring overhead.</p>
+
+            <h2>What We Measure</h2>
+
+            <p>Every test run produces detailed metrics:</p>
+
+            <ul>
+                <li><strong>Per-stage latency distributions</strong> &mdash; p65, p95, and p99 latencies for each stage of the device workflow. This shows not just the average case, but the tail latencies that affect real users.</li>
+                <li><strong>Throughput</strong> &mdash; devices processed per minute at each concurrency level, with breakdown by workflow stage.</li>
+                <li><strong>Error rates</strong> &mdash; categorized by error type, stage, and concurrency level. Not just &ldquo;5% errors&rdquo; but &ldquo;5% timeout errors at the sync stage when concurrency exceeds 500 devices.&rdquo;</li>
+            </ul>
+
+            <h2>The Result</h2>
+
+            <p>The framework scaled the platform&rsquo;s validated capacity from 30 devices to 75,000+ devices. Key outcomes:</p>
+
+            <ul>
+                <li><strong>Scale validation</strong> &mdash; we can now prove the system handles 75K+ concurrent devices with quantified latency guarantees.</li>
+                <li><strong>Automated reporting</strong> &mdash; every test run generates HTML, Excel, and JSON reports automatically. No manual data collection, no spreadsheet wrangling.</li>
+                <li><strong>Jenkins integration</strong> &mdash; the framework runs as part of the CI/CD pipeline, providing performance regression detection on every build.</li>
+            </ul>
+
+            <p>The framework didn&rsquo;t just test performance &mdash; it became the system of record for capacity planning decisions.</p>
+
+            <blockquote>
+                <p>&ldquo;The best performance test is one that actually simulates production. Everything else is guessing.&rdquo;</p>
+            </blockquote>
+        </div>
+    </article>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Karthik Raja V. All rights reserved.</p>
+                <p class="footer-made">Engineered in India with care.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="../js/blog.js"></script>
+</body>
+</html>
