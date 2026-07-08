@@ -1,5 +1,20 @@
 /* Blog page animations - lightweight */
 document.addEventListener('DOMContentLoaded', () => {
+    // Reading progress bar (only on individual post pages)
+    const postBody = document.querySelector('.blog-post-body');
+    if (postBody) {
+        const bar = document.createElement('div');
+        bar.className = 'reading-progress';
+        document.body.prepend(bar);
+        window.addEventListener('scroll', () => {
+            const rect = postBody.getBoundingClientRect();
+            const total = postBody.scrollHeight;
+            const scrolled = Math.max(0, -rect.top);
+            const pct = Math.min(100, (scrolled / (total - window.innerHeight)) * 100);
+            bar.style.width = pct + '%';
+        }, { passive: true });
+    }
+
     // Nav scroll
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {

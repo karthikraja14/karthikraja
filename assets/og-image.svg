@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630">
+      <stop offset="0" stop-color="#08080a"/>
+      <stop offset="1" stop-color="#0d0d10"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="400" y2="400">
+      <stop offset="0" stop-color="#c9a84c"/>
+      <stop offset="1" stop-color="#e8cc6e"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="15%" cy="30%" r="50%">
+      <stop offset="0" stop-color="#c9a84c" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#c9a84c" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <!-- Top accent line -->
+  <rect x="0" y="0" width="1200" height="4" fill="url(#gold)"/>
+  <!-- K Monogram -->
+  <g transform="translate(80, 180)">
+    <path d="M0 0v120" stroke="url(#gold)" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <path d="M0 60l60-60" stroke="url(#gold)" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <path d="M0 60l60 60" stroke="url(#gold)" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <circle cx="0" cy="60" r="5" fill="#e8cc6e"/>
+  </g>
+  <!-- Name -->
+  <text x="180" y="240" font-family="Inter, -apple-system, sans-serif" font-size="56" font-weight="800" fill="#f2f0ec">Karthik Raja V</text>
+  <!-- Title -->
+  <text x="180" y="290" font-family="Inter, -apple-system, sans-serif" font-size="24" font-weight="500" fill="#9a9690">Manager, Systems Automation | Product Builder</text>
+  <!-- Tags -->
+  <text x="180" y="340" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="600" fill="#c9a84c" letter-spacing="2">MEDTECH  ·  10+ YEARS  ·  INSULET CORPORATION</text>
+  <!-- URL -->
+  <text x="80" y="570" font-family="'JetBrains Mono', monospace" font-size="18" font-weight="500" fill="#5a5752">karthikraja.in</text>
+  <!-- Bottom line -->
+  <rect x="0" y="626" width="1200" height="4" fill="url(#gold)" opacity="0.3"/>
+</svg>

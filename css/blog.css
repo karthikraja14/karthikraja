@@ -1,5 +1,18 @@
 ﻿/* ===== BLOG PAGE STYLES ===== */
 
+/* Reading Progress Bar */
+.reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent, #c9a84c), var(--accent2, #e8cc6e));
+    z-index: 9999;
+    transition: width 0.1s linear;
+    border-radius: 0 2px 2px 0;
+}
+
 /* Restore cursor on blog pages (no custom cursor JS here) */
 body, body *, body a, body button, body .btn, body .nav-link, body .nav-toggle {
     cursor: auto !important;
