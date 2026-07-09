@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ===== LENIS SMOOTH SCROLL (desktop only) =====
     if (!isMobile && typeof Lenis !== 'undefined') {
-        const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
+        const lenis = new Lenis({ duration: 0.8, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
         lenis.on('scroll', ScrollTrigger.update);
         gsap.ticker.add((time) => lenis.raf(time * 1000));
         gsap.ticker.lagSmoothing(0);
@@ -395,9 +395,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 ScrollTrigger.create({
                     trigger: el, start: 'top 90%', once: true,
                     onEnter: () => {
-                        gsap.from({ v: 0 }, {
-                            v: num, duration: 1.5, ease: 'power2.out',
-                            onUpdate: function() { el.innerHTML = '<span class="gradient-text">' + Math.round(this.targets()[0].v) + suffix + '</span>'; }
+                        const obj = { v: 0 };
+                        gsap.to(obj, {
+                            v: num, duration: 1.2, ease: 'power2.out',
+                            onUpdate: () => { el.innerHTML = '<span class="gradient-text">' + Math.round(obj.v) + suffix + '</span>'; }
                         });
                     }
                 });
