@@ -5,10 +5,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     gsap.registerPlugin(ScrollTrigger);
 
-    // ===== LENIS SMOOTH SCROLL =====
-    let lenis;
-    if (window.innerWidth > 768 && typeof Lenis !== 'undefined') {
-        lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
+    const isMobile = window.innerWidth <= 768;
+
+    // ===== LENIS SMOOTH SCROLL (desktop only) =====
+    if (!isMobile && typeof Lenis !== 'undefined') {
+        const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
         lenis.on('scroll', ScrollTrigger.update);
         gsap.ticker.add((time) => lenis.raf(time * 1000));
         gsap.ticker.lagSmoothing(0);
@@ -21,18 +22,33 @@ document.addEventListener('DOMContentLoaded', () => {
             startPage();
         }
     });
-    loaderTl
-        .to('.loader-logo', { opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.8)' })
-        .to('.loader-text', { opacity: 1, duration: 0.4, ease: 'power2.out' }, '-=0.2')
-        .to('.loader-progress', { width: '100%', duration: 0.9, ease: 'power2.inOut' }, '-=0.2')
-        .to('.loader-inner', { opacity: 0, y: -30, duration: 0.3 })
-        .to('#loader', { yPercent: -100, duration: 0.6, ease: 'power3.inOut' });
+
+    if (isMobile) {
+        // Fast loader on mobile
+        loaderTl
+            .to('.loader-logo', { opacity: 1, scale: 1, duration: 0.3 })
+            .to('.loader-progress', { width: '100%', duration: 0.4, ease: 'power2.inOut' })
+            .to('#loader', { yPercent: -100, duration: 0.4, ease: 'power3.inOut' });
+    } else {
+        loaderTl
+            .to('.loader-logo', { opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.8)' })
+            .to('.loader-text', { opacity: 1, duration: 0.4, ease: 'power2.out' }, '-=0.2')
+            .to('.loader-progress', { width: '100%', duration: 0.9, ease: 'power2.inOut' }, '-=0.2')
+            .to('.loader-inner', { opacity: 0, y: -30, duration: 0.3 })
+            .to('#loader', { yPercent: -100, duration: 0.6, ease: 'power3.inOut' });
+    }
 
     function startPage() {
+        initNav();
+        if (isMobile) {
+            // Mobile: skip all heavy animations, just show content
+            initMobileReveal();
+            return;
+        }
+        // Desktop: full animation suite
         initCursor();
         initParticles();
         initECG();
-        initNav();
         initHero();
         initTextScramble();
         initScrollAnims();
@@ -40,6 +56,19 @@ document.addEventListener('DOMContentLoaded', () => {
         initDividers();
         initTilt();
         initMagnetic();
+    }
+
+    // ===== MOBILE: instant reveal, no animations =====
+    function initMobileReveal() {
+        // Force everything visible immediately
+        document.querySelectorAll('.title-line-inner,.hero-badge,.hero-tagline,.hero-subtitle,.hero-actions,.hero-metrics,.scroll-indicator,.section-tag,.section-desc,.about-card,.about-stat-card,.about-highlight,.product-card,.skill-group,.blog-card,.blog-cta,.contact-item,.faq-item,.loader-text').forEach(el => {
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+        });
+        // Animate hero counters
+        animateCounters();
+        // Skill tags
+        document.querySelectorAll('.skill-tag').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
     }
 
     // ===== CUSTOM CURSOR =====
