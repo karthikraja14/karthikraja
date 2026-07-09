@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     loaderTl
         .to('.loader-logo', { opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.8)' })
+        .to('.loader-text', { opacity: 1, duration: 0.4, ease: 'power2.out' }, '-=0.2')
         .to('.loader-progress', { width: '100%', duration: 0.9, ease: 'power2.inOut' }, '-=0.2')
         .to('.loader-inner', { opacity: 0, y: -30, duration: 0.3 })
         .to('#loader', { yPercent: -100, duration: 0.6, ease: 'power3.inOut' });

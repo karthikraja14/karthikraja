@@ -1,76 +1,78 @@
-# Vystra — Engineering Products That Matter
+# Karthik Raja V — Personal Website
 
-> Personal brand & product studio website for [vystra.in](https://vystra.in)
+> [karthikraja.in](https://karthikraja.in)
 
-![Vystra](https://img.shields.io/badge/Status-Live-00b894?style=flat-square)
-![Deploy](https://img.shields.io/badge/Deployed%20on-Netlify-00C7B7?style=flat-square&logo=netlify)
-![License](https://img.shields.io/badge/License-MIT-6c5ce7?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Live-00b894?style=flat-square)
+![Deploy](https://img.shields.io/badge/Hosted%20on-GitHub%20Pages-222?style=flat-square&logo=github)
 
-## What is Vystra?
+## About
 
-Vystra is a product studio — a brand hub that showcases both my professional journey as a Lead Test Engineer in MedTech and the software products I build on the side. It serves as a portfolio, resume, blog, and product showcase all in one.
+Personal portfolio, blog, and product showcase for Karthik Raja V — Manager, Systems Automation at Insulet Corporation. 10+ years in MedTech quality engineering, building software products under the Vystra brand.
 
-### Live Products
+### Highlights
 
-| Product | Description | URL |
-|---------|-------------|-----|
-| **Vystra Build** | Construction management platform for Indian civil engineering contractors — 12+ modules, 20 calculators, PDF exports | [build.vystra.in](https://build.vystra.in) |
-| **More coming...** | Next product in research phase | — |
+- **Career timeline** — 5 companies across MedTech, from Biomedical Engineer to Systems Automation Manager
+- **6+ awards** — Recognition at J&J for performance engineering, automation, and validation leadership
+- **Hack4Health** — Vision Beyond the OR, a post-operative recovery companion built at J&J's healthcare hackathon
+- **Vystra Build** — Live construction management SaaS with 12+ modules
+- **5 blog posts** — Engineering deep-dives on performance testing, pipeline qualification, and building in public
 
 ## Tech Stack
 
-This is a **zero-dependency static site** — no frameworks, no build tools, no npm.
+Zero-dependency static site — no frameworks, no build tools, no npm.
 
-- **HTML5** — Semantic, accessible markup
-- **CSS3** — Custom properties, gradient mesh backgrounds, responsive grid
-- **Vanilla JS** — Custom cursor, particle canvas, 3D card tilt, text scramble
-- **GSAP 3** + **ScrollTrigger** — Professional scroll-driven animations via CDN
-- **Google Fonts** — Inter + JetBrains Mono
-
-## Features
-
-- **Animated page loader** — Logo entrance + staggered text + progress bar
-- **Particle constellation** — Interactive canvas with mouse-reactive particles
-- **Custom cursor** — Dot + elastic follower with hover states
-- **Text scramble effect** — Hero subtitle decodes from random characters
-- **3D tilt cards** — Perspective rotation following cursor position
-- **Magnetic buttons** — Elastic snap-back on mouse leave
-- **Themed section dividers** — Blueprint SVG lines, heartbeat pulse, construction scene draw-on
-- **Timeline with scroll fill** — Career timeline fills a gradient line as you scroll
-- **Gradient mesh background** — Multi-layered radial gradients with noise texture
-- **Fully responsive** — Mobile-first with cursor features disabled on touch devices
+| Layer | Tech |
+|-------|------|
+| Markup | HTML5, semantic |
+| Styling | CSS3 custom properties, responsive grid |
+| Animation | GSAP 3 + ScrollTrigger (CDN) |
+| Fonts | Inter + JetBrains Mono (Google Fonts) |
+| Hosting | GitHub Pages with custom domain |
+| SEO | sitemap.xml, robots.txt, JSON-LD, Open Graph, Twitter cards |
 
 ## Project Structure
 
 ```
-VystraWeb/
-├── index.html              # Main landing page
-├── css/
-│   ├── style.css           # Core styles + animations
-│   └── blog.css            # Blog page styles
-├── js/
-│   ├── animations.js       # GSAP animation engine
-│   └── blog.js             # Blog page animations
+karthikraja/
+├── index.html                  # Main landing page
+├── resume.html                 # Visual resume
+├── resume-ats.html             # ATS-friendly resume
+├── privacy.html                # Privacy policy
+├── terms.html                  # Terms of service
+├── 404.html                    # Custom 404 page
+├── sitemap.xml                 # XML sitemap for SEO
+├── robots.txt                  # Crawler directives
+├── CNAME                       # Custom domain config
+├── .nojekyll                   # Disable Jekyll processing
+├── assets/
+│   ├── favicon.svg             # Geometric K monogram
+│   ├── og-image.svg            # Social sharing image
+│   └── karthik_resized.jpg     # Profile photo (optimised)
 ├── blog/
-│   ├── index.html          # Blog listing with filters
+│   ├── index.html              # Blog listing with filters
+│   ├── performance-testing-75k-devices.html
+│   ├── pipeline-qualification.html
 │   ├── why-i-built-vystra-build.html
+│   ├── vision-beyond-or.html
 │   └── building-in-public.html
-├── netlify.toml            # Netlify deploy config + headers
-└── README.md
+├── css/
+│   ├── style.css               # Core styles + responsive
+│   ├── blog.css                # Blog page styles
+│   └── resume.css              # Resume page styles
+├── js/
+│   ├── animations.js           # GSAP animation engine
+│   └── blog.js                 # Blog animations + progress bar
+└── tools/
+    └── index.html              # JD Resume Tailor (private)
 ```
 
 ## Local Development
 
-No build step required. Just open `index.html` in a browser.
-
-For a local server (better for testing relative paths):
+No build step required.
 
 ```bash
 # Python
 python -m http.server 8000
-
-# Node.js
-npx serve .
 
 # VS Code
 # Install "Live Server" extension → Right-click index.html → Open with Live Server
@@ -78,52 +80,22 @@ npx serve .
 
 ## Deployment
 
-This site is deployed on **Netlify** (free tier) with a custom domain.
+Hosted on **GitHub Pages** with custom domain `karthikraja.in`.
 
-### Deploy from GitHub
+Every push to `main` triggers automatic deployment.
 
-1. Push code to GitHub
-2. Go to [app.netlify.com](https://app.netlify.com) → New site from Git
-3. Select this repo → Deploy
-4. Site goes live at `*.netlify.app`
+### DNS Setup (GoDaddy → GitHub Pages)
 
-### Custom Domain Setup (GoDaddy → Netlify)
+| Type | Name | Value |
+|------|------|-------|
+| A | @ | `185.199.108.153` |
+| A | @ | `185.199.109.153` |
+| A | @ | `185.199.110.153` |
+| A | @ | `185.199.111.153` |
+| CNAME | www | `karthikraja14.github.io` |
 
-1. **Netlify**: Site settings → Domain management → Add `vystra.in`
-2. **GoDaddy DNS**:
-   - A Record: `@` → `75.2.60.5`
-   - CNAME: `www` → `vystraweb.netlify.app`
-3. Netlify auto-provisions SSL via Let's Encrypt
-
-### Auto-deploy
-
-Every push to `main` branch triggers automatic deployment on Netlify.
-
-## Customization
-
-### Adding a new product
-
-In `index.html`, duplicate the `.product-card` block inside `.products-grid` and update the content. Change the status from `product-soon` to `product-live` when shipped.
-
-### Adding a blog post
-
-1. Create a new HTML file in `blog/` (duplicate an existing post)
-2. Update the title, meta, and body content
-3. Add an entry in `blog/index.html` listing
-4. Add a preview card in `index.html` blog section
-
-### Updating work experience
-
-The timeline section in `index.html` uses `.timeline-item` blocks. Add new items or update existing ones. The timeline fill animation adjusts automatically.
-
-### Updating skills
-
-Edit the `.skill-tags` inside each `.skill-group` in the Skills section.
-
-## License
-
-MIT — feel free to fork and adapt for your own brand.
+HTTPS enforced via GitHub Pages with auto-provisioned SSL.
 
 ---
 
-**Vystra** — Engineered in India with care.
+**Karthik Raja V** — Engineered in India with care.
