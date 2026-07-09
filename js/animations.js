@@ -5,6 +5,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     gsap.registerPlugin(ScrollTrigger);
 
+    // ===== LENIS SMOOTH SCROLL =====
+    let lenis;
+    if (window.innerWidth > 768 && typeof Lenis !== 'undefined') {
+        lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => lenis.raf(time * 1000));
+        gsap.ticker.lagSmoothing(0);
+    }
+
     // ===== LOADER =====
     const loaderTl = gsap.timeline({
         onComplete: () => {
@@ -146,9 +155,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ===== HERO ENTRANCE =====
     function initHero() {
+        // Character-level split for hero name
+        const heroName = document.getElementById('heroName');
+        if (heroName) {
+            const text = heroName.textContent;
+            heroName.innerHTML = text.split('').map(ch =>
+                ch === ' ' ? ' ' : `<span class="char" style="display:inline-block;opacity:0;transform:translateY(80px) rotate(8deg)">${ch}</span>`
+            ).join('');
+        }
+
         const tl = gsap.timeline({ delay: 1.6 });
-        tl.to('.title-line-inner', { y: 0, duration: 1.1, ease: 'power4.out', stagger: 0.18 })
-          .to('.hero-badge', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.7')
+        tl.to('.title-line-inner', { y: 0, duration: 0.01 }) // reset container
+          .to('.title-line-inner .char', {
+              opacity: 1, y: 0, rotation: 0,
+              duration: 0.6, ease: 'power4.out',
+              stagger: { each: 0.04, from: 'start' }
+          })
+          .to('.hero-badge', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.3')
           .to('.hero-tagline', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5')
           .to('.hero-subtitle', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.4')
           .to('.hero-actions', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.4')
@@ -274,6 +297,23 @@ document.addEventListener('DOMContentLoaded', () => {
         // About stat cards
         gsap.utils.toArray('.about-stat-card').forEach((c, i) => {
             gsap.to(c, { scrollTrigger: { trigger: c, start: 'top 88%' }, opacity: 1, x: 0, duration: 0.6, ease: 'power3.out', delay: i * 0.1 });
+        });
+        // Scroll-triggered stat number counters
+        document.querySelectorAll('.stat-number').forEach(el => {
+            const text = el.textContent.trim();
+            const num = parseInt(text);
+            if (!isNaN(num) && num > 0) {
+                const suffix = text.replace(/\d+/, '');
+                ScrollTrigger.create({
+                    trigger: el, start: 'top 90%', once: true,
+                    onEnter: () => {
+                        gsap.from({ v: 0 }, {
+                            v: num, duration: 1.5, ease: 'power2.out',
+                            onUpdate: function() { el.innerHTML = '<span class="gradient-text">' + Math.round(this.targets()[0].v) + suffix + '</span>'; }
+                        });
+                    }
+                });
+            }
         });
         // About highlight
         gsap.utils.toArray('.about-highlight').forEach(el => {

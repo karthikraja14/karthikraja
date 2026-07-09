@@ -110,6 +110,10 @@ a{color:inherit;text-decoration:none}
 .tilt-card{transform-style:preserve-3d;transition:transform .4s cubic-bezier(.4,0,.2,1)}
 .card-shine{position:absolute;inset:0;background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(201,168,76,.06),transparent 40%);border-radius:inherit;z-index:0;pointer-events:none}
 
+/* Glassmorphism */
+.about-card,.product-card,.timeline-card,.contact-item{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(19,19,22,0.75)}
+.about-card:hover,.product-card:hover,.timeline-card:hover,.contact-item:hover{background:rgba(26,26,30,0.85)}
+
 /* ===== SECTION DIVIDERS ===== */
 .section-divider{overflow:hidden;line-height:0;position:relative}
 .section-divider svg{width:100%;display:block}
