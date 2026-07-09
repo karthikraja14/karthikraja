@@ -330,8 +330,26 @@ a, a *, button, .btn, .nav-link, .blog-read-more, .filter-btn, .blog-back-link, 
         gap: 8px;
     }
 
+    .blog-post-header {
+        padding: 120px 0 32px;
+    }
+
+    .blog-post-title {
+        font-size: 1.6rem;
+    }
+
     .blog-post-body {
         padding: 32px 16px 80px;
+    }
+
+    .blog-post-body h2 {
+        font-size: 1.3rem;
+        margin: 36px 0 12px;
+    }
+
+    .blog-post-body p,
+    .blog-post-body li {
+        font-size: .95rem;
     }
 
     .blog-post-nav {
@@ -345,5 +363,51 @@ a, a *, button, .btn, .nav-link, .blog-read-more, .filter-btn, .blog-back-link, 
 
     .blog-nav-link.next {
         text-align: left;
+    }
+
+    .blog-page-header {
+        padding: 120px 0 48px;
+    }
+
+    .blog-filters {
+        gap: 6px;
+    }
+
+    .filter-btn {
+        padding: 6px 14px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .blog-post-header {
+        padding: 100px 0 24px;
+    }
+
+    .blog-post-title {
+        font-size: 1.4rem;
+    }
+
+    .blog-post-meta {
+        gap: 8px;
+    }
+
+    .blog-post-body {
+        padding: 24px 12px 60px;
+    }
+
+    .blog-post-body h2 {
+        font-size: 1.2rem;
+    }
+
+    .blog-post-body p,
+    .blog-post-body li {
+        font-size: .9rem;
+        line-height: 1.7;
+    }
+
+    .blog-post-body pre {
+        padding: 16px;
+        font-size: 0.8rem;
     }
 }
