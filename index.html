@@ -81,6 +81,7 @@
     <!-- ====== HERO ====== -->
     <section class="hero" id="hero">
         <canvas class="hero-canvas" id="heroCanvas"></canvas>
+        <canvas class="ecg-canvas" id="ecgCanvas"></canvas>
         <div class="hero-glow hero-glow-1"></div>
         <div class="hero-glow hero-glow-2"></div>
         <div class="container">
@@ -671,6 +672,56 @@
                 <button class="blog-scroll-btn blog-scroll-right" aria-label="Next posts">&rarr;</button>
             </div>
             <div class="blog-cta"><a href="blog/" class="btn btn-ghost magnetic"><span>Read All Posts &rarr;</span></a></div>
+        </div>
+    </section>
+
+    <!-- ====== QUICK FACTS / FAQ ====== -->
+    <section class="faq-section" id="faq" style="padding:80px 0;border-top:1px solid var(--bdr)">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Quick Facts</span>
+                <h2 class="section-title">
+                    <span class="split-line"><span class="split-inner">Frequently <span class="gradient-text">Asked</span></span></span>
+                </h2>
+            </div>
+            <div class="faq-list" style="max-width:720px;margin:0 auto">
+                <div class="faq-item">
+                    <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                        <span>What&rsquo;s your core expertise?</span><span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-a"><p>Systems automation and test architecture for FDA-regulated medical devices. 10+ years across Insulet, J&amp;J, Baxter, Fresenius &mdash; building verification frameworks, performance testing at 75K+ device scale, and CI/CD pipelines for MedTech.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                        <span>What tech stack do you work with?</span><span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-a"><p>Python, Robot Framework, Pytest, Jenkins, Azure Cloud, Docker, Kubernetes. For products: full-stack with HTML/CSS/JS. AI tooling with Claude on Azure AI Foundry.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                        <span>Are you open to new opportunities?</span><span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-a"><p>I&rsquo;m currently Manager of Systems Automation at Insulet Corporation. Always open to conversations about leadership roles in MedTech quality engineering, test architecture, or engineering management. Reach out via LinkedIn or email.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                        <span>What is Vystra Build?</span><span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-a"><p>A construction management SaaS I built for Indian civil engineering contractors. 12+ modules covering projects, workers, attendance, materials, expenses, quotations &mdash; with 20 domain-specific calculators. Live at <a href="https://build.vystra.in" target="_blank" rel="noopener" style="color:var(--accent2)">build.vystra.in</a>.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                        <span>What regulatory standards do you work with?</span><span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-a"><p>ISO 13485, IEC 62304, FDA 21 CFR Part 11, FDA SOPs. Experienced with Class II and Class III medical device software verification across multiple product lines.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                        <span>How was this website built?</span><span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-a"><p>Zero dependencies &mdash; pure HTML, CSS, vanilla JS. GSAP for animations, Lenis for smooth scroll. Hosted on GitHub Pages with custom domain. No frameworks, no npm, no build step. Source code is public on <a href="https://github.com/karthikraja14/karthikraja" target="_blank" rel="noopener" style="color:var(--accent2)">GitHub</a>.</p></div>
+                </div>
+            </div>
         </div>
     </section>
 

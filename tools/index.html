@@ -116,7 +116,7 @@ function reset(){document.getElementById('jd').value='';document.getElementById(
 const R = {
     name: 'KARTHIK RAJA V',
     title: 'Manager, Systems Automation | Test Architect',
-    contact: '(+91) 8148412598 | karthikoff10@gmail.com | linkedin.com/in/karthik-raja-624864b1 | github.com/karthikraja14 | karthikraja.in | Bengaluru, India',
+    contact: 'karthikoff10@gmail.com | linkedin.com/in/karthik-raja-624864b1 | github.com/karthikraja14 | karthikraja.in | Bengaluru, India',
     summary: 'Manager, Systems Automation with 10+ years in healthcare and MedTech quality engineering. At Johnson & Johnson, transformed Digital Surgery Platform testing from zero reliability to single-click execution across six teams (30+ engineers) on Azure cloud. Designed five platform-wide systems: unified Robot/pytest framework with CI, E2E performance testing scaling from 30 to 75,000+ concurrent devices, data platform test framework, automated daily reporting, and an AI Bug Analyser with CI + Jira integration. Drove shift-left testing, quality gates in CI pipelines, and test strategy ownership. Test coverage: 40% to 85%+. Cycle time: reduced 40%.',
     skills: {
         'Test Frameworks': ['Robot Framework','Pytest','Pytest-BDD','Selenium','BDD/Gherkin','Cucumber','REST Assured','Postman'],
@@ -301,7 +301,7 @@ function generateVisualHtml(){
 .main ul{padding-left:14px;margin-bottom:6px}.main li{font-size:.74rem;color:#333;margin-bottom:2px;line-height:1.4}
 @media print{body{max-width:100%}@page{size:A4;margin:8mm}}
 </style></head><body>`;
-    h+=`<div class="hdr"><div><h1>${R.name}</h1><div class="sub">${R.title}</div><div class="cl">${R.contact.split(' | ').map((c,i)=>i>0?' | '+c:c).join('')}</div></div><img src="/assets/photo.jpg" alt="${R.name}"></div>`;
+    h+=`<div class="hdr"><div><h1>${R.name}</h1><div class="sub">${R.title}</div><div class="cl">${R.contact.split(' | ').map((c,i)=>i>0?' | '+c:c).join('')}</div></div><img src="/assets/karthik_resized.jpg" alt="${R.name}"></div>`;
     h+=`<div class="body"><div class="side">`;
     h+=`<h2>Core Competencies</h2><ul>`;
     for(const [cat,items] of Object.entries(sk)){

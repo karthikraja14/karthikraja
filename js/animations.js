@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function startPage() {
         initCursor();
         initParticles();
+        initECG();
         initNav();
         initHero();
         initTextScramble();
@@ -151,6 +152,84 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (el) { e.preventDefault(); window.scrollTo({ top: el.offsetTop - nav.offsetHeight - 20, behavior: 'smooth' }); }
             });
         });
+    }
+
+    // ===== ECG HEARTBEAT WAVE =====
+    function initECG() {
+        const canvas = document.getElementById('ecgCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let W, H;
+        function resize() {
+            W = canvas.width = canvas.offsetWidth * (window.devicePixelRatio || 1);
+            H = canvas.height = canvas.offsetHeight * (window.devicePixelRatio || 1);
+            ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        const cW = () => canvas.offsetWidth;
+        const cH = () => canvas.offsetHeight;
+        let offset = 0;
+        const speed = 1.2;
+
+        // ECG waveform pattern (one heartbeat cycle, normalized 0-1 height)
+        function ecgY(x) {
+            const t = x % 1;
+            // Flat baseline
+            if (t < 0.10) return 0.5;
+            // P wave (small bump)
+            if (t < 0.18) { const p = (t - 0.10) / 0.08; return 0.5 - 0.08 * Math.sin(p * Math.PI); }
+            // Flat
+            if (t < 0.22) return 0.5;
+            // Q dip
+            if (t < 0.26) { const q = (t - 0.22) / 0.04; return 0.5 + 0.06 * Math.sin(q * Math.PI); }
+            // R spike (tall)
+            if (t < 0.32) { const r = (t - 0.26) / 0.06; return 0.5 - 0.38 * Math.sin(r * Math.PI); }
+            // S dip
+            if (t < 0.37) { const s = (t - 0.32) / 0.05; return 0.5 + 0.12 * Math.sin(s * Math.PI); }
+            // Flat
+            if (t < 0.45) return 0.5;
+            // T wave (medium bump)
+            if (t < 0.58) { const tw = (t - 0.45) / 0.13; return 0.5 - 0.10 * Math.sin(tw * Math.PI); }
+            // Flat baseline
+            return 0.5;
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, cW(), cH());
+            const w = cW();
+            const h = cH();
+            const cycleWidth = 280;
+            offset += speed;
+
+            // Draw two stacked ECG lines for depth
+            for (let line = 0; line < 2; line++) {
+                const yOffset = line === 0 ? h * 0.35 : h * 0.7;
+                const alpha = line === 0 ? 0.7 : 0.4;
+                const lineOffset = offset + (line * 140);
+
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(201, 168, 76, ${alpha})`;
+                ctx.lineWidth = line === 0 ? 2 : 1.5;
+                ctx.lineJoin = 'round';
+                ctx.lineCap = 'round';
+
+                for (let x = 0; x <= w; x += 2) {
+                    const normalX = (x + lineOffset) / cycleWidth;
+                    const y = ecgY(normalX) * h * 0.6 + yOffset - h * 0.15;
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+            }
+
+            requestAnimationFrame(draw);
+        }
+        draw();
+
+        // Fade in with GSAP
+        gsap.fromTo('#ecgCanvas', { opacity: 0 }, { opacity: 0.15, duration: 2, delay: 2.5, ease: 'power2.out' });
     }
 
     // ===== HERO ENTRANCE =====
