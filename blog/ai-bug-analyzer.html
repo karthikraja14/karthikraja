@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#08080a">
+    <title>How I Built AI Bug Analyzer &mdash; From Test Failure to JIRA Bug in 60 Seconds | Karthik Raja V</title>
+    <meta name="description" content="AI Bug Analyzer automatically analyzes CI/CD test failures with Claude Opus 4.6 on Azure AI Foundry and files fully-structured JIRA bugs &mdash; cutting bug triage from 30 minutes to 60 seconds.">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="How I Built AI Bug Analyzer | Karthik Raja V">
+    <meta name="twitter:description" content="An AI-powered system that turns failing Jenkins tests into fully-structured JIRA bugs automatically &mdash; 30x faster than manual triage.">
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/blog.css">
+</head>
+<body>
+    <nav class="nav" id="nav">
+        <div class="nav-container">
+            <a href="/" class="nav-logo"><span class="logo-mark">KRV</span><span class="logo-text">Karthik Raja V</span></a>
+            <div class="nav-links" id="navLinks">
+                <a href="/#about" class="nav-link">About</a>
+                <a href="/#journey" class="nav-link">Journey</a>
+                <a href="/#products" class="nav-link">Products</a>
+                <a href="/blog/" class="nav-link">Blog</a>
+                <a href="/#contact" class="nav-link">Contact</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <article class="blog-post">
+        <div class="blog-post-header" style="opacity:1;transform:none">
+            <a href="/blog/" class="blog-back-link">&larr; Back to Blog</a>
+            <div class="blog-post-meta" style="opacity:1;transform:none">
+                <span class="blog-tag">Engineering</span>
+                <span class="blog-date">July 2026</span>
+                <span class="blog-read-time">8 min read</span>
+            </div>
+            <h1 class="blog-post-title" style="opacity:1;transform:none">How I Built AI Bug Analyzer &mdash; From Test Failure to JIRA Bug in 60 Seconds</h1>
+        </div>
+
+        <div class="blog-post-body" style="opacity:1;transform:none">
+            <p>Every engineering team knows the ritual. A regression suite goes red on the QA pipeline, and someone has to stop what they&rsquo;re doing, open the Jenkins build log, read through a wall of stack traces, cross-reference it against the source code, figure out whether it&rsquo;s a real bug or a flaky test, and then hand-craft a JIRA ticket with all the right fields.</p>
+
+            <p>It takes <strong>15&ndash;30 minutes per failure</strong>. On a bad build with five or ten reds, it swallows an entire morning &mdash; and the bugs that come out are often vaguely worded, misclassified, or missing the one detail that would actually help the developer fixing them.</p>
+
+            <p>So I built something to make that ritual disappear.</p>
+
+            <blockquote>
+                <p>&ldquo;60 seconds from failure to filed bug. 30&times; faster than manual triage. 108 hours saved per project per year.&rdquo;</p>
+            </blockquote>
+
+            <h2>What AI Bug Analyzer Does</h2>
+
+            <p>AI Bug Analyzer plugs into a Jenkins pipeline as a <code>postStage</code> hook. When an integration or regression stage fails, it springs into action &mdash; completely in the background, and <strong>without ever affecting the build result</strong>. Within about a minute it has:</p>
+
+            <ol>
+                <li><strong>Collected the failures</strong> &mdash; pulls every failing test from the Jenkins Test Report API (JUnit / pytest results).</li>
+                <li><strong>Found the relevant source code</strong> &mdash; parses stack traces across Python, Java, JS/TS and Robot Framework, extracts keywords, and fetches the real application &amp; test files from Bitbucket.</li>
+                <li><strong>Asked Claude to reason about it</strong> &mdash; sends the failure plus code context to <code>Claude Opus 4.6</code> on Azure AI Foundry with a prompt that understands the bug-filing playbook.</li>
+                <li><strong>Got a precise diagnosis</strong> &mdash; root cause pinpointed to <code>file:line</code>, a suggested before/after code fix, severity, priority and a confidence score.</li>
+                <li><strong>Filed the JIRA bug</strong> &mdash; creates a fully-structured ticket with every required field &mdash; or, if a matching bug already exists, comments on it instead of creating a duplicate.</li>
+            </ol>
+
+            <p>The result: instead of &ldquo;investigate the failing test,&rdquo; the developer opens a ticket that already says <em>exactly</em> which line is wrong and what the fix looks like.</p>
+
+            <h2>The Hard Part: Giving the AI the Right Context</h2>
+
+            <p>An LLM is only as good as the context it gets. Handing Claude a raw stack trace produces a generic guess. The real engineering challenge was building a <strong>smart code-fetching pipeline</strong> that finds the handful of files that actually matter &mdash; out of a repository with thousands.</p>
+
+            <p>The system uses a tiered discovery strategy and a strict token budget so it never overwhelms the model (or the bill):</p>
+
+            <ul>
+                <li><strong>Tier 1 &mdash; Stack trace resolution.</strong> Exact <code>file:line</code> references, including resolving Java packages (<code>com.jnj.its</code> &rarr; <code>com/jnj/its/&hellip;</code>) against the live repo file tree.</li>
+                <li><strong>Tier 2 &mdash; Keyword-matched application code.</strong> CamelCase class names, API path segments and test-name tokens are matched against <code>src/main</code> source files.</li>
+                <li><strong>Tier 3 &mdash; Test code.</strong> The test files themselves, so Claude can tell an <em>application bug</em> apart from a <em>test-script defect</em>.</li>
+            </ul>
+
+            <p>Each tier gets its own character budget (roughly 60,000 characters total &mdash; about 12% of the 200K context window), with application code always prioritised over test code. That single design choice is what pushes the analysis from a &ldquo;medium confidence&rdquo; pattern-guess to a &ldquo;high confidence&rdquo; answer with real code evidence.</p>
+
+            <h2>How It&rsquo;s Built</h2>
+
+            <p>The tech stack is deliberately lean:</p>
+
+            <ul>
+                <li><strong>Azure Functions (Python 3.11)</strong> &mdash; serverless, zero cost when idle</li>
+                <li><strong>Azure AI Foundry + Claude Opus 4.6</strong> &mdash; the reasoning engine</li>
+                <li><strong>Managed Identity</strong> &mdash; no API keys to leak, ever</li>
+                <li><strong>Bitbucket REST API</strong> &mdash; smart code fetching from the actual repo</li>
+                <li><strong>JIRA REST API</strong> &mdash; fully-structured ticket creation with duplicate detection</li>
+                <li><strong>Bicep IaC</strong> &mdash; entire infrastructure from a single template</li>
+                <li><strong>Application Insights</strong> &mdash; telemetry for every analysis run</li>
+                <li><strong>Jenkins (Groovy postStage)</strong> &mdash; the trigger point</li>
+            </ul>
+
+            <h3>Key Design Decisions</h3>
+
+            <ul>
+                <li><strong>Zero credential exposure</strong> &mdash; passwords, tokens and secrets in error messages are automatically redacted before anything reaches the AI.</li>
+                <li><strong>Zero pipeline impact</strong> &mdash; runs as a postStage hook. Every error is caught and logged as a warning &mdash; the build result is never touched.</li>
+                <li><strong>Language-agnostic</strong> &mdash; understands Python, Java, JavaScript, TypeScript and Robot Framework stack traces out of the box.</li>
+                <li><strong>Duplicate-aware</strong> &mdash; a JQL search catches existing bugs and comments on them instead of spamming new tickets.</li>
+            </ul>
+
+            <h3>Onboarding a Project Takes One Line</h3>
+
+            <p>Because the whole thing is driven by an external manifest, adding it to any Jenkins project is a single entry:</p>
+
+            <pre><code># manifest.yaml &mdash; postStage section
+postStage:
+  integrationTest:
+    - userScript:
+        name: ai_bug_analysis
+        externalRepoUrl: https://.../ai-bug-analyzer.git</code></pre>
+
+            <h2>The Impact</h2>
+
+            <p>Numbers tell the story best. Here&rsquo;s the before-and-after for a single failing test:</p>
+
+            <ul>
+                <li><strong>Time per bug:</strong> 15&ndash;30 minutes &rarr; ~60 seconds</li>
+                <li><strong>Root cause:</strong> varies by engineer &rarr; pinpointed to file:line</li>
+                <li><strong>Playbook compliance:</strong> inconsistent &rarr; 100% of fields populated</li>
+                <li><strong>Corrective action:</strong> often generic &rarr; specific fix + verification steps</li>
+                <li><strong>Duplicate detection:</strong> manual search &rarr; automatic via JQL</li>
+                <li><strong>Credential exposure:</strong> human error risk &rarr; zero (auto-redacted)</li>
+            </ul>
+
+            <p>At a typical rate of five failures a week, a single project loses about <strong>108 hours a year</strong> to manual bug filing. Across ten projects that&rsquo;s over a thousand engineering hours &mdash; roughly <strong>$100K+</strong> of time &mdash; handed back to the people who should be building, not triaging.</p>
+
+            <h2>What I Took Away from Building It</h2>
+
+            <p>The interesting lesson wasn&rsquo;t the model &mdash; it was the plumbing around it. A capable LLM like Claude Opus 4.6 will happily reason its way to the exact broken line <em>if</em> you do the unglamorous work of feeding it the right code, keeping secrets out, and structuring the output so a human (and JIRA) can trust it.</p>
+
+            <p>The AI is the easy 20%; the context engineering, security, and CI/CD integration are the 80% that make it production-ready.</p>
+
+            <blockquote>
+                <p>&ldquo;60 seconds, not 30 minutes. file:line, not &lsquo;investigate further&rsquo;. 100% compliant, not &lsquo;mostly there&rsquo;.&rdquo;</p>
+            </blockquote>
+        </div>
+
+        <nav class="blog-post-nav">
+            <a href="performance-testing-75k-devices.html" class="blog-nav-link prev">
+                <span class="blog-nav-dir">&larr; Previous</span>
+                <span class="blog-nav-title">Performance Framework at 75K Devices</span>
+            </a>
+            <span></span>
+        </nav>
+    </article>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Karthik Raja V. All rights reserved.</p>
+                <p class="footer-made">Engineered in India with care.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="../js/blog.js"></script>
+</body>
+</html>
