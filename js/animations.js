@@ -527,8 +527,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ===== BLOG SCROLL ARROWS =====
     const blogGrid = document.getElementById('blogGrid');
-    const scrollLeft = document.querySelector('.blog-scroll-left');
-    const scrollRight = document.querySelector('.blog-scroll-right');
+    const blogWrap = blogGrid ? blogGrid.closest('.blog-grid-wrap') : null;
+    const scrollLeft = blogWrap ? blogWrap.querySelector('.blog-scroll-left') : null;
+    const scrollRight = blogWrap ? blogWrap.querySelector('.blog-scroll-right') : null;
     if (blogGrid && scrollLeft && scrollRight) {
         const scrollAmt = 380;
         scrollLeft.addEventListener('click', () => blogGrid.scrollBy({ left: -scrollAmt, behavior: 'smooth' }));
