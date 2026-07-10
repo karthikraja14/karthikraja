@@ -86,12 +86,20 @@ a, a *, button, .btn, .nav-link, .blog-read-more, .filter-btn, .blog-back-link, 
     gap: 32px;
     padding: 32px;
     border-radius: var(--radius-lg);
-    transition: var(--transition);
+    transition: transform 0.3s cubic-bezier(.4,0,.2,1), background 0.3s, box-shadow 0.3s;
     cursor: pointer;
+    border: 1px solid transparent;
 }
 
 .blog-list-item:hover {
     background: var(--bg-card);
+    transform: translateX(8px);
+    border-color: rgba(201,168,76,.15);
+    box-shadow: 0 4px 20px rgba(0,0,0,.15);
+}
+
+.blog-list-item:hover h2 a {
+    color: var(--accent-light, #e8cc6e);
 }
 
 .blog-list-date {

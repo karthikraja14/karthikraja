@@ -433,10 +433,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 onComplete: () => gsap.to(g.querySelectorAll('.skill-tag'), { opacity: 1, y: 0, duration: 0.2, stagger: 0.02, ease: 'power3.out' })
             });
         });
-        // Blog cards
-        gsap.utils.toArray('.blog-card').forEach((c, i) => {
-            gsap.to(c, { scrollTrigger: { trigger: c, start: 'top 88%' }, opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', delay: i * 0.06 });
-        });
+        // Blog cards — animate all at once when section enters viewport
+        const blogSection = document.querySelector('.blog-preview') || document.querySelector('.blog-grid-wrap');
+        if (blogSection) {
+            gsap.utils.toArray('.blog-card').forEach((c, i) => {
+                gsap.to(c, { scrollTrigger: { trigger: blogSection, start: 'top 85%' }, opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', delay: i * 0.08 });
+            });
+        }
         // Blog CTA
         gsap.utils.toArray('.blog-cta').forEach(el => {
             gsap.to(el, { scrollTrigger: { trigger: el, start: 'top 92%' }, opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' });
