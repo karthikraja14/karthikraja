@@ -164,6 +164,11 @@ def generate_post_html(title, slug, category, read_time, description, body_html,
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="{title} | Karthik Raja V">
     <meta name="twitter:description" content="{description}">
+    <link rel="canonical" href="https://karthikraja.in/blog/{slug}.html">
+    <meta property="og:title" content="{title} | Karthik Raja V">
+    <meta property="og:description" content="{description}">
+    <meta property="og:url" content="https://karthikraja.in/blog/{slug}.html">
+    <meta property="og:type" content="article">
     <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -223,7 +228,7 @@ def add_to_sitemap(slug):
     sitemap_path = os.path.join(ROOT_DIR, 'sitemap.xml')
     with open(sitemap_path, 'r', encoding='utf-8') as f:
         content = f.read()
-    new_entry = f'  <url><loc>https://karthikraja.in/blog/{slug}.html</loc><priority>0.7</priority></url>\n'
+    new_entry = f'  <url>\n    <loc>https://karthikraja.in/blog/{slug}.html</loc>\n    <lastmod>{datetime.now().strftime("%Y-%m-%d")}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n  </url>\n'
     content = content.replace('</urlset>', new_entry + '</urlset>')
     with open(sitemap_path, 'w', encoding='utf-8') as f:
         f.write(content)
