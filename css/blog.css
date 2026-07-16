@@ -277,6 +277,46 @@ a, a *, button, .btn, .nav-link, .blog-read-more, .filter-btn, .blog-back-link, 
     color: var(--accent-light);
 }
 
+/* Blog Related Posts */
+.blog-related {
+    max-width: 720px;
+    margin: 48px auto 0;
+    padding: 32px 24px;
+    border-top: 1px solid var(--border);
+}
+
+.blog-related h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+}
+
+.blog-related ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.blog-related li {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.blog-related a {
+    color: var(--accent, #c9a84c);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.blog-related a:hover {
+    color: var(--accent-light, #e8cc6e);
+}
+
 /* Blog Post Navigation (Prev/Next) */
 .blog-post-nav {
     display: flex;

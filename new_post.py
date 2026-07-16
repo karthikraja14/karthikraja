@@ -175,6 +175,20 @@ def generate_post_html(title, slug, category, read_time, description, body_html,
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/blog.css">
+    <script type="application/ld+json">
+    {{
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "{title}",
+      "description": "{description}",
+      "author": {{ "@type": "Person", "name": "Karthik Raja V", "url": "https://karthikraja.in" }},
+      "datePublished": "{now.strftime('%Y-%m-%d')}",
+      "dateModified": "{now.strftime('%Y-%m-%d')}",
+      "url": "https://karthikraja.in/blog/{slug}.html",
+      "publisher": {{ "@type": "Person", "name": "Karthik Raja V" }},
+      "mainEntityOfPage": {{ "@type": "WebPage", "@id": "https://karthikraja.in/blog/{slug}.html" }}
+    }}
+    </script>
 </head>
 <body>
     <nav class="nav" id="nav">
