@@ -161,14 +161,17 @@ def generate_post_html(title, slug, category, read_time, description, body_html,
     <meta name="theme-color" content="#08080a">
     <title>{title} | Karthik Raja V</title>
     <meta name="description" content="{description}">
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{title} | Karthik Raja V">
     <meta name="twitter:description" content="{description}">
+    <meta name="twitter:image" content="https://karthikraja.in/assets/og-image.png">
     <link rel="canonical" href="https://karthikraja.in/blog/{slug}.html">
+    <link rel="alternate" type="application/rss+xml" title="Karthik Raja V — Blog" href="https://karthikraja.in/blog/feed.xml">
     <meta property="og:title" content="{title} | Karthik Raja V">
     <meta property="og:description" content="{description}">
     <meta property="og:url" content="https://karthikraja.in/blog/{slug}.html">
     <meta property="og:type" content="article">
+    <meta property="og:image" content="https://karthikraja.in/assets/og-image.png">
     <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -186,6 +189,7 @@ def generate_post_html(title, slug, category, read_time, description, body_html,
       "dateModified": "{now.strftime('%Y-%m-%d')}",
       "url": "https://karthikraja.in/blog/{slug}.html",
       "publisher": {{ "@type": "Person", "name": "Karthik Raja V" }},
+      "image": "https://karthikraja.in/assets/og-image.png",
       "mainEntityOfPage": {{ "@type": "WebPage", "@id": "https://karthikraja.in/blog/{slug}.html" }}
     }}
     </script>
@@ -233,6 +237,7 @@ def generate_post_html(title, slug, category, read_time, description, body_html,
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="../js/blog.js"></script>
+    <script src="../js/analytics.js"></script>
 </body>
 </html>'''
 
@@ -247,6 +252,34 @@ def add_to_sitemap(slug):
     with open(sitemap_path, 'w', encoding='utf-8') as f:
         f.write(content)
     print(f'  + sitemap.xml updated')
+
+
+def add_to_feed(title, slug, description):
+    """Prepend the new post to blog/feed.xml (RSS)."""
+    feed_path = os.path.join(BLOG_DIR, 'feed.xml')
+    if not os.path.exists(feed_path):
+        return
+    with open(feed_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    pub_date = datetime.now().strftime('%a, %d %b %Y 00:00:00 +0000')
+    item = (
+        '    <item>\n'
+        f'      <title>{title}</title>\n'
+        f'      <link>https://karthikraja.in/blog/{slug}.html</link>\n'
+        f'      <guid isPermaLink="true">https://karthikraja.in/blog/{slug}.html</guid>\n'
+        f'      <description>{description}</description>\n'
+        f'      <pubDate>{pub_date}</pubDate>\n'
+        '    </item>\n\n'
+    )
+    # Refresh lastBuildDate and insert the newest item first
+    content = re.sub(r'<lastBuildDate>.*?</lastBuildDate>',
+                     f'<lastBuildDate>{pub_date}</lastBuildDate>', content, count=1)
+    marker = '</lastBuildDate>\n\n'
+    if marker in content:
+        content = content.replace(marker, marker + item, 1)
+    with open(feed_path, 'w', encoding='utf-8') as f:
+        f.write(content)
+    print(f'  + blog/feed.xml updated')
 
 
 def add_to_blog_listing(title, slug, category, description, month, year):
@@ -342,6 +375,9 @@ def main():
 
     # Update sitemap
     add_to_sitemap(slug)
+
+    # Update RSS feed
+    add_to_feed(title, slug, description)
 
     # Update blog listing
     add_to_blog_listing(title, slug, category, description, month, year)
