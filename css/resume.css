@@ -13,7 +13,7 @@
     --border: #d5d5d5;
     --accent: #c9a84c;
     --sidebar-bg: #f0f4f7;
-    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font: "Segoe UI Variable", "Aptos", "Helvetica Neue", sans-serif;
 }
 
 body {

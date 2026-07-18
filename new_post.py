@@ -7,9 +7,8 @@ Usage:
 It will ask you a few questions and generate:
 1. The full blog post HTML file in blog/
 2. Add it to blog/index.html listing
-3. Add it to the homepage blog carousel
-4. Update sitemap.xml
-5. Update prev/next navigation on adjacent posts
+3. Update sitemap.xml
+4. Update feed.xml
 
 Content format: Write your content in a simple text file or paste it inline.
 Use these markers for formatting:
@@ -27,6 +26,8 @@ import os
 import re
 import sys
 from datetime import datetime
+from email.utils import format_datetime
+from xml.etree import ElementTree
 
 BLOG_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'blog')
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -136,7 +137,8 @@ def content_to_html(content):
 
 def generate_post_html(title, slug, category, read_time, description, body_html, date_str, prev_post=None, next_post=None):
     """Generate the full blog post HTML."""
-    nav_html = '\n        <nav class="blog-post-nav">\n'
+    published_date = datetime.now().strftime('%Y-%m-%d')
+    nav_html = '\n        <nav class="blog-post-nav" aria-label="Article navigation">\n'
     if prev_post:
         nav_html += f'            <a href="{prev_post["file"]}" class="blog-nav-link prev">\n'
         nav_html += f'                <span class="blog-nav-dir">&larr; Previous</span>\n'
@@ -161,7 +163,7 @@ def generate_post_html(title, slug, category, read_time, description, body_html,
     <meta name="theme-color" content="#08080a">
     <title>{title} | Karthik Raja V</title>
     <meta name="description" content="{description}">
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{title} | Karthik Raja V">
     <meta name="twitter:description" content="{description}">
     <link rel="canonical" href="https://karthikraja.in/blog/{slug}.html">
@@ -169,21 +171,22 @@ def generate_post_html(title, slug, category, read_time, description, body_html,
     <meta property="og:description" content="{description}">
     <meta property="og:url" content="https://karthikraja.in/blog/{slug}.html">
     <meta property="og:type" content="article">
+    <meta property="og:image" content="https://karthikraja.in/assets/og-image.png">
+    <meta name="twitter:image" content="https://karthikraja.in/assets/og-image.png">
     <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="alternate" type="application/rss+xml" title="Karthik Raja V - Engineering Notes" href="../feed.xml">
+    <link rel="stylesheet" href="../css/home.css">
     <link rel="stylesheet" href="../css/blog.css">
     <script type="application/ld+json">
     {{
       "@context": "https://schema.org",
-      "@type": "Article",
+    "@type": "BlogPosting",
       "headline": "{title}",
       "description": "{description}",
       "author": {{ "@type": "Person", "name": "Karthik Raja V", "url": "https://karthikraja.in" }},
-      "datePublished": "{now.strftime('%Y-%m-%d')}",
-      "dateModified": "{now.strftime('%Y-%m-%d')}",
+    "datePublished": "{published_date}",
+    "dateModified": "{published_date}",
+    "image": "https://karthikraja.in/assets/og-image.png",
       "url": "https://karthikraja.in/blog/{slug}.html",
       "publisher": {{ "@type": "Person", "name": "Karthik Raja V" }},
       "mainEntityOfPage": {{ "@type": "WebPage", "@id": "https://karthikraja.in/blog/{slug}.html" }}
@@ -191,32 +194,33 @@ def generate_post_html(title, slug, category, read_time, description, body_html,
     </script>
 </head>
 <body>
-    <nav class="nav" id="nav">
+    <a class="skip-link" href="#main-content">Skip to article</a>
+    <nav class="nav" id="nav" aria-label="Primary navigation">
         <div class="nav-container">
             <a href="/" class="nav-logo"><span class="logo-mark">KRV</span><span class="logo-text">Karthik Raja V</span></a>
             <div class="nav-links" id="navLinks">
                 <a href="/#about" class="nav-link">About</a>
-                <a href="/#journey" class="nav-link">Journey</a>
+                <a href="/#experience" class="nav-link">Experience</a>
                 <a href="/#products" class="nav-link">Products</a>
                 <a href="/blog/" class="nav-link">Blog</a>
                 <a href="/#contact" class="nav-link">Contact</a>
             </div>
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+            <button class="nav-toggle" id="navToggle" type="button" aria-label="Open navigation menu" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>
         </div>
     </nav>
 
-    <article class="blog-post">
-        <div class="blog-post-header" style="opacity:1;transform:none">
+    <article class="blog-post" id="main-content">
+        <header class="blog-post-header">
             <a href="/blog/" class="blog-back-link">&larr; Back to Blog</a>
-            <div class="blog-post-meta" style="opacity:1;transform:none">
+            <div class="blog-post-meta">
                 <span class="blog-tag">{category}</span>
                 <span class="blog-date">{date_str}</span>
                 <span class="blog-read-time">{read_time} min read</span>
             </div>
-            <h1 class="blog-post-title" style="opacity:1;transform:none">{title}</h1>
-        </div>
+            <h1 class="blog-post-title">{title}</h1>
+        </header>
 
-        <div class="blog-post-body" style="opacity:1;transform:none">
+        <div class="blog-post-body">
 {body_html}
         </div>
 {nav_html}
@@ -226,12 +230,10 @@ def generate_post_html(title, slug, category, read_time, description, body_html,
         <div class="container">
             <div class="footer-bottom">
                 <p>&copy; {datetime.now().year} Karthik Raja V. All rights reserved.</p>
-                <p class="footer-made">Engineered in India with care.</p>
+                <p class="footer-policy"><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a></p>
             </div>
         </div>
     </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="../js/blog.js"></script>
 </body>
 </html>'''
@@ -249,18 +251,44 @@ def add_to_sitemap(slug):
     print(f'  + sitemap.xml updated')
 
 
+def add_to_feed(title, slug, description):
+    """Add the new post to the RSS feed using structured XML."""
+    feed_path = os.path.join(ROOT_DIR, 'feed.xml')
+    ElementTree.register_namespace('atom', 'http://www.w3.org/2005/Atom')
+    tree = ElementTree.parse(feed_path)
+    channel = tree.getroot().find('channel')
+    if channel is None:
+        raise ValueError('feed.xml is missing its channel element')
+
+    published = format_datetime(datetime.now().astimezone())
+    channel.find('lastBuildDate').text = published
+    item = ElementTree.Element('item')
+    post_url = f'https://karthikraja.in/blog/{slug}.html'
+    ElementTree.SubElement(item, 'title').text = title
+    ElementTree.SubElement(item, 'link').text = post_url
+    ElementTree.SubElement(item, 'guid', {'isPermaLink': 'true'}).text = post_url
+    ElementTree.SubElement(item, 'pubDate').text = published
+    ElementTree.SubElement(item, 'description').text = description
+
+    first_item = next((index for index, child in enumerate(channel) if child.tag == 'item'), len(channel))
+    channel.insert(first_item, item)
+    ElementTree.indent(tree, space='  ')
+    tree.write(feed_path, encoding='UTF-8', xml_declaration=True)
+    print('  + feed.xml updated')
+
+
 def add_to_blog_listing(title, slug, category, description, month, year):
     """Add the new post to blog/index.html listing."""
     listing_path = os.path.join(BLOG_DIR, 'index.html')
     with open(listing_path, 'r', encoding='utf-8') as f:
         content = f.read()
 
-    new_card = f'''                <article class="blog-list-item" data-category="{category.lower()}" style="display:flex;gap:24px;padding:24px;border-radius:12px;transition:.3s">
-                    <div style="min-width:50px"><span style="font-family:var(--mono);font-weight:700;color:var(--t1)">{month}</span><br><span style="font-size:.75rem;color:var(--t3)">{year}</span></div>
+    new_card = f'''                <article class="blog-list-item" data-category="{category.lower()}">
+                    <div><span>{month}</span><br><span>{year}</span></div>
                     <div>
                         <div class="blog-meta"><span class="blog-tag">{category}</span></div>
-                        <h2 style="font-size:1.15rem;font-weight:700;margin:8px 0"><a href="{slug}.html">{title}</a></h2>
-                        <p style="font-size:.9rem;color:var(--t2)">{description}</p>
+                        <h2><a href="{slug}.html">{title}</a></h2>
+                        <p>{description}</p>
                     </div>
                 </article>
 '''
@@ -345,6 +373,9 @@ def main():
 
     # Update blog listing
     add_to_blog_listing(title, slug, category, description, month, year)
+
+    # Update RSS feed
+    add_to_feed(title, slug, description)
 
     print(f'\n  Done! Your post is ready at blog/{slug}.html')
     print(f'  Remember to: git add -A && git commit -m "New post: {title}" && git push\n')

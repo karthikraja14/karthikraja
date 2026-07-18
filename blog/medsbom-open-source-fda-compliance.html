@@ -3,229 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedSBOM — I Built the Missing Open-Source FDA Compliance Tool | Karthik Raja V</title>
-    <meta name="description" content="How I built and shipped MedSBOM — a free, open-source tool that turns raw SBOM scans into FDA-submission-ready documentation in seconds, not weeks.">
+    <meta name="theme-color" content="#0b0d0d">
+    <title>MedSBOM: Building an Open-Source FDA Compliance Tool | Karthik Raja V</title>
+    <meta name="description" content="How MedSBOM turns CycloneDX and SPDX data into draft vulnerability-review and medical-device cybersecurity documentation workflows.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://karthikraja.in/blog/medsbom-open-source-fda-compliance.html">
-    <meta property="og:title" content="MedSBOM — I Built the Missing Open-Source FDA Compliance Tool | Karthik Raja V">
-    <meta property="og:description" content="How I built and shipped MedSBOM — a free, open-source tool that turns raw SBOM scans into FDA-submission-ready documentation in seconds, not weeks.">
-    <meta property="og:url" content="https://karthikraja.in/blog/medsbom-open-source-fda-compliance.html">
     <meta property="og:type" content="article">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="MedSBOM — Open-Source FDA Compliance Tool | Karthik Raja V">
-    <meta name="twitter:description" content="How I built and shipped MedSBOM — a free, open-source tool that turns raw SBOM scans into FDA-submission-ready documentation in seconds, not weeks.">
+    <meta property="og:title" content="MedSBOM: Building an Open-Source FDA Compliance Tool">
+    <meta property="og:description" content="The engineering decisions behind an open-source compliance layer for medical-device SBOM workflows.">
+    <meta property="og:url" content="https://karthikraja.in/blog/medsbom-open-source-fda-compliance.html">
+    <meta property="og:image" content="https://karthikraja.in/assets/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MedSBOM: Building an Open-Source FDA Compliance Tool">
+    <meta name="twitter:description" content="From raw SBOM data to structured vulnerability-review and regulatory documentation workflows.">
+    <meta name="twitter:image" content="https://karthikraja.in/assets/og-image.png">
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/blog.css">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Article",
-      "headline": "MedSBOM — I Built the Missing Open-Source FDA Compliance Tool",
-      "description": "How I built and shipped MedSBOM — a free, open-source tool that turns raw SBOM scans into FDA-submission-ready documentation in seconds, not weeks.",
-      "author": { "@type": "Person", "name": "Karthik Raja V", "url": "https://karthikraja.in" },
+      "@type": "BlogPosting",
+      "headline": "MedSBOM: Building an Open-Source FDA Compliance Tool",
+      "description": "How MedSBOM turns CycloneDX and SPDX data into draft vulnerability-review and medical-device cybersecurity documentation workflows.",
+      "image": "https://karthikraja.in/assets/og-image.png",
+      "author": { "@type": "Person", "name": "Karthik Raja V", "url": "https://karthikraja.in/" },
       "datePublished": "2026-07-15",
-      "dateModified": "2026-07-15",
-      "url": "https://karthikraja.in/blog/medsbom-open-source-fda-compliance.html",
-      "publisher": { "@type": "Person", "name": "Karthik Raja V" },
-      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://karthikraja.in/blog/medsbom-open-source-fda-compliance.html" }
+      "dateModified": "2026-07-16",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://karthikraja.in/blog/medsbom-open-source-fda-compliance.html" },
+      "publisher": { "@type": "Person", "name": "Karthik Raja V" }
     }
     </script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #e0e0e0; line-height: 1.8; }
-        .blog-nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #1a1a1a; padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
-        .blog-nav a { color: #e0e0e0; text-decoration: none; font-weight: 600; }
-        .blog-nav .nav-links a { margin-left: 2rem; font-weight: 400; opacity: 0.7; transition: opacity 0.3s; }
-        .blog-nav .nav-links a:hover { opacity: 1; }
-        .blog-header { padding: 8rem 2rem 4rem; max-width: 800px; margin: 0 auto; }
-        .blog-header .back-link { color: #666; text-decoration: none; font-size: 0.9rem; display: inline-block; margin-bottom: 2rem; }
-        .blog-header .back-link:hover { color: #fff; }
-        .blog-meta { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; font-size: 0.85rem; color: #888; }
-        .blog-meta .tag { background: #1a3a2a; color: #4ade80; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
-        h1 { font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; background: linear-gradient(135deg, #fff, #ccc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .blog-content { max-width: 800px; margin: 0 auto; padding: 0 2rem 4rem; }
-        .blog-content h2 { font-size: 1.6rem; font-weight: 700; margin: 3rem 0 1rem; color: #fff; }
-        .blog-content h3 { font-size: 1.2rem; font-weight: 600; margin: 2rem 0 0.8rem; color: #ddd; }
-        .blog-content p { margin-bottom: 1.5rem; color: #ccc; }
-        .blog-content a { color: #60a5fa; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.3s; }
-        .blog-content a:hover { border-bottom-color: #60a5fa; }
-        .blog-content ul, .blog-content ol { margin: 1rem 0 1.5rem 1.5rem; color: #ccc; }
-        .blog-content li { margin-bottom: 0.5rem; }
-        .blog-content code { background: #1a1a2e; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.9rem; color: #a5b4fc; }
-        .blog-content pre { background: #111; border: 1px solid #222; border-radius: 8px; padding: 1.5rem; overflow-x: auto; margin: 1.5rem 0; }
-        .blog-content pre code { background: none; padding: 0; color: #e0e0e0; }
-        .blog-content blockquote { border-left: 3px solid #4ade80; padding: 1rem 1.5rem; margin: 2rem 0; background: #0d1f15; border-radius: 0 8px 8px 0; font-style: italic; color: #a0a0a0; }
-        .highlight-box { background: linear-gradient(135deg, #1a1a2e, #0d1f15); border: 1px solid #2a2a3e; border-radius: 12px; padding: 2rem; margin: 2rem 0; }
-        .highlight-box h3 { margin-top: 0; color: #4ade80; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 2rem 0; }
-        .stat-card { background: #111; border: 1px solid #222; border-radius: 8px; padding: 1.2rem; text-align: center; }
-        .stat-card .number { font-size: 1.8rem; font-weight: 800; color: #4ade80; }
-        .stat-card .label { font-size: 0.8rem; color: #888; margin-top: 0.3rem; }
-        .cta-box { background: #111; border: 1px solid #333; border-radius: 12px; padding: 2rem; margin: 3rem 0; text-align: center; }
-        .cta-box a { display: inline-block; background: #4ade80; color: #000; font-weight: 700; padding: 0.8rem 2rem; border-radius: 8px; text-decoration: none; margin: 0.5rem; border: none; transition: transform 0.2s; }
-        .cta-box a:hover { transform: translateY(-2px); border: none; }
-        .cta-box a.secondary { background: transparent; border: 1px solid #4ade80; color: #4ade80; }
-        table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
-        th, td { padding: 0.8rem 1rem; text-align: left; border-bottom: 1px solid #222; }
-        th { color: #4ade80; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; }
-        td { color: #ccc; }
-        .footer { text-align: center; padding: 3rem; border-top: 1px solid #1a1a1a; color: #666; font-size: 0.85rem; }
-        @media (max-width: 640px) { h1 { font-size: 1.8rem; } .stats-grid { grid-template-columns: repeat(2, 1fr); } }
-    </style>
 </head>
 <body>
-    <nav class="blog-nav">
-        <a href="https://karthikraja.in/">KRV Karthik Raja V</a>
-        <div class="nav-links">
-            <a href="https://karthikraja.in/#about">About</a>
-            <a href="https://karthikraja.in/#journey">Journey</a>
-            <a href="https://karthikraja.in/#products">Products</a>
-            <a href="https://karthikraja.in/blog/">Blog</a>
-            <a href="https://karthikraja.in/#contact">Contact</a>
+    <a class="skip-link" href="#main-content">Skip to article</a>
+    <nav class="nav" id="nav" aria-label="Primary navigation">
+        <div class="nav-container">
+            <a href="/" class="nav-logo"><span class="logo-mark" aria-hidden="true">KR</span><span class="logo-text">Karthik Raja V</span></a>
+            <div class="nav-links" id="navLinks">
+                <a href="/#about" class="nav-link">About</a>
+                <a href="/#experience" class="nav-link">Experience</a>
+                <a href="/#products" class="nav-link">Products</a>
+                <a href="/blog/" class="nav-link">Blog</a>
+                <a href="/#contact" class="nav-link">Contact</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" type="button" aria-label="Open navigation menu" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>
         </div>
     </nav>
 
-    <header class="blog-header">
-        <a href="https://karthikraja.in/blog/" class="back-link">← Back to Blog</a>
-        <div class="blog-meta">
-            <span class="tag">Launch</span>
-            <span>July 2026</span>
-            <span>10 min read</span>
-        </div>
-        <h1>MedSBOM — I Built the Missing Open-Source FDA Compliance Tool and Shipped It to PyPI</h1>
-    </header>
+    <article class="blog-post" id="main-content">
+        <header class="blog-post-header">
+            <a href="/blog/" class="blog-back-link">&larr; Back to Blog</a>
+            <div class="blog-post-meta">
+                <span class="blog-tag">Open source</span>
+                <time class="blog-date" datetime="2026-07-15">15 July 2026</time>
+                <span class="blog-read-time">9 min read</span>
+            </div>
+            <h1 class="blog-post-title">MedSBOM: Building an Open-Source FDA Compliance Tool</h1>
+        </header>
 
-    <article class="blog-content">
-        <p>
-            Medical device companies spend $50K–$200K per year on tools that translate vulnerability scans into FDA-acceptable documentation. Small teams with no budget? They spend 40–80 hours per device doing it manually in spreadsheets. I built the free alternative and shipped it in a day.
-        </p>
+        <div class="blog-post-body">
+            <p>SBOM scanners are good at listing components and vulnerabilities. Medical-device teams still have to turn that output into reviewable evidence, risk decisions, and documentation that fits their quality process. I built MedSBOM as an open-source layer for that translation work.</p>
 
-        <blockquote>
-            "One command. Audit-ready FDA docs in seconds. Free forever."
-        </blockquote>
+            <blockquote><p>One command should produce a traceable draft, not another spreadsheet to rebuild by hand.</p></blockquote>
 
-        <div class="stats-grid">
-            <div class="stat-card"><div class="number">206</div><div class="label">Tests Passing</div></div>
-            <div class="stat-card"><div class="number">99%</div><div class="label">Code Coverage</div></div>
-            <div class="stat-card"><div class="number">0</div><div class="label">Security Issues</div></div>
-            <div class="stat-card"><div class="number">3s</div><div class="label">Full Test Suite</div></div>
-        </div>
+            <div class="stats-grid" aria-label="MedSBOM release quality indicators">
+                <div class="stat-card"><div class="number">206</div><div class="label">Tests at launch</div></div>
+                <div class="stat-card"><div class="number">99%</div><div class="label">Reported coverage</div></div>
+                <div class="stat-card"><div class="number">0</div><div class="label">Bandit findings at launch</div></div>
+                <div class="stat-card"><div class="number">PyPI</div><div class="label">Public package</div></div>
+            </div>
 
-        <h2>The Problem I Solved</h2>
-        <p>
-            The FDA's 2023 cybersecurity guidance, the PATCH Act, and the 2026 QMSR transition all require device makers to maintain a Software Bill of Materials (SBOM), monitor components for vulnerabilities, and produce documented evidence of regular review per IEC 62304 §7.1.3.
-        </p>
-        <p>
-            Generic tools like Syft, Grype, and Trivy generate SBOMs and flag CVEs — but none of them speak the regulatory language. Teams manually translate raw scan output into FDA-shaped documentation. It's slow, expensive, and error-prone. Paid platforms (Ketryx, Cybellum, MedCrypt) charge enterprise prices to solve this.
-        </p>
-        <p>
-            <strong>There was no free, open-source project that closed this gap. Until now.</strong>
-        </p>
+            <h2>The gap</h2>
+            <p>Tools such as Syft, Grype, and Trivy can generate SBOMs or identify CVEs. Their output is deliberately general-purpose. A regulated product team still needs to record component context, vulnerability disposition, end-of-life status, review history, and the rationale behind risk decisions.</p>
+            <p>MedSBOM does not replace a quality system, regulatory review, or cybersecurity expertise. It creates structured drafts and an audit trail that teams can review inside those processes.</p>
 
-        <h2>What MedSBOM Does</h2>
-        <p>
-            MedSBOM is a thin compliance layer that sits on top of existing scanners and outputs FDA-submission-ready documents:
-        </p>
+            <h2>What the tool does</h2>
+            <pre><code># Analyze an SBOM for vulnerability and lifecycle context
+medsbom check firmware.sbom.json \
+  --device "Example Device" \
+  --device-version "2.3.1"
 
-        <pre><code># Check your device SBOM for vulnerabilities + EOL status
-medsbom check firmware.sbom.json --device "Insulin Pump" --device-version "2.3.1"
+# Generate supported documentation formats
+medsbom report firmware.sbom.json \
+  --format all \
+  --output ./review-package/</code></pre>
+            <p>The workflow can produce draft artifacts for:</p>
+            <ul>
+                <li>Premarket cybersecurity summary preparation</li>
+                <li>IEC 62304 SOUP-oriented component risk review</li>
+                <li>Timestamped vulnerability-review records</li>
+            </ul>
 
-# Generate all compliance documents in one command
-medsbom report firmware.sbom.json --format all --output ./fda-submission/</code></pre>
+            <h2>The processing pipeline</h2>
+            <div class="highlight-box">
+                <h3>Six explicit stages</h3>
+                <p><strong>1. Ingest:</strong> parse CycloneDX or SPDX JSON from an existing scanner.</p>
+                <p><strong>2. Match:</strong> correlate components with vulnerability and exploitation data.</p>
+                <p><strong>3. Lifecycle:</strong> add end-of-support context where sources provide it.</p>
+                <p><strong>4. Score:</strong> apply a documented, inspectable risk-scoring method.</p>
+                <p><strong>5. Render:</strong> generate reviewable document drafts from controlled templates.</p>
+                <p><strong>6. Record:</strong> append review activity to a local audit history.</p>
+            </div>
 
-        <p>This produces three audit-ready documents:</p>
-        <ul>
-            <li><strong>FDA Premarket Cybersecurity Summary</strong> — maps to the 2023 guidance structure</li>
-            <li><strong>IEC 62304 SOUP Risk Assessment</strong> — full component register with risk levels</li>
-            <li><strong>Vulnerability Review Log</strong> — timestamped evidence for auditors</li>
-        </ul>
+            <h2>Engineering decisions that matter</h2>
+            <table>
+                <thead><tr><th>Decision</th><th>Reason</th></tr></thead>
+                <tbody>
+                    <tr><td>Apache 2.0 license</td><td>Permissive use with an explicit patent grant.</td></tr>
+                    <tr><td>SQLite audit history</td><td>Portable local evidence without requiring hosted infrastructure.</td></tr>
+                    <tr><td>Network-blocked tests</td><td>Unit tests cannot silently depend on external APIs or rate limits.</td></tr>
+                    <tr><td>Transparent scoring</td><td>Reviewers can inspect how risk inputs influence the result.</td></tr>
+                    <tr><td>Disclaimer in generated output</td><td>The boundary between automation and accountable review remains explicit.</td></tr>
+                </tbody>
+            </table>
 
-        <h2>How It Works Under the Hood</h2>
+            <h2>A platform bug the tests exposed</h2>
+            <p>One failure came from treating an arbitrary JSON string as a possible file path. A long string could return <code>false</code> from <code>Path.exists()</code> on one platform and raise <code>OSError</code> on another. Detecting JSON content before attempting file operations made the behavior explicit and portable.</p>
+            <p>The broader lesson was equally useful: if a test suite can reach the public internet, a rate limit or outage will eventually turn a unit test into an integration test. MedSBOM blocks network access by default and mocks each permitted boundary intentionally.</p>
 
-        <div class="highlight-box">
-            <h3>The Engine Pipeline</h3>
-            <p><strong>1. Ingest</strong> → Parse CycloneDX or SPDX JSON (from Syft, Trivy, any scanner)</p>
-            <p><strong>2. CVE Match</strong> → Cross-reference against NVD API + CISA KEV (actively exploited vulns)</p>
-            <p><strong>3. EOL Check</strong> → Query endoflife.date for end-of-support dates</p>
-            <p><strong>4. Risk Score</strong> → Composite: CVSS severity × 0.5 + KEV flag × 0.3 + EOL proximity × 0.2</p>
-            <p><strong>5. Document Gen</strong> → Jinja2 templates render regulatory-formatted Markdown/PDF</p>
-            <p><strong>6. Audit Trail</strong> → Append-only SQLite with tamper-prevention triggers</p>
-        </div>
+            <h2>Trust boundaries</h2>
+            <ul>
+                <li>Generated documents are drafts for qualified human review.</li>
+                <li>Source-data accuracy determines output accuracy.</li>
+                <li>Vulnerability feeds can be incomplete, delayed, or revised.</li>
+                <li>Using the tool does not itself establish FDA, IEC 62304, or QMS compliance.</li>
+            </ul>
 
-        <h2>The Technical Decisions That Matter</h2>
-
-        <table>
-            <tr><th>Decision</th><th>Why</th></tr>
-            <tr><td>Apache 2.0 license</td><td>Patent grant — medtech legal teams are allergic to GPL</td></tr>
-            <tr><td>SQLite audit trail with UPDATE/DELETE triggers</td><td>Proves immutability for regulatory audits</td></tr>
-            <tr><td>Network blocker in test suite</td><td>No test can ever hit real APIs — caught a CI failure caused by NVD rate-limiting on GitHub Actions</td></tr>
-            <tr><td>JSON string detection before Path.exists()</td><td>Linux throws OSError on long strings; Windows silently returns False</td></tr>
-            <tr><td>Risk scoring formula is documented and transparent</td><td>Auditors need to understand HOW you scored risk, not just the result</td></tr>
-            <tr><td>Regulatory disclaimer in every generated document</td><td>This is a draft tool, not legal advice — trust boundary is explicit</td></tr>
-        </table>
-
-        <h2>The Shipping Journey</h2>
-        <p>Built and shipped in a single session:</p>
-        <ol>
-            <li>Scaffolded full project structure — CLI, API, core engine, templates, tests, Docker, CI</li>
-            <li>Wrote 206 tests covering positive, negative, and edge cases for every module</li>
-            <li>Ran Bandit security scan — zero findings across 1,462 lines</li>
-            <li>Fixed CI failures caused by Linux platform differences (Path handling, NVD rate limits)</li>
-            <li>Published to PyPI, created GitHub Release v0.1.0</li>
-        </ol>
-
-        <h2>What This Replaces</h2>
-        <table>
-            <tr><th>Without MedSBOM</th><th>With MedSBOM</th></tr>
-            <tr><td>40–80 hours per device per cycle</td><td>~2 minutes</td></tr>
-            <tr><td>$50K–$200K/year for paid tools</td><td>Free, forever</td></tr>
-            <tr><td>Manual CVE lookup + Excel</td><td>Automated NVD + KEV + EOL</td></tr>
-            <tr><td>No audit trail</td><td>Immutable, append-only log</td></tr>
-            <tr><td>Inconsistent document format</td><td>Standardized FDA/IEC templates</td></tr>
-        </table>
-
-        <h2>Who It's For</h2>
-        <ul>
-            <li>Small/mid medical device teams (no budget for Ketryx/Cybellum)</li>
-            <li>Open-source medical device projects (OpenAPS, Loop, imaging software)</li>
-            <li>Regulatory consultants demoing compliance quickly</li>
-            <li>Security researchers auditing device fleets</li>
-        </ul>
-
-        <h2>What I Learned</h2>
-        <p>
-            The hardest part wasn't the code — it was the platform differences. A single <code>Path(json_string).exists()</code> call works fine on Windows (returns False) but throws <code>OSError: File name too long</code> on Linux. Tests that accidentally make real HTTP requests pass locally but timeout on CI runners where NVD rate-limits aggressively.
-        </p>
-        <p>
-            The lesson: <strong>if your test suite can reach the internet, it will eventually fail in CI.</strong> Block all network access by default, mock explicitly.
-        </p>
-
-        <blockquote>
-            "The same rigor that ensures a medical device is safe for patients — risk-based thinking, documented evidence, shift-left verification — is exactly what makes a compliance tool trustworthy."
-        </blockquote>
-
-        <div class="cta-box">
-            <h3 style="color: #fff; margin-bottom: 1rem;">Try MedSBOM</h3>
-            <p style="color: #aaa; margin-bottom: 1.5rem;">Install in 10 seconds. Generate FDA docs in 2 minutes.</p>
-            <a href="https://pypi.org/project/medsbom/">Install from PyPI →</a>
-            <a href="https://github.com/karthikraja14/MedSBOM" class="secondary">View on GitHub →</a>
+            <h2>Try and inspect it</h2>
+            <div class="cta-box">
+                <h3>MedSBOM is public</h3>
+                <p>Review the source, tests, release notes, and package before deciding whether it fits your workflow.</p>
+                <a href="https://github.com/karthikraja14/MedSBOM" target="_blank" rel="noopener noreferrer">Source on GitHub&nbsp;&nearr;</a>
+                <a href="https://pypi.org/project/medsbom/" target="_blank" rel="noopener noreferrer">Package on PyPI&nbsp;&nearr;</a>
+            </div>
         </div>
 
-        <h2>Links</h2>
-        <ul>
-            <li><a href="https://pypi.org/project/medsbom/0.1.0/">PyPI Package — pip install medsbom</a></li>
-            <li><a href="https://github.com/karthikraja14/MedSBOM">GitHub Repository</a></li>
-            <li><a href="https://github.com/karthikraja14/MedSBOM/releases/tag/v0.1.0">Release v0.1.0</a></li>
-        </ul>
+        <aside class="blog-related" aria-labelledby="related-title">
+            <h3 id="related-title">Related posts</h3>
+            <ul>
+                <li><a href="pipeline-qualification.html">Pipeline Qualification</a> &mdash; applying evidence-based thinking to CI/CD infrastructure.</li>
+                <li><a href="ai-bug-analyzer.html">AI Bug Analyzer</a> &mdash; automating another high-friction engineering workflow.</li>
+                <li><a href="performance-testing-75k-devices.html">Performance Testing at 75K Devices</a> &mdash; designing trustworthy evidence at scale.</li>
+            </ul>
+        </aside>
 
-        <h2>Related Posts</h2>
-        <ul>
-            <li><a href="pipeline-qualification.html">Pipeline Qualification</a> — the same regulated-environment thinking applied to CI/CD infrastructure.</li>
-            <li><a href="ai-bug-analyzer.html">AI Bug Analyzer</a> — another automation tool that eliminates manual toil in engineering workflows.</li>
-            <li><a href="performance-testing-75k-devices.html">Performance Testing at 75K Devices</a> — building frameworks for scale in MedTech.</li>
-        </ul>
+        <nav class="blog-post-nav" aria-label="Article navigation">
+            <a href="ai-bug-analyzer.html" class="blog-nav-link next">
+                <span class="blog-nav-dir">Next&nbsp;&rarr;</span>
+                <span class="blog-nav-title">AI Bug Analyzer</span>
+            </a>
+        </nav>
     </article>
 
     <footer class="footer">
-        <p>© 2026 Karthik Raja V. All rights reserved.</p>
-        <p style="margin-top: 0.5rem;">Engineered in India with care.</p>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Karthik Raja V. All rights reserved.</p>
+                <p class="footer-policy"><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a></p>
+            </div>
+        </div>
     </footer>
+    <script src="../js/blog.js"></script>
 </body>
 </html>

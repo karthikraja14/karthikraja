@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Karthik Raja V - Engineering Notes</title>
+    <link>https://karthikraja.in/blog/</link>
+    <description>Writing about MedTech systems automation, test architecture, performance engineering, and product building.</description>
+    <language>en</language>
+    <lastBuildDate>Thu, 16 Jul 2026 00:00:00 +0530</lastBuildDate>
+    <atom:link href="https://karthikraja.in/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MedSBOM: Building an Open-Source FDA Compliance Tool</title>
+      <link>https://karthikraja.in/blog/medsbom-open-source-fda-compliance.html</link>
+      <guid isPermaLink="true">https://karthikraja.in/blog/medsbom-open-source-fda-compliance.html</guid>
+      <pubDate>Wed, 15 Jul 2026 00:00:00 +0530</pubDate>
+      <description>The engineering decisions behind an open-source compliance layer for medical-device SBOM workflows.</description>
+    </item>
+    <item>
+      <title>How I Built AI Bug Analyzer</title>
+      <link>https://karthikraja.in/blog/ai-bug-analyzer.html</link>
+      <guid isPermaLink="true">https://karthikraja.in/blog/ai-bug-analyzer.html</guid>
+      <pubDate>Wed, 15 Jul 2026 00:00:00 +0530</pubDate>
+      <description>A CI-integrated system for turning test failures into structured JIRA bugs.</description>
+    </item>
+    <item>
+      <title>How I Built a Performance Framework That Scales to 75K Devices</title>
+      <link>https://karthikraja.in/blog/performance-testing-75k-devices.html</link>
+      <guid isPermaLink="true">https://karthikraja.in/blog/performance-testing-75k-devices.html</guid>
+      <pubDate>Wed, 15 Jul 2026 00:00:00 +0530</pubDate>
+      <description>Realistic workload simulation, adaptive polling, and useful latency evidence at scale.</description>
+    </item>
+    <item>
+      <title>Pipeline Qualification: Making CI/CD Reports Trustworthy</title>
+      <link>https://karthikraja.in/blog/pipeline-qualification.html</link>
+      <guid isPermaLink="true">https://karthikraja.in/blog/pipeline-qualification.html</guid>
+      <pubDate>Wed, 15 Jul 2026 00:00:00 +0530</pubDate>
+      <description>Entry and exit criteria for regulated release decisions.</description>
+    </item>
+    <item>
+      <title>Why I Built Vystra Build</title>
+      <link>https://karthikraja.in/blog/why-i-built-vystra-build.html</link>
+      <guid isPermaLink="true">https://karthikraja.in/blog/why-i-built-vystra-build.html</guid>
+      <pubDate>Wed, 15 Jul 2026 00:00:00 +0530</pubDate>
+      <description>Applying MedTech engineering discipline to construction operations software.</description>
+    </item>
+    <item>
+      <title>Vision Beyond the OR: Post-Operative Recovery Companion</title>
+      <link>https://karthikraja.in/blog/vision-beyond-or.html</link>
+      <guid isPermaLink="true">https://karthikraja.in/blog/vision-beyond-or.html</guid>
+      <pubDate>Wed, 15 Jul 2026 00:00:00 +0530</pubDate>
+      <description>A patient recovery concept built at J&amp;J Hack4Health to surface escalation signals after surgery.</description>
+    </item>
+    <item>
+      <title>Building in Public: The Vystra Approach</title>
+      <link>https://karthikraja.in/blog/building-in-public.html</link>
+      <guid isPermaLink="true">https://karthikraja.in/blog/building-in-public.html</guid>
+      <pubDate>Wed, 15 Jul 2026 00:00:00 +0530</pubDate>
+      <description>Documenting product decisions, failures, architecture, and lessons as they happen.</description>
+    </item>
+  </channel>
+</rss>

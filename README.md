@@ -1,101 +1,88 @@
-# Karthik Raja V — Personal Website
+# Karthik Raja V - Personal Website
 
-> [karthikraja.in](https://karthikraja.in)
+[karthikraja.in](https://karthikraja.in) is a proof-led portfolio and engineering publication focused on regulated MedTech systems, test architecture, performance engineering, and product building.
 
-![Status](https://img.shields.io/badge/Status-Live-00b894?style=flat-square)
-![Deploy](https://img.shields.io/badge/Hosted%20on-GitHub%20Pages-222?style=flat-square&logo=github)
+Karthik has 10+ years in quality engineering and is joining Insulet Corporation as Manager, Systems Automation in August 2026.
 
-## About
+## What Is Here
 
-Personal portfolio, blog, and product showcase for Karthik Raja V — Manager, Systems Automation at Insulet Corporation. 10+ years in MedTech quality engineering, building software products under the Vystra brand.
+- Selected case studies with scope, methods, outcomes, and evidence boundaries
+- A career timeline spanning MedTech quality engineering and systems automation
+- MedSBOM and Vystra Build product work
+- Seven long-form engineering articles with an RSS feed
+- Visual and ATS-friendly resumes
+- Privacy, terms, structured data, social metadata, sitemap, and custom 404 pages
 
-### Highlights
+## Architecture
 
-- **Career timeline** — 5 companies across MedTech, from Biomedical Engineer to Systems Automation Manager
-- **6+ awards** — Recognition at J&J for performance engineering, automation, and validation leadership
-- **Hack4Health** — Vision Beyond the OR, a post-operative recovery companion built at J&J's healthcare hackathon
-- **Vystra Build** — Live construction management SaaS with 12+ modules
-- **5 blog posts** — Engineering deep-dives on performance testing, pipeline qualification, and building in public
+The site is intentionally small and resilient: semantic HTML, responsive CSS, and progressive JavaScript, hosted on GitHub Pages. Essential content has no framework, package manager, build step, analytics script, remote font, or CDN dependency.
 
-## Tech Stack
-
-Zero-dependency static site — no frameworks, no build tools, no npm.
-
-| Layer | Tech |
-|-------|------|
-| Markup | HTML5, semantic |
-| Styling | CSS3 custom properties, responsive grid |
-| Animation | GSAP 3 + ScrollTrigger (CDN) |
-| Fonts | Inter + JetBrains Mono (Google Fonts) |
-| Hosting | GitHub Pages with custom domain |
-| SEO | sitemap.xml, robots.txt, JSON-LD, Open Graph, Twitter cards |
+| Layer | Implementation |
+| --- | --- |
+| Markup | Semantic HTML5 and JSON-LD |
+| Styling | CSS custom properties, grid, and reduced-motion support |
+| Interaction | Dependency-free JavaScript with accessible ARIA state |
+| Discovery | Open Graph, Twitter cards, RSS, sitemap, and robots directives |
+| Hosting | GitHub Pages with a custom domain and HTTPS |
+| Validation | Zero-dependency Python checks and GitHub Actions |
 
 ## Project Structure
 
-```
-karthikraja/
-├── index.html                  # Main landing page
-├── resume.html                 # Visual resume
-├── resume-ats.html             # ATS-friendly resume
-├── privacy.html                # Privacy policy
-├── terms.html                  # Terms of service
-├── 404.html                    # Custom 404 page
-├── sitemap.xml                 # XML sitemap for SEO
-├── robots.txt                  # Crawler directives
-├── CNAME                       # Custom domain config
-├── .nojekyll                   # Disable Jekyll processing
-├── assets/
-│   ├── favicon.svg             # Geometric K monogram
-│   ├── og-image.svg            # Social sharing image
-│   └── karthik_resized.jpg     # Profile photo (optimised)
-├── blog/
-│   ├── index.html              # Blog listing with filters
-│   ├── performance-testing-75k-devices.html
-│   ├── pipeline-qualification.html
-│   ├── why-i-built-vystra-build.html
-│   ├── vision-beyond-or.html
-│   └── building-in-public.html
-├── css/
-│   ├── style.css               # Core styles + responsive
-│   ├── blog.css                # Blog page styles
-│   └── resume.css              # Resume page styles
-├── js/
-│   ├── animations.js           # GSAP animation engine
-│   └── blog.js                 # Blog animations + progress bar
-└── tools/
-    └── index.html              # JD Resume Tailor (private)
+```text
+.
+|-- index.html
+|-- resume.html
+|-- resume-ats.html
+|-- privacy.html
+|-- terms.html
+|-- 404.html
+|-- feed.xml
+|-- sitemap.xml
+|-- robots.txt
+|-- new_post.py
+|-- validate_site.py
+|-- assets/
+|   |-- favicon.svg
+|   |-- og-image.png
+|   `-- karthik_resized.jpg
+|-- blog/
+|   |-- index.html
+|   `-- seven article pages
+|-- css/
+|   |-- home.css
+|   |-- blog.css
+|   `-- resume.css
+|-- js/
+|   |-- home.js
+|   `-- blog.js
+`-- .github/workflows/site-quality.yml
 ```
 
 ## Local Development
 
-No build step required.
+No installation or build step is required.
 
-```bash
-# Python
+```powershell
 python -m http.server 8000
-
-# VS Code
-# Install "Live Server" extension → Right-click index.html → Open with Live Server
 ```
+
+Open `http://localhost:8000`. Run the same checks used in CI before publishing:
+
+```powershell
+python -m py_compile new_post.py validate_site.py
+python validate_site.py
+```
+
+The validator checks local links and assets, essential metadata, heading structure, duplicate IDs, JSON-LD syntax, accessible navigation state, external runtime dependencies, and future-role wording.
+
+## Publishing An Article
+
+```powershell
+python new_post.py
+```
+
+The generator creates the article and updates the blog listing, sitemap, and RSS feed. Review the generated copy and evidence claims before publishing.
 
 ## Deployment
 
-Hosted on **GitHub Pages** with custom domain `karthikraja.in`.
-
-Every push to `main` triggers automatic deployment.
-
-### DNS Setup (GoDaddy → GitHub Pages)
-
-| Type | Name | Value |
-|------|------|-------|
-| A | @ | `185.199.108.153` |
-| A | @ | `185.199.109.153` |
-| A | @ | `185.199.110.153` |
-| A | @ | `185.199.111.153` |
-| CNAME | www | `karthikraja14.github.io` |
-
-HTTPS enforced via GitHub Pages with auto-provisioned SSL.
-
----
-
-**Karthik Raja V** — Engineered in India with care.
+GitHub Pages deploys the `main` branch to the custom domain. Changes should pass the `Site quality` workflow before release.

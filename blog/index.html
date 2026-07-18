@@ -8,7 +8,7 @@
     <meta name="description" content="Thoughts on test engineering, product building, and the journey from idea to shipped product.">
     <meta name="robots" content="index, follow">
     
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Blog &mdash; Karthik Raja V">
     <meta name="twitter:description" content="Thoughts on test engineering, product building, and the journey from idea to shipped product.">
     <link rel="canonical" href="https://karthikraja.in/blog/">
@@ -16,28 +16,30 @@
     <meta property="og:description" content="Thoughts on test engineering, product building, and the journey from idea to shipped product.">
     <meta property="og:url" content="https://karthikraja.in/blog/">
     <meta property="og:type" content="website">
+    <meta property="og:image" content="https://karthikraja.in/assets/og-image.png">
+    <meta name="twitter:image" content="https://karthikraja.in/assets/og-image.png">
     <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="alternate" type="application/rss+xml" title="Karthik Raja V - Engineering Notes" href="../feed.xml">
+    <link rel="stylesheet" href="../css/home.css">
     <link rel="stylesheet" href="../css/blog.css">
 </head>
 <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <nav class="nav" id="nav">
         <div class="nav-container">
             <a href="/" class="nav-logo"><span class="logo-mark">KRV</span><span class="logo-text">Karthik Raja V</span></a>
             <div class="nav-links" id="navLinks">
                 <a href="/#about" class="nav-link">About</a>
-                <a href="/#journey" class="nav-link">Journey</a>
+                <a href="/#experience" class="nav-link">Experience</a>
                 <a href="/#products" class="nav-link">Products</a>
                 <a href="/blog/" class="nav-link">Blog</a>
                 <a href="/#contact" class="nav-link">Contact</a>
             </div>
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+            <button class="nav-toggle" id="navToggle" type="button" aria-label="Open navigation menu" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>
         </div>
     </nav>
 
+    <main id="main-content">
     <section class="blog-page-header">
         <div class="container">
             <div class="hero-badge" style="opacity:1;transform:none">
@@ -52,96 +54,83 @@
     <section class="blog-listing" style="padding:48px 0 100px">
         <div class="container">
             <div class="blog-filters">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="engineering">Engineering</button>
-                <button class="filter-btn" data-filter="launch">Launch</button>
-                <button class="filter-btn" data-filter="hackathon">Hackathon</button>
-                <button class="filter-btn" data-filter="product">Product</button>
+                <button class="filter-btn active" type="button" data-filter="all" aria-pressed="true">All</button>
+                <button class="filter-btn" type="button" data-filter="engineering" aria-pressed="false">Engineering</button>
+                <button class="filter-btn" type="button" data-filter="launch" aria-pressed="false">Launch</button>
+                <button class="filter-btn" type="button" data-filter="hackathon" aria-pressed="false">Hackathon</button>
+                <button class="filter-btn" type="button" data-filter="product" aria-pressed="false">Product</button>
             </div>
             <div class="blog-list">
-                <article class="blog-list-item" data-category="launch" style="display:flex;gap:24px;padding:24px;border-radius:12px;transition:.3s">
-                    <div style="min-width:50px"><span style="font-family:var(--mono);font-weight:700;color:var(--t1)">Jul</span><br><span style="font-size:.75rem;color:var(--t3)">2026</span></div>
+                <article class="blog-list-item" data-category="launch">
+                    <div><span>Jul</span><br><span>2026</span></div>
                     <div>
                         <div class="blog-meta"><span class="blog-tag">Launch</span></div>
-                        <h2 style="font-size:1.15rem;font-weight:700;margin:8px 0"><a href="medsbom-open-source-fda-compliance.html">MedSBOM &mdash; I Built the Missing Open-Source FDA Compliance Tool and Shipped It to PyPI</a></h2>
-                        <p style="font-size:.9rem;color:var(--t2)">How I built and shipped MedSBOM &mdash; a free, open-source tool that turns raw SBOM scans into FDA-submission-ready documentation in seconds, not weeks.</p>
+                        <h2><a href="medsbom-open-source-fda-compliance.html">MedSBOM &mdash; I Built the Missing Open-Source FDA Compliance Tool and Shipped It to PyPI</a></h2>
+                        <p>How I built and shipped MedSBOM &mdash; a free, open-source tool that turns raw SBOM scans into FDA-submission-ready documentation in seconds, not weeks.</p>
                     </div>
                 </article>
-                <article class="blog-list-item" data-category="engineering" style="display:flex;gap:24px;padding:24px;border-radius:12px;transition:.3s">
-                    <div style="min-width:50px"><span style="font-family:var(--mono);font-weight:700;color:var(--t1)">Jul</span><br><span style="font-size:.75rem;color:var(--t3)">2026</span></div>
+                <article class="blog-list-item" data-category="engineering">
+                    <div><span>Jul</span><br><span>2026</span></div>
                     <div>
                         <div class="blog-meta"><span class="blog-tag">Engineering</span></div>
-                        <h2 style="font-size:1.15rem;font-weight:700;margin:8px 0"><a href="ai-bug-analyzer.html">How I Built AI Bug Analyzer &mdash; From Test Failure to JIRA Bug in 60 Seconds</a></h2>
-                        <p style="font-size:.9rem;color:var(--t2)">An AI-powered system that turns failing Jenkins tests into fully-structured JIRA bugs automatically &mdash; 30&times; faster than manual triage.</p>
+                        <h2><a href="ai-bug-analyzer.html">How I Built AI Bug Analyzer &mdash; From Test Failure to JIRA Bug in 60 Seconds</a></h2>
+                        <p>An AI-powered system that turns failing Jenkins tests into fully-structured JIRA bugs automatically &mdash; 30&times; faster than manual triage.</p>
                     </div>
                 </article>
-                <article class="blog-list-item" data-category="engineering" style="display:flex;gap:24px;padding:24px;border-radius:12px;transition:.3s">
-                    <div style="min-width:50px"><span style="font-family:var(--mono);font-weight:700;color:var(--t1)">Jul</span><br><span style="font-size:.75rem;color:var(--t3)">2026</span></div>
+                <article class="blog-list-item" data-category="engineering">
+                    <div><span>Jul</span><br><span>2026</span></div>
                     <div>
                         <div class="blog-meta"><span class="blog-tag">Engineering</span></div>
-                        <h2 style="font-size:1.15rem;font-weight:700;margin:8px 0"><a href="performance-testing-75k-devices.html">How I Built a Performance Framework That Scales to 75K Devices</a></h2>
-                        <p style="font-size:.9rem;color:var(--t2)">A deep-dive into realistic workload simulation, adaptive polling, and 95% API reduction at scale.</p>
+                        <h2><a href="performance-testing-75k-devices.html">How I Built a Performance Framework That Scales to 75K Devices</a></h2>
+                        <p>A deep-dive into realistic workload simulation, adaptive polling, and 95% API reduction at scale.</p>
                     </div>
                 </article>
-                <article class="blog-list-item" data-category="engineering" style="display:flex;gap:24px;padding:24px;border-radius:12px;transition:.3s">
-                    <div style="min-width:50px"><span style="font-family:var(--mono);font-weight:700;color:var(--t1)">Jul</span><br><span style="font-size:.75rem;color:var(--t3)">2026</span></div>
+                <article class="blog-list-item" data-category="engineering">
+                    <div><span>Jul</span><br><span>2026</span></div>
                     <div>
                         <div class="blog-meta"><span class="blog-tag">Engineering</span></div>
-                        <h2 style="font-size:1.15rem;font-weight:700;margin:8px 0"><a href="pipeline-qualification.html">Pipeline Qualification: Making CI/CD Reports Trustworthy</a></h2>
-                        <p style="font-size:.9rem;color:var(--t2)">How I proved Jenkins pipeline reliability with entry/exit criteria for MedTech release decisions.</p>
+                        <h2><a href="pipeline-qualification.html">Pipeline Qualification: Making CI/CD Reports Trustworthy</a></h2>
+                        <p>How I proved Jenkins pipeline reliability with entry/exit criteria for MedTech release decisions.</p>
                     </div>
                 </article>
-                <article class="blog-list-item" data-category="launch" style="display:flex;gap:24px;padding:24px;border-radius:12px;transition:.3s">
-                    <div style="min-width:50px"><span style="font-family:var(--mono);font-weight:700;color:var(--t1)">Jul</span><br><span style="font-size:.75rem;color:var(--t3)">2026</span></div>
+                <article class="blog-list-item" data-category="launch">
+                    <div><span>Jul</span><br><span>2026</span></div>
                     <div>
                         <div class="blog-meta"><span class="blog-tag">Launch</span></div>
-                        <h2 style="font-size:1.15rem;font-weight:700;margin:8px 0"><a href="why-i-built-vystra-build.html">Why I Built Vystra Build &mdash; From Architect to Product Builder</a></h2>
-                        <p style="font-size:.9rem;color:var(--t2)">How MedTech discipline gave me the foundation to ship a construction management SaaS.</p>
+                        <h2><a href="why-i-built-vystra-build.html">Why I Built Vystra Build &mdash; From Architect to Product Builder</a></h2>
+                        <p>How MedTech discipline gave me the foundation to ship a construction management SaaS.</p>
                     </div>
                 </article>
-                <article class="blog-list-item" data-category="hackathon" style="display:flex;gap:24px;padding:24px;border-radius:12px;transition:.3s">
-                    <div style="min-width:50px"><span style="font-family:var(--mono);font-weight:700;color:var(--t1)">Jul</span><br><span style="font-size:.75rem;color:var(--t3)">2026</span></div>
+                <article class="blog-list-item" data-category="hackathon">
+                    <div><span>Jul</span><br><span>2026</span></div>
                     <div>
                         <div class="blog-meta"><span class="blog-tag">Hackathon</span></div>
-                        <h2 style="font-size:1.15rem;font-weight:700;margin:8px 0"><a href="vision-beyond-or.html">Vision Beyond the OR &mdash; Post-Operative Recovery Companion</a></h2>
-                        <p style="font-size:.9rem;color:var(--t2)">How I built a patient recovery platform at JNJ Hack4Health that surfaces escalation signals after surgery.</p>
+                        <h2><a href="vision-beyond-or.html">Vision Beyond the OR &mdash; Post-Operative Recovery Companion</a></h2>
+                        <p>How I built a patient recovery platform at JNJ Hack4Health that surfaces escalation signals after surgery.</p>
                     </div>
                 </article>
-                <article class="blog-list-item" data-category="engineering" style="display:flex;gap:24px;padding:24px;border-radius:12px;transition:.3s">
-                    <div style="min-width:50px"><span style="font-family:var(--mono);font-weight:700;color:var(--t1)">Jul</span><br><span style="font-size:.75rem;color:var(--t3)">2026</span></div>
+                <article class="blog-list-item" data-category="engineering">
+                    <div><span>Jul</span><br><span>2026</span></div>
                     <div>
                         <div class="blog-meta"><span class="blog-tag">Engineering</span></div>
-                        <h2 style="font-size:1.15rem;font-weight:700;margin:8px 0"><a href="building-in-public.html">Building in Public: The Vystra Approach</a></h2>
-                        <p style="font-size:.9rem;color:var(--t2)">Why I'm documenting every product I build &mdash; the decisions, the failures, the architecture.</p>
+                        <h2><a href="building-in-public.html">Building in Public: The Vystra Approach</a></h2>
+                        <p>Why I'm documenting every product I build &mdash; the decisions, the failures, the architecture.</p>
                     </div>
                 </article>
             </div>
         </div>
     </section>
+    </main>
 
     <footer class="footer">
         <div class="container">
             <div class="footer-bottom">
                 <p>&copy; 2026 Karthik Raja V. All rights reserved.</p>
-                <p class="footer-made">Engineered in India with care.</p>
+                <p class="footer-policy"><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a></p>
             </div>
         </div>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="../js/blog.js"></script>
-    <script>
-        document.querySelectorAll('.filter-btn').forEach(btn=>{
-            btn.addEventListener('click',()=>{
-                document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-                btn.classList.add('active');
-                const f=btn.dataset.filter;
-                document.querySelectorAll('.blog-list-item').forEach(item=>{
-                    item.style.display=(f==='all'||item.dataset.category===f)?'flex':'none';
-                });
-            });
-        });
-    </script>
 </body>
 </html>

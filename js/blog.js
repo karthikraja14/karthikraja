@@ -1,77 +1,52 @@
-/* Blog page animations - lightweight */
+document.documentElement.classList.add('js');
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Reading progress bar (only on individual post pages)
-    const postBody = document.querySelector('.blog-post-body');
-    if (postBody) {
-        const bar = document.createElement('div');
-        bar.className = 'reading-progress';
-        document.body.prepend(bar);
-        window.addEventListener('scroll', () => {
-            const rect = postBody.getBoundingClientRect();
-            const total = postBody.scrollHeight;
-            const scrolled = Math.max(0, -rect.top);
-            const pct = Math.min(100, (scrolled / (total - window.innerHeight)) * 100);
-            bar.style.width = pct + '%';
-        }, { passive: true });
+    const postBody = document.querySelector('.blog-post-body, .blog-content');
+    if (postBody && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const progress = document.createElement('div');
+        progress.className = 'reading-progress';
+        progress.setAttribute('aria-hidden', 'true');
+        document.body.prepend(progress);
+        const updateProgress = () => {
+            const max = document.documentElement.scrollHeight - window.innerHeight;
+            progress.style.width = `${max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0}%`;
+        };
+        updateProgress();
+        window.addEventListener('scroll', updateProgress, { passive: true });
     }
 
-    // Nav scroll
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-        nav.classList.toggle('scrolled', window.scrollY > 60);
-    }, { passive: true });
-
-    // Mobile nav
     const toggle = document.getElementById('navToggle');
     const links = document.getElementById('navLinks');
-    toggle.addEventListener('click', () => {
-        links.classList.toggle('open');
-        document.body.style.overflow = links.classList.contains('open') ? 'hidden' : '';
-    });
-    links.querySelectorAll('a').forEach(a => {
-        a.addEventListener('click', () => {
+    if (toggle && links) {
+        const closeMenu = () => {
             links.classList.remove('open');
-            document.body.style.overflow = '';
+            toggle.setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('nav-open');
+        };
+        toggle.addEventListener('click', () => {
+            const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+            toggle.setAttribute('aria-expanded', String(!isOpen));
+            links.classList.toggle('open', !isOpen);
+            document.body.classList.toggle('nav-open', !isOpen);
         });
-    });
-
-    // GSAP entrance animations
-    if (typeof gsap !== 'undefined') {
-        gsap.registerPlugin(ScrollTrigger);
-        
-        // Header entrance
-        gsap.from('.blog-page-header .hero-badge, .blog-page-header .section-title, .blog-page-header .section-desc', {
-            y: 40, opacity: 0, duration: 0.8, stagger: 0.15, ease: 'power3.out', delay: 0.2
-        });
-
-        gsap.from('.blog-back-link', {
-            x: -20, opacity: 0, duration: 0.6, ease: 'power3.out', delay: 0.2
-        });
-
-        gsap.from('.blog-post-title', {
-            y: 40, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.3
-        });
-
-        gsap.from('.blog-post-body > *', {
-            y: 30, opacity: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out',
-            scrollTrigger: { trigger: '.blog-post-body', start: 'top 80%' }
-        });
-
-        // Blog list items - use set+from pattern to avoid stuck invisible state
-        gsap.utils.toArray('.blog-list-item').forEach((item, i) => {
-            gsap.set(item, { opacity: 1, y: 0 });
-            gsap.from(item, {
-                y: 40, opacity: 0, duration: 0.6, delay: 0.1 + i * 0.1,
-                ease: 'power3.out',
-                clearProps: 'all'
-            });
-        });
-
-        // Filter buttons
-        gsap.set('.filter-btn', { opacity: 1, scale: 1 });
-        gsap.from('.filter-btn', {
-            scale: 0.8, opacity: 0, duration: 0.4, stagger: 0.05,
-            ease: 'back.out(1.4)', delay: 0.3
+        links.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') { closeMenu(); toggle.focus(); }
         });
     }
+
+    document.querySelectorAll('.filter-btn').forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.classList.contains('active')));
+        button.addEventListener('click', () => {
+            const filter = button.dataset.filter;
+            document.querySelectorAll('.filter-btn').forEach((item) => {
+                const active = item === button;
+                item.classList.toggle('active', active);
+                item.setAttribute('aria-pressed', String(active));
+            });
+            document.querySelectorAll('.blog-list-item').forEach((item) => {
+                item.hidden = filter !== 'all' && item.dataset.category !== filter;
+            });
+        });
+    });
 });

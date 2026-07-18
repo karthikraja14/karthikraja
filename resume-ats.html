@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Karthik Raja V - ATS Resume</title>
+    <meta name="description" content="ATS-friendly resume for Karthik Raja V, a MedTech systems automation and quality engineering leader.">
     <meta name="robots" content="noindex">
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <style>
@@ -95,17 +96,6 @@
     </style>
 </head>
 <body>
-    <!-- Password Gate -->
-    <div id="atsGate" style="display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:16px;background:#e8e8e8;font-family:'Segoe UI',sans-serif">
-        <h2 style="color:#1a5276;font-size:1.1rem">ATS Resume &mdash; Enter Access Code</h2>
-        <input type="password" id="atsPwd" placeholder="Access code" onkeydown="if(event.key==='Enter')unlockAts()" style="padding:12px 20px;border:1px solid #ccc;border-radius:8px;font-size:1rem;width:260px;text-align:center">
-        <button onclick="unlockAts()" style="padding:10px 28px;background:#c9a84c;color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:.9rem">Enter</button>
-        <div id="atsErr" style="color:#e74c3c;font-size:.85rem;display:none">Wrong code.</div>
-        <a href="/" style="color:#888;font-size:.8rem;margin-top:8px;text-decoration:none">&larr; Back to Site</a>
-    </div>
-
-    <!-- Resume Content (hidden until unlocked) -->
-    <div id="atsContent" style="display:none">
     <!-- Print Controls -->
     <div class="print-bar no-print">
         <div class="print-bar-inner">
@@ -119,7 +109,7 @@
 
     <div class="resume">
         <h1>Karthik Raja V</h1>
-        <div class="title-line">Manager, Systems Automation | Test Architect</div>
+        <div class="title-line">MedTech Systems Automation Leader | Test Architect</div>
         <div class="contact-line">
             <a href="mailto:karthikoff10@gmail.com">karthikoff10@gmail.com</a> &nbsp;|&nbsp;
             <a href="https://www.linkedin.com/in/karthik-raja-624864b1/">linkedin.com/in/karthik-raja-624864b1</a> &nbsp;|&nbsp;
@@ -132,7 +122,7 @@
         <!-- PROFESSIONAL SUMMARY -->
         <h2>Professional Summary</h2>
         <p class="summary">
-            Manager, Systems Automation with 10+ years in healthcare and MedTech quality engineering. At Johnson &amp; Johnson, transformed Digital Surgery Platform testing from zero reliability to single-click execution across six teams (30+ engineers) on Azure cloud. Designed five platform-wide systems: unified Robot/pytest framework with CI, E2E performance testing scaling from 30 to 75,000+ concurrent devices, data platform test framework, automated daily reporting, and an AI Bug Analyser with CI + Jira integration. Drove shift-left testing, quality gates in CI pipelines, and test strategy ownership. Test coverage: 40% to 85%+. Cycle time: reduced 40%. Experienced in leading teams of SDETs for automated system-level Design Verification of FDA/ISO/IEC regulated medical devices.
+            MedTech systems automation leader with 10+ years in healthcare quality engineering and an incoming Manager role at Insulet Corporation starting August 2026. At Johnson &amp; Johnson, transformed Digital Surgery Platform testing from zero reliability to single-click execution across six teams (30+ engineers) on Azure cloud. Designed five platform-wide systems: unified Robot/pytest framework with CI, E2E performance testing scaling from 30 to 75,000+ concurrent devices, data platform test framework, automated daily reporting, and an AI Bug Analyser with CI + Jira integration. Drove shift-left testing, quality gates in CI pipelines, and test strategy ownership. Test coverage: 40% to 85%+. Cycle time: reduced 40%.
         </p>
 
         <!-- TECHNICAL SKILLS -->
@@ -149,15 +139,10 @@
         <!-- WORK EXPERIENCE -->
         <h2>Work Experience</h2>
 
-        <div class="job-header"><h3>Manager, Systems Automation</h3><span class="period">Aug 2026 &ndash; Present</span></div>
+        <div class="job-header"><h3>Incoming Manager, Systems Automation</h3><span class="period">Starting Aug 2026</span></div>
         <div class="company-line">Insulet Corporation</div>
         <ul>
-            <li>Lead a team of SDETs responsible for building automated verification frameworks for medical device system-level Design Verification, ensuring safety and effectiveness of products.</li>
-            <li>Develop, validate, and release automated test frameworks for formal verification leveraging existing frameworks and industry best practices across FDA/ISO/IEC regulated products.</li>
-            <li>Plan, prepare, and execute automated system-level tests for assigned projects during development and formal System Design Verification.</li>
-            <li>Drive continuous optimization of automated test processes using risk-based analysis and statistical methods to maximize test efficacy while minimizing testing time.</li>
-            <li>Oversee CI/CD integration for verification pipelines across multiple concurrent product initiatives, balancing competing needs for completion on time and budget.</li>
-            <li>Lead hiring, staffing, and team development decisions; conduct periodic evaluations, mentor new staff, and improve team effectiveness.</li>
+            <li>Joining in August 2026 to lead systems automation and automated system-level Design Verification for regulated medical-device products.</li>
         </ul>
 
         <div class="job-header"><h3>Lead Test Engineer</h3><span class="period">Mar 2023 &ndash; Jul 2026</span></div>
@@ -221,18 +206,8 @@
         <h2>Languages</h2>
         <p class="lang">English | Tamil | Hindi | Malayalam</p>
     </div>
-    </div><!-- end #atsContent -->
 
     <script>
-        function unlockAts(){
-            var v=document.getElementById('atsPwd').value;
-            if(btoa(v)==='a2FydGhpazE0'){
-                document.getElementById('atsGate').style.display='none';
-                document.getElementById('atsContent').style.display='block';
-            } else {
-                document.getElementById('atsErr').style.display='block';
-            }
-        }
         if (window.location.hash === '#print') {
             setTimeout(() => window.print(), 500);
         }
