@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.registerPlugin(ScrollTrigger);
 
     const isMobile = window.innerWidth <= 768;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // ===== LENIS SMOOTH SCROLL — DISABLED (causes scroll delay) =====
     // Native browser scroll is faster and more responsive
@@ -18,7 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    if (isMobile) {
+    if (prefersReduced) {
+        // Reduced motion: skip the loader animation entirely
+        loaderTl.kill();
+        document.getElementById('loader').classList.add('done');
+        startPage();
+    } else if (isMobile) {
         // Fast loader on mobile
         loaderTl
             .to('.loader-logo', { opacity: 1, scale: 1, duration: 0.3 })
@@ -35,8 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startPage() {
         initNav();
-        if (isMobile) {
-            // Mobile: skip all heavy animations, just show content
+        if (isMobile || prefersReduced) {
+            // Mobile or reduced-motion: skip all heavy animations, just show content
             initMobileReveal();
             return;
         }
@@ -71,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.innerWidth < 768) return;
         const c = document.getElementById('cursor'), f = document.getElementById('cursorFollower');
         if (!c || !f) return;
+        document.body.classList.add('custom-cursor');
         let mx = 0, my = 0, fx = 0, fy = 0;
         document.addEventListener('mousemove', e => {
             mx = e.clientX; my = e.clientY;
@@ -267,6 +274,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function animateCounters() {
+        if (prefersReduced) {
+            document.querySelectorAll('.counter').forEach(el => { el.textContent = el.dataset.target; });
+            return;
+        }
         document.querySelectorAll('.counter').forEach(el => {
             const t = parseInt(el.dataset.target);
             gsap.to({ v: 0 }, {

@@ -3,6 +3,11 @@
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* Native cross-page view transitions + reduced-motion guard */
+@view-transition{navigation:auto}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.38s}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+
 :root {
     --primary: #1a5276;
     --primary-light: #2980b9;

@@ -8,6 +8,8 @@
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <style>
         /* ATS Resume - intentionally plain, single-column, no graphics */
+        @view-transition{navigation:auto}
+        @media (prefers-reduced-motion: reduce){::view-transition-old(root),::view-transition-new(root){animation:none!important}}
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
