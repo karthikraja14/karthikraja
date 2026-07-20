@@ -190,6 +190,50 @@ body{
 .reveal-up{opacity:0;transform:translateY(40px);transition:opacity .6s cubic-bezier(.4,0,.2,1),transform .6s cubic-bezier(.4,0,.2,1)}
 .reveal-up.in{opacity:1;transform:none}
 
+/* ---------- 7. Cursor spotlight ---------- */
+.cursor-spotlight{position:fixed;top:0;left:0;width:520px;height:520px;margin:-260px 0 0 -260px;
+    border-radius:50%;pointer-events:none;z-index:2;
+    background:radial-gradient(circle,rgba(201,168,76,.10),rgba(201,168,76,.05) 30%,transparent 62%);
+    mix-blend-mode:screen;will-change:transform}
+
+/* ---------- 8. Hero headline sheen + living gradient text ---------- */
+#heroName{background:linear-gradient(100deg,var(--t1) 28%,var(--accent2) 47%,#fff 52%,var(--t1) 70%);
+    background-size:220% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    animation:heroSheen 6.5s linear infinite}
+@keyframes heroSheen{to{background-position:-220% center}}
+.gradient-text{background-size:200% auto;animation:gtShimmer 7s linear infinite}
+@keyframes gtShimmer{to{background-position:200% center}}
+
+/* ---------- 9. Palette switcher ---------- */
+.palette-switch{position:fixed;right:18px;bottom:18px;z-index:9000;display:flex;gap:6px;
+    padding:6px;border:1px solid var(--bdr);border-radius:100px;background:rgba(19,19,22,.82);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.palette-switch button{width:22px;height:22px;border-radius:50%;border:1px solid var(--bdr2);
+    background:none;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;
+    transition:transform .2s,border-color .2s}
+.palette-switch button i{width:14px;height:14px;border-radius:50%;display:block}
+.palette-switch button[data-theme-set="gold"] i{background:radial-gradient(circle at 30% 30%,#e8cc6e,#c9a84c 60%,#0a0b0f)}
+.palette-switch button[data-theme-set="ink"] i{background:radial-gradient(circle at 30% 30%,#a5b8ff,#4a5bd6 55%,#0b0d18)}
+.palette-switch button:hover{transform:scale(1.12)}
+.palette-switch button.active{border-color:var(--accent2)}
+
+/* ---------- 10. MIDNIGHT INK theme variant ---------- */
+html[data-theme="ink"]{--teal:#6c8cff;--teal2:#a5b8ff;--ink:#0a0c16;--ink2:#0e1122;--glow:rgba(108,140,255,.10)}
+html[data-theme="ink"] body{
+    background:#0a0c16;
+    background-image:
+        radial-gradient(ellipse 72% 55% at 10% 6%,  rgba(201,168,76,.06) 0%, transparent 55%),
+        radial-gradient(ellipse 62% 50% at 90% 12%, rgba(108,140,255,.11) 0%, transparent 55%),
+        radial-gradient(ellipse 65% 55% at 85% 92%, rgba(140,120,255,.07) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 60% at 12% 96%, rgba(108,140,255,.06) 0%, transparent 55%),
+        linear-gradient(180deg,#0b0d1a 0%,#090b14 55%,#0b0d18 100%);
+}
+html[data-theme="ink"] .aurora-blob.a1{background:radial-gradient(circle,rgba(201,168,76,.15),transparent 68%)}
+html[data-theme="ink"] .aurora-blob.a2{background:radial-gradient(circle,rgba(108,140,255,.24),transparent 68%)}
+html[data-theme="ink"] .aurora-blob.a3{background:radial-gradient(circle,rgba(140,120,255,.17),transparent 70%)}
+html[data-theme="ink"] .hero-glow-2{background:#6c8cff!important}
+html[data-theme="ink"] .cursor-spotlight{background:radial-gradient(circle,rgba(120,150,255,.11),rgba(120,150,255,.05) 30%,transparent 62%)}
+
 /* ---------- Responsive ---------- */
 @media(max-width:1024px){
     .bento-grid{grid-template-columns:repeat(2,1fr)}
@@ -215,4 +259,6 @@ body{
     .manifesto.js-reveal .manifesto-text .word{opacity:1;color:var(--t1);filter:none}
     .aurora-blob{animation:none}
     .bento-live::before{animation:none}
+    #heroName,.gradient-text{animation:none}
+    .cursor-spotlight{display:none}
 }
