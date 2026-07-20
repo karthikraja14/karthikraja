@@ -24,6 +24,7 @@
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/enhance.css">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -42,6 +43,9 @@
     </script>
 </head>
 <body>
+    <!-- Scroll progress -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
     <!-- Cursor -->
     <div class="cursor" id="cursor"></div>
     <div class="cursor-follower" id="cursorFollower"></div>
@@ -68,6 +72,7 @@
                 <a href="#about" class="nav-link">About</a>
                 <a href="#journey" class="nav-link">Journey</a>
                 <a href="#awards" class="nav-link">Awards</a>
+                <a href="#impact" class="nav-link">Impact</a>
                 <a href="#products" class="nav-link">Products</a>
                 <a href="#skills" class="nav-link">Skills</a>
                 <a href="blog/" class="nav-link">Blog</a>
@@ -135,6 +140,20 @@
     <div class="section-divider divider-blueprint">
         <svg viewBox="0 0 1200 80" preserveAspectRatio="none"><path class="divider-path" d="M0,80 L200,40 L400,60 L600,20 L800,50 L1000,30 L1200,80" fill="none" stroke="rgba(201,168,76,0.15)" stroke-width="1"/><path class="divider-path" d="M0,60 L300,30 L500,50 L700,10 L900,40 L1200,60" fill="none" stroke="rgba(201,168,76,0.1)" stroke-width="1"/></svg>
     </div>
+
+    <!-- ====== MANIFESTO (scroll reveal) ====== -->
+    <section class="manifesto" id="manifesto">
+        <div class="container">
+            <span class="manifesto-eyebrow">The Philosophy</span>
+            <p class="manifesto-text">
+                <span class="word">For</span> <span class="word">a</span> <span class="word">decade</span> <span class="word">I've</span> <span class="word">engineered</span> <span class="word accent">trust</span> <span class="word">into</span> <span class="word">systems</span> <span class="word">that</span> <span class="word accent">lives</span> <span class="word">depend</span> <span class="word">on.</span> <span class="word">Now</span> <span class="word">that</span> <span class="word">same</span> <span class="word">discipline</span> <span class="word">ships</span> <span class="word accent">products</span> <span class="word">people</span> <span class="word">rely</span> <span class="word">on</span> <span class="word">every</span> <span class="word">day.</span> <span class="word">I</span> <span class="word">don't</span> <span class="word">chase</span> <span class="word">features</span> <span class="word">&mdash;</span> <span class="word">I</span> <span class="word">build</span> <span class="word">things</span> <span class="word">that</span> <span class="word">hold</span> <span class="word">up</span> <span class="word">under</span> <span class="word">pressure.</span>
+            </p>
+            <div class="manifesto-sign">
+                <span class="sign-line"></span>
+                <span>Karthik Raja V &bull; <strong>Systems Automation &rarr; Product Engineering</strong></span>
+            </div>
+        </div>
+    </section>
 
     <!-- ====== ABOUT ====== -->
     <section class="about" id="about">
@@ -432,6 +451,87 @@
                 </div>
                 <button class="blog-scroll-btn blog-scroll-right award-scroll-right" aria-label="Next awards">&rarr;</button>
             </div>
+
+            <!-- Endorsement wall -->
+            <div class="endorse reveal-up">
+                <div class="endorse-head">
+                    <span>Nominated By Leaders</span>
+                    <p>Recognition from engineers and leaders across Johnson &amp; Johnson MedTech</p>
+                </div>
+                <div class="marquee" style="--dur:38s">
+                    <div class="marquee-track">
+                        <div class="endorse-item"><span class="endorse-avatar">ES</span><span><span class="endorse-name">Eugene Sanin</span><br><span class="endorse-role">J&amp;J Digital Surgery</span></span></div>
+                        <div class="endorse-item"><span class="endorse-avatar">SS</span><span><span class="endorse-name">Sharath Srinivasan</span><br><span class="endorse-role">J&amp;J MedTech</span></span></div>
+                        <div class="endorse-item"><span class="endorse-avatar">SC</span><span><span class="endorse-name">Subramanian Chidambaram</span><br><span class="endorse-role">J&amp;J MedTech</span></span></div>
+                        <div class="endorse-item"><span class="endorse-avatar">PL</span><span><span class="endorse-name">Paul Leinster</span><br><span class="endorse-role">J&amp;J Digital Surgery</span></span></div>
+                        <div class="endorse-item"><span class="endorse-avatar">SL</span><span><span class="endorse-name">Sang Lee</span><br><span class="endorse-role">J&amp;J MedTech</span></span></div>
+                        <!-- duplicate for seamless loop -->
+                        <div class="endorse-item" aria-hidden="true"><span class="endorse-avatar">ES</span><span><span class="endorse-name">Eugene Sanin</span><br><span class="endorse-role">J&amp;J Digital Surgery</span></span></div>
+                        <div class="endorse-item" aria-hidden="true"><span class="endorse-avatar">SS</span><span><span class="endorse-name">Sharath Srinivasan</span><br><span class="endorse-role">J&amp;J MedTech</span></span></div>
+                        <div class="endorse-item" aria-hidden="true"><span class="endorse-avatar">SC</span><span><span class="endorse-name">Subramanian Chidambaram</span><br><span class="endorse-role">J&amp;J MedTech</span></span></div>
+                        <div class="endorse-item" aria-hidden="true"><span class="endorse-avatar">PL</span><span><span class="endorse-name">Paul Leinster</span><br><span class="endorse-role">J&amp;J Digital Surgery</span></span></div>
+                        <div class="endorse-item" aria-hidden="true"><span class="endorse-avatar">SL</span><span><span class="endorse-name">Sang Lee</span><br><span class="endorse-role">J&amp;J MedTech</span></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== IMPACT / BENTO ====== -->
+    <section class="impact" id="impact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">By the Numbers</span>
+                <h2 class="section-title">
+                    <span class="split-line"><span class="split-inner">Impact, <span class="gradient-text">Quantified</span></span></span>
+                </h2>
+                <p class="section-desc">A decade of engineering distilled into outcomes &mdash; the systems, the scale, and the products behind the numbers.</p>
+            </div>
+            <div class="bento-grid">
+                <div class="bento-cell bento-lg">
+                    <div class="bento-spot"></div>
+                    <span class="bento-tag">Career</span>
+                    <div>
+                        <div class="bento-kpi">10+</div>
+                        <h3 class="bento-title">Years in MedTech</h3>
+                        <p class="bento-desc">From biomedical engineer to Manager of Systems Automation &mdash; building verification frameworks for FDA/ISO/IEC-regulated medical devices at Insulet.</p>
+                    </div>
+                </div>
+                <div class="bento-cell" data-delay="60">
+                    <div class="bento-spot"></div>
+                    <span class="bento-tag">Scale</span>
+                    <div><div class="bento-kpi">75K</div><p class="bento-label">Devices simulated in a performance framework</p></div>
+                </div>
+                <div class="bento-cell" data-delay="120">
+                    <div class="bento-spot"></div>
+                    <span class="bento-tag">Coverage</span>
+                    <div><div class="bento-kpi">500+</div><p class="bento-label">Test cases authored across regulated platforms</p></div>
+                </div>
+                <div class="bento-cell bento-live" data-delay="180">
+                    <div class="bento-spot"></div>
+                    <span class="bento-live-dot"><i></i> Live</span>
+                    <div><div class="bento-kpi">12+</div><p class="bento-label">Modules shipped in Vystra Build SaaS</p></div>
+                </div>
+                <div class="bento-cell" data-delay="80">
+                    <div class="bento-spot"></div>
+                    <span class="bento-tag">Recognition</span>
+                    <div><div class="bento-kpi">6+</div><p class="bento-label">Awards at J&amp;J for quality &amp; performance engineering</p></div>
+                </div>
+                <div class="bento-cell bento-wide" data-delay="140">
+                    <div class="bento-spot"></div>
+                    <span class="bento-tag">Reliability signal</span>
+                    <div>
+                        <div class="bento-kpi">Zero</div>
+                        <p class="bento-label">Field-reported critical defects on firmware validations I owned &mdash; and a 2&times; platform performance gain from load testing.</p>
+                        <div class="bento-bars"><span></span><span></span><span></span><span></span><span></span></div>
+                    </div>
+                </div>
+                <div class="bento-cell" data-delay="100">
+                    <div class="bento-spot"></div>
+                    <span class="bento-tag">Efficiency</span>
+                    <div><div class="bento-kpi">40%</div><p class="bento-label">Faster root-cause analysis with automation</p></div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -552,6 +652,20 @@
                 <h2 class="section-title">
                     <span class="split-line"><span class="split-inner">What I <span class="gradient-text">Work With</span></span></span>
                 </h2>
+            </div>
+            <div class="tech-band" aria-hidden="true">
+                <div class="marquee" style="--dur:46s">
+                    <div class="marquee-track">
+                        <span class="marquee-item"><span class="mq-dot"></span>Python</span><span class="marquee-item"><span class="mq-dot"></span>Robot Framework</span><span class="marquee-item"><span class="mq-dot"></span>Pytest</span><span class="marquee-item"><span class="mq-dot"></span>Selenium</span><span class="marquee-item"><span class="mq-dot"></span>Jenkins</span><span class="marquee-item"><span class="mq-dot"></span>Azure DevOps</span><span class="marquee-item"><span class="mq-dot"></span>Docker</span><span class="marquee-item"><span class="mq-dot"></span>Kubernetes</span>
+                        <span class="marquee-item"><span class="mq-dot"></span>Python</span><span class="marquee-item"><span class="mq-dot"></span>Robot Framework</span><span class="marquee-item"><span class="mq-dot"></span>Pytest</span><span class="marquee-item"><span class="mq-dot"></span>Selenium</span><span class="marquee-item"><span class="mq-dot"></span>Jenkins</span><span class="marquee-item"><span class="mq-dot"></span>Azure DevOps</span><span class="marquee-item"><span class="mq-dot"></span>Docker</span><span class="marquee-item"><span class="mq-dot"></span>Kubernetes</span>
+                    </div>
+                </div>
+                <div class="marquee reverse" style="--dur:54s">
+                    <div class="marquee-track">
+                        <span class="marquee-item"><span class="mq-dot"></span>GitHub Actions</span><span class="marquee-item"><span class="mq-dot"></span>SonarQube</span><span class="marquee-item"><span class="mq-dot"></span>Cosmos DB</span><span class="marquee-item"><span class="mq-dot"></span>Databricks</span><span class="marquee-item"><span class="mq-dot"></span>GraphQL</span><span class="marquee-item"><span class="mq-dot"></span>BDD / Gherkin</span><span class="marquee-item"><span class="mq-dot"></span>REST Assured</span><span class="marquee-item"><span class="mq-dot"></span>Groovy</span>
+                        <span class="marquee-item"><span class="mq-dot"></span>GitHub Actions</span><span class="marquee-item"><span class="mq-dot"></span>SonarQube</span><span class="marquee-item"><span class="mq-dot"></span>Cosmos DB</span><span class="marquee-item"><span class="mq-dot"></span>Databricks</span><span class="marquee-item"><span class="mq-dot"></span>GraphQL</span><span class="marquee-item"><span class="mq-dot"></span>BDD / Gherkin</span><span class="marquee-item"><span class="mq-dot"></span>REST Assured</span><span class="marquee-item"><span class="mq-dot"></span>Groovy</span>
+                    </div>
+                </div>
             </div>
             <div class="skills-grid">
                 <div class="skill-group">
@@ -754,6 +868,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="js/animations.js"></script>
+    <script src="js/enhance.js"></script>
     <script src="js/analytics.js"></script>
 </body>
 </html>

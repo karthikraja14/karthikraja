@@ -1,0 +1,168 @@
+/* ==============================================================
+   ENHANCE.CSS  —  Framer-inspired premium layer
+   Scroll progress · Manifesto reveal · Marquees · Bento impact
+   Endorsement wall · Spotlight cards · Kinetic hover
+   Uses the design tokens already defined in style.css (:root)
+   ============================================================== */
+
+/* ---------- 1. Scroll progress bar ---------- */
+.scroll-progress{
+    position:fixed;top:0;left:0;height:3px;width:0;z-index:10001;pointer-events:none;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    box-shadow:0 0 14px rgba(201,168,76,.55);
+    transition:width .08s linear;
+}
+
+/* ---------- 2. Manifesto — word-by-word scroll reveal ---------- */
+.manifesto{padding:150px 0;border-top:1px solid var(--bdr);position:relative;overflow:hidden}
+.manifesto::before{
+    content:'';position:absolute;top:50%;left:50%;width:700px;height:700px;
+    transform:translate(-50%,-50%);border-radius:50%;
+    background:radial-gradient(circle,rgba(201,168,76,.06),transparent 60%);
+    filter:blur(40px);pointer-events:none;z-index:0;
+}
+.manifesto .container{max-width:1040px;position:relative;z-index:1}
+.manifesto-eyebrow{
+    display:inline-flex;align-items:center;gap:10px;margin-bottom:32px;
+    font-family:var(--mono);font-size:.76rem;font-weight:600;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--accent2);
+}
+.manifesto-eyebrow::before{content:'';width:32px;height:1px;background:linear-gradient(90deg,transparent,var(--accent2))}
+.manifesto-text{
+    font-size:clamp(1.5rem,3.6vw,2.85rem);font-weight:800;line-height:1.4;
+    letter-spacing:-.02em;color:var(--t1);
+}
+.manifesto-text .word{display:inline-block;transition:color .4s ease,opacity .4s ease,filter .4s ease}
+/* dim initial state applied only when JS is active */
+.manifesto.js-reveal .manifesto-text .word{color:var(--t3);opacity:.22;filter:blur(.3px)}
+.manifesto.js-reveal .manifesto-text .word.lit{color:var(--t1);opacity:1;filter:none}
+.manifesto.js-reveal .manifesto-text .word.accent.lit{
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.manifesto-sign{
+    margin-top:36px;display:flex;align-items:center;gap:12px;
+    font-family:var(--mono);font-size:.82rem;color:var(--t3);opacity:0;transform:translateY(14px);
+    transition:opacity .6s ease,transform .6s ease;
+}
+.manifesto-sign.in{opacity:1;transform:none}
+.manifesto-sign .sign-line{width:40px;height:1px;background:var(--bdr2)}
+.manifesto-sign strong{color:var(--accent2);font-weight:600}
+
+/* ---------- 3. Infinite marquee ---------- */
+.marquee{
+    --gap:1.4rem;--dur:44s;position:relative;overflow:hidden;user-select:none;padding:8px 0;
+    -webkit-mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);
+            mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);
+}
+.marquee-track{display:flex;gap:var(--gap);width:max-content;
+    animation:marqueeScroll var(--dur) linear infinite;will-change:transform}
+.marquee.reverse .marquee-track{animation-direction:reverse}
+.marquee:hover .marquee-track{animation-play-state:paused}
+@keyframes marqueeScroll{to{transform:translateX(calc(-50% - var(--gap)/2))}}
+.marquee-item{
+    display:inline-flex;align-items:center;gap:9px;flex-shrink:0;
+    padding:12px 22px;border:1px solid var(--bdr);border-radius:100px;
+    background:var(--card);color:var(--t2);font-size:.92rem;font-weight:600;white-space:nowrap;
+    transition:border-color .3s,color .3s,background .3s;
+}
+.marquee-item:hover{border-color:var(--accent);color:var(--t1);background:var(--glow)}
+.marquee-item .mq-dot{width:6px;height:6px;border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));flex-shrink:0}
+
+/* Tech band wrapper */
+.tech-band{padding:44px 0;border-top:1px solid var(--bdr);display:flex;flex-direction:column;gap:16px}
+
+/* ---------- 4. Bento impact grid ---------- */
+.impact{padding:120px 0;border-top:1px solid var(--bdr)}
+.bento-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    grid-auto-rows:minmax(150px,auto);gap:18px;
+}
+.bento-cell{
+    position:relative;overflow:hidden;border:1px solid var(--bdr);border-radius:var(--rl);
+    padding:28px;background:rgba(19,19,22,.72);backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    display:flex;flex-direction:column;justify-content:space-between;
+    opacity:0;transform:translateY(40px) scale(.98);
+    transition:border-color .4s,box-shadow .4s,transform .4s;
+}
+.bento-cell.in{opacity:1;transform:none}
+.bento-cell:hover{border-color:var(--bdr2);box-shadow:0 18px 50px rgba(0,0,0,.35)}
+.bento-cell .bento-spot{
+    position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;opacity:0;
+    background:radial-gradient(420px circle at var(--bx,50%) var(--by,50%),rgba(201,168,76,.09),transparent 45%);
+    transition:opacity .4s;
+}
+.bento-cell:hover .bento-spot{opacity:1}
+.bento-cell>*{position:relative;z-index:1}
+.bento-lg{grid-column:span 2;grid-row:span 2}
+.bento-wide{grid-column:span 2}
+.bento-kpi{font-size:clamp(2rem,4vw,3.2rem);font-weight:900;font-family:var(--mono);line-height:1;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.bento-label{font-size:.82rem;color:var(--t2);font-weight:500;margin-top:10px;line-height:1.5}
+.bento-tag{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--t3);margin-bottom:auto}
+.bento-lg .bento-title{font-size:1.35rem;font-weight:800;margin-bottom:8px}
+.bento-lg .bento-desc{font-size:.92rem;color:var(--t2);line-height:1.7}
+.bento-lg .bento-kpi{font-size:clamp(2.6rem,6vw,4.4rem)}
+/* live cell */
+.bento-live{border-color:rgba(201,168,76,.28)}
+.bento-live .bento-live-dot{display:inline-flex;align-items:center;gap:8px;
+    font-size:.74rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--accent2)}
+.bento-live-dot i{width:8px;height:8px;border-radius:50%;background:var(--green);
+    box-shadow:0 0 12px var(--green);animation:pulse 2s infinite;font-style:normal}
+/* mini equaliser bars in a bento cell */
+.bento-bars{display:flex;align-items:flex-end;gap:5px;height:44px;margin-top:14px}
+.bento-bars span{flex:1;background:linear-gradient(180deg,var(--accent2),var(--accent));border-radius:3px;
+    height:30%;animation:bentoBar 1.8s ease-in-out infinite}
+.bento-bars span:nth-child(2){animation-delay:.2s}
+.bento-bars span:nth-child(3){animation-delay:.4s}
+.bento-bars span:nth-child(4){animation-delay:.6s}
+.bento-bars span:nth-child(5){animation-delay:.8s}
+@keyframes bentoBar{0%,100%{height:25%}50%{height:90%}}
+
+/* ---------- 5. Endorsement wall (inside Awards) ---------- */
+.endorse{margin-top:56px;padding-top:40px;border-top:1px dashed var(--bdr)}
+.endorse-head{text-align:center;margin-bottom:24px}
+.endorse-head span{font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--accent2)}
+.endorse-head p{color:var(--t3);font-size:.86rem;margin-top:6px}
+.endorse-item{display:inline-flex;align-items:center;gap:12px;flex-shrink:0;
+    padding:12px 20px;border:1px solid var(--bdr);border-radius:14px;background:var(--card);white-space:nowrap}
+.endorse-avatar{width:34px;height:34px;border-radius:50%;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.82rem;
+    font-family:var(--mono);color:var(--bg);
+    background:linear-gradient(135deg,var(--accent),var(--accent2))}
+.endorse-name{font-size:.88rem;font-weight:600;color:var(--t1);line-height:1.2}
+.endorse-role{font-size:.72rem;color:var(--t3);line-height:1.3}
+
+/* ---------- 6. Reveal helper for generic new elements ---------- */
+.reveal-up{opacity:0;transform:translateY(40px);transition:opacity .6s cubic-bezier(.4,0,.2,1),transform .6s cubic-bezier(.4,0,.2,1)}
+.reveal-up.in{opacity:1;transform:none}
+
+/* ---------- Responsive ---------- */
+@media(max-width:1024px){
+    .bento-grid{grid-template-columns:repeat(2,1fr)}
+    .bento-lg{grid-column:span 2;grid-row:span 1}
+    .bento-wide{grid-column:span 2}
+}
+@media(max-width:768px){
+    .manifesto{padding:80px 0}
+    .manifesto.js-reveal .manifesto-text .word{opacity:1;color:var(--t1);filter:none} /* keep readable on mobile */
+    .manifesto-sign{opacity:1;transform:none}
+    .tech-band{padding:32px 0}
+    .marquee-item{padding:10px 16px;font-size:.84rem}
+    .impact{padding:70px 0}
+    .bento-grid{grid-template-columns:1fr;gap:14px}
+    .bento-lg,.bento-wide{grid-column:span 1}
+    .bento-cell{opacity:1;transform:none;padding:24px}
+    .reveal-up{opacity:1;transform:none}
+    .endorse-item{padding:10px 16px}
+}
+@media (prefers-reduced-motion: reduce){
+    .marquee-track{animation:none}
+    .bento-bars span{animation:none;height:60%}
+    .manifesto.js-reveal .manifesto-text .word{opacity:1;color:var(--t1);filter:none}
+}
