@@ -5,7 +5,55 @@
    Uses the design tokens already defined in style.css (:root)
    ============================================================== */
 
-/* ---------- 1. Scroll progress bar ---------- */
+/* ---------- 0. Refined color composition ---------- */
+:root{
+    /* complementary cool accent to the gold — used only in ambient + micro-accents */
+    --teal:#3fbfae;
+    --teal2:#74e3d2;
+    --ink:#0a0b0f;      /* dimensional near-black with a hint of cool depth */
+    --ink2:#0e0f14;
+}
+/* Dimensional, dual-tone base (overrides the flat black from style.css) */
+body{
+    background:var(--ink);
+    background-image:
+        radial-gradient(ellipse 72% 55% at 10% 6%,  rgba(201,168,76,.08) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 90% 12%, rgba(63,191,174,.05) 0%, transparent 55%),
+        radial-gradient(ellipse 65% 55% at 88% 92%, rgba(201,168,76,.05) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 60% at 15% 95%, rgba(63,191,174,.04) 0%, transparent 55%),
+        linear-gradient(180deg, #0b0c10 0%, #090a0d 55%, #0b0b0e 100%);
+    background-attachment:fixed;
+}
+
+/* Animated aurora — slow drifting ambient light behind all content */
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aurora-blob{position:absolute;border-radius:50%;filter:blur(120px);opacity:.5;mix-blend-mode:screen;will-change:transform}
+.aurora-blob.a1{width:52vw;height:52vw;top:-14vw;left:-10vw;
+    background:radial-gradient(circle,rgba(201,168,76,.22),transparent 68%);animation:auroraA 26s ease-in-out infinite}
+.aurora-blob.a2{width:46vw;height:46vw;top:18vh;right:-14vw;
+    background:radial-gradient(circle,rgba(63,191,174,.16),transparent 68%);animation:auroraB 32s ease-in-out infinite}
+.aurora-blob.a3{width:44vw;height:44vw;bottom:-16vw;left:22vw;
+    background:radial-gradient(circle,rgba(201,168,76,.13),transparent 70%);animation:auroraC 38s ease-in-out infinite}
+@keyframes auroraA{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(9vw,7vh) scale(1.15)}}
+@keyframes auroraB{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-8vw,5vh) scale(1.1)}}
+@keyframes auroraC{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(6vw,-6vh) scale(1.18)}}
+
+/* Dual-tone the hero ambient glow (second glow becomes cool teal) */
+.hero-glow-2{background:var(--teal)!important}
+
+/* Give the reverse tech-marquee dots the cool accent for a two-tone rhythm */
+.marquee.reverse .mq-dot{background:linear-gradient(135deg,var(--teal),var(--teal2))}
+
+/* Animated conic gradient border on the live bento cell */
+@property --bdAngle{syntax:'<angle>';inherits:false;initial-value:0deg}
+.bento-live{position:relative}
+.bento-live::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;z-index:0;
+    background:conic-gradient(from var(--bdAngle),var(--accent),var(--teal),var(--accent2),var(--accent));
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;opacity:.6;animation:spinBorder 6s linear infinite}
+@keyframes spinBorder{to{--bdAngle:360deg}}
+
+/* 1. Scroll progress bar ---------- */
 .scroll-progress{
     position:fixed;top:0;left:0;height:3px;width:0;z-index:10001;pointer-events:none;
     background:linear-gradient(90deg,var(--accent),var(--accent2));
@@ -165,4 +213,6 @@
     .marquee-track{animation:none}
     .bento-bars span{animation:none;height:60%}
     .manifesto.js-reveal .manifesto-text .word{opacity:1;color:var(--t1);filter:none}
+    .aurora-blob{animation:none}
+    .bento-live::before{animation:none}
 }
