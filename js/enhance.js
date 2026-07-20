@@ -6,12 +6,6 @@
 (function () {
     'use strict';
 
-    /* Apply saved palette ASAP to minimise flash */
-    try {
-        var savedTheme = localStorage.getItem('krv-theme');
-        if (savedTheme === 'ink') document.documentElement.setAttribute('data-theme', 'ink');
-    } catch (e) { }
-
     const ready = (fn) =>
         document.readyState !== 'loading'
             ? fn()
@@ -38,49 +32,6 @@
                 bar.id = 'scrollProgress';
                 document.body.insertBefore(bar, document.body.firstChild);
             }
-            if (!document.querySelector('.palette-switch')) {
-                const ps = document.createElement('div');
-                ps.className = 'palette-switch';
-                ps.setAttribute('role', 'group');
-                ps.setAttribute('aria-label', 'Colour theme');
-                ps.innerHTML =
-                    '<button type="button" data-theme-set="gold" title="Warm Charcoal" aria-label="Warm Charcoal theme"><i></i></button>' +
-                    '<button type="button" data-theme-set="ink" title="Midnight Ink" aria-label="Midnight Ink theme"><i></i></button>';
-                document.body.appendChild(ps);
-            }
-        })();
-
-        /* ---------- 0b. Palette switcher ---------- */
-        (function paletteSwitch() {
-            const wrap = document.querySelector('.palette-switch');
-            if (!wrap) return;
-            const apply = (theme) => {
-                if (theme === 'ink') document.documentElement.setAttribute('data-theme', 'ink');
-                else document.documentElement.removeAttribute('data-theme');
-                wrap.querySelectorAll('[data-theme-set]').forEach(b =>
-                    b.classList.toggle('active', (b.dataset.themeSet === 'ink') === (theme === 'ink')));
-                try { localStorage.setItem('krv-theme', theme); } catch (e) { }
-            };
-            wrap.addEventListener('click', e => {
-                const btn = e.target.closest('[data-theme-set]');
-                if (btn) apply(btn.dataset.themeSet);
-            });
-            apply(document.documentElement.getAttribute('data-theme') === 'ink' ? 'ink' : 'gold');
-        })();
-
-        /* ---------- 0c. Cursor spotlight (desktop, motion OK) ---------- */
-        (function cursorSpotlight() {
-            if (isMobile || reduced || window.innerWidth < 768) return;
-            const spot = document.createElement('div');
-            spot.className = 'cursor-spotlight';
-            document.body.appendChild(spot);
-            let tx = window.innerWidth / 2, ty = window.innerHeight / 2, cx = tx, cy = ty;
-            window.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; }, { passive: true });
-            (function loop() {
-                cx += (tx - cx) * 0.12; cy += (ty - cy) * 0.12;
-                spot.style.transform = 'translate(' + cx + 'px,' + cy + 'px)';
-                requestAnimationFrame(loop);
-            })();
         })();
 
         /* ---------- 0d. Hero parallax (index only) ---------- */
@@ -185,7 +136,7 @@
             if (isMobile) return;
             const f = document.getElementById('cursorFollower');
             if (f) {
-                document.querySelectorAll('.bento-cell,.marquee-item,.endorse-item,.palette-switch button').forEach(el => {
+                document.querySelectorAll('.bento-cell,.marquee-item,.endorse-item').forEach(el => {
                     el.addEventListener('mouseenter', () => f.classList.add('hover'));
                     el.addEventListener('mouseleave', () => f.classList.remove('hover'));
                 });

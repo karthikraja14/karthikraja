@@ -5,41 +5,41 @@
    Uses the design tokens already defined in style.css (:root)
    ============================================================== */
 
-/* ---------- 0. Refined color composition ---------- */
+/* ---------- 0. Indigo ambient theme (single, consistent) ---------- */
 :root{
-    /* complementary cool accent to the gold — used only in ambient + micro-accents */
-    --teal:#3fbfae;
-    --teal2:#74e3d2;
-    --ink:#0a0b0f;      /* dimensional near-black with a hint of cool depth */
-    --ink2:#0e0f14;
+    /* cool indigo accent — used in ambient light + micro-accents */
+    --teal:#6c8cff;
+    --teal2:#a5b8ff;
+    --ink:#0a0c16;      /* dimensional indigo-black base */
+    --ink2:#0e1122;
+    --glow:rgba(108,140,255,.10);
 }
-/* Dimensional, dual-tone base (overrides the flat black from style.css) */
+/* Dimensional indigo base (overrides the flat black from style.css) */
 body{
-    background:var(--ink);
+    background:#0a0c16;
     background-image:
-        radial-gradient(ellipse 72% 55% at 10% 6%,  rgba(201,168,76,.08) 0%, transparent 55%),
-        radial-gradient(ellipse 60% 50% at 90% 12%, rgba(63,191,174,.05) 0%, transparent 55%),
-        radial-gradient(ellipse 65% 55% at 88% 92%, rgba(201,168,76,.05) 0%, transparent 55%),
-        radial-gradient(ellipse 80% 60% at 15% 95%, rgba(63,191,174,.04) 0%, transparent 55%),
-        linear-gradient(180deg, #0b0c10 0%, #090a0d 55%, #0b0b0e 100%);
-    background-attachment:fixed;
+        radial-gradient(ellipse 72% 55% at 10% 6%,  rgba(201,168,76,.055) 0%, transparent 55%),
+        radial-gradient(ellipse 62% 50% at 90% 12%, rgba(108,140,255,.11) 0%, transparent 55%),
+        radial-gradient(ellipse 65% 55% at 85% 92%, rgba(140,120,255,.07) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 60% at 12% 96%, rgba(108,140,255,.06) 0%, transparent 55%),
+        linear-gradient(180deg,#0b0d1a 0%,#090b14 55%,#0b0d18 100%);
 }
 
-/* Animated aurora — slow drifting ambient light behind all content */
+/* Ambient aurora — soft drifting indigo light (GPU transform only, no blend recompositing) */
 .aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.aurora-blob{position:absolute;border-radius:50%;filter:blur(120px);opacity:.5;mix-blend-mode:screen;will-change:transform}
-.aurora-blob.a1{width:52vw;height:52vw;top:-14vw;left:-10vw;
-    background:radial-gradient(circle,rgba(201,168,76,.22),transparent 68%);animation:auroraA 26s ease-in-out infinite}
-.aurora-blob.a2{width:46vw;height:46vw;top:18vh;right:-14vw;
-    background:radial-gradient(circle,rgba(63,191,174,.16),transparent 68%);animation:auroraB 32s ease-in-out infinite}
-.aurora-blob.a3{width:44vw;height:44vw;bottom:-16vw;left:22vw;
-    background:radial-gradient(circle,rgba(201,168,76,.13),transparent 70%);animation:auroraC 38s ease-in-out infinite}
-@keyframes auroraA{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(9vw,7vh) scale(1.15)}}
-@keyframes auroraB{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-8vw,5vh) scale(1.1)}}
-@keyframes auroraC{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(6vw,-6vh) scale(1.18)}}
+.aurora-blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;will-change:transform;transform:translateZ(0)}
+.aurora-blob.a1{width:46vw;height:46vw;top:-12vw;left:-8vw;
+    background:radial-gradient(circle,rgba(201,168,76,.13),transparent 68%);animation:auroraA 40s ease-in-out infinite}
+.aurora-blob.a2{width:42vw;height:42vw;top:16vh;right:-12vw;
+    background:radial-gradient(circle,rgba(108,140,255,.18),transparent 68%);animation:auroraB 48s ease-in-out infinite}
+.aurora-blob.a3{width:40vw;height:40vw;bottom:-14vw;left:22vw;
+    background:radial-gradient(circle,rgba(140,120,255,.14),transparent 70%);animation:auroraC 56s ease-in-out infinite}
+@keyframes auroraA{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(5vw,4vh,0) scale(1.08)}}
+@keyframes auroraB{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-4vw,3vh,0) scale(1.06)}}
+@keyframes auroraC{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(3vw,-3vh,0) scale(1.1)}}
 
-/* Dual-tone the hero ambient glow (second glow becomes cool teal) */
-.hero-glow-2{background:var(--teal)!important}
+/* Cool indigo hero ambient glow */
+.hero-glow-2{background:#6c8cff!important}
 
 /* Give the reverse tech-marquee dots the cool accent for a two-tone rhythm */
 .marquee.reverse .mq-dot{background:linear-gradient(135deg,var(--teal),var(--teal2))}
@@ -190,12 +190,6 @@ body{
 .reveal-up{opacity:0;transform:translateY(40px);transition:opacity .6s cubic-bezier(.4,0,.2,1),transform .6s cubic-bezier(.4,0,.2,1)}
 .reveal-up.in{opacity:1;transform:none}
 
-/* ---------- 7. Cursor spotlight ---------- */
-.cursor-spotlight{position:fixed;top:0;left:0;width:520px;height:520px;margin:-260px 0 0 -260px;
-    border-radius:50%;pointer-events:none;z-index:2;
-    background:radial-gradient(circle,rgba(201,168,76,.10),rgba(201,168,76,.05) 30%,transparent 62%);
-    mix-blend-mode:screen;will-change:transform}
-
 /* ---------- 8. Hero headline sheen + living gradient text ---------- */
 #heroName{background:linear-gradient(100deg,var(--t1) 28%,var(--accent2) 47%,#fff 52%,var(--t1) 70%);
     background-size:220% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
@@ -203,36 +197,6 @@ body{
 @keyframes heroSheen{to{background-position:-220% center}}
 .gradient-text{background-size:200% auto;animation:gtShimmer 7s linear infinite}
 @keyframes gtShimmer{to{background-position:200% center}}
-
-/* ---------- 9. Palette switcher ---------- */
-.palette-switch{position:fixed;right:18px;bottom:18px;z-index:9000;display:flex;gap:6px;
-    padding:6px;border:1px solid var(--bdr);border-radius:100px;background:rgba(19,19,22,.82);
-    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(0,0,0,.4)}
-.palette-switch button{width:22px;height:22px;border-radius:50%;border:1px solid var(--bdr2);
-    background:none;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;
-    transition:transform .2s,border-color .2s}
-.palette-switch button i{width:14px;height:14px;border-radius:50%;display:block}
-.palette-switch button[data-theme-set="gold"] i{background:radial-gradient(circle at 30% 30%,#e8cc6e,#c9a84c 60%,#0a0b0f)}
-.palette-switch button[data-theme-set="ink"] i{background:radial-gradient(circle at 30% 30%,#a5b8ff,#4a5bd6 55%,#0b0d18)}
-.palette-switch button:hover{transform:scale(1.12)}
-.palette-switch button.active{border-color:var(--accent2)}
-
-/* ---------- 10. MIDNIGHT INK theme variant ---------- */
-html[data-theme="ink"]{--teal:#6c8cff;--teal2:#a5b8ff;--ink:#0a0c16;--ink2:#0e1122;--glow:rgba(108,140,255,.10)}
-html[data-theme="ink"] body{
-    background:#0a0c16;
-    background-image:
-        radial-gradient(ellipse 72% 55% at 10% 6%,  rgba(201,168,76,.06) 0%, transparent 55%),
-        radial-gradient(ellipse 62% 50% at 90% 12%, rgba(108,140,255,.11) 0%, transparent 55%),
-        radial-gradient(ellipse 65% 55% at 85% 92%, rgba(140,120,255,.07) 0%, transparent 55%),
-        radial-gradient(ellipse 80% 60% at 12% 96%, rgba(108,140,255,.06) 0%, transparent 55%),
-        linear-gradient(180deg,#0b0d1a 0%,#090b14 55%,#0b0d18 100%);
-}
-html[data-theme="ink"] .aurora-blob.a1{background:radial-gradient(circle,rgba(201,168,76,.15),transparent 68%)}
-html[data-theme="ink"] .aurora-blob.a2{background:radial-gradient(circle,rgba(108,140,255,.24),transparent 68%)}
-html[data-theme="ink"] .aurora-blob.a3{background:radial-gradient(circle,rgba(140,120,255,.17),transparent 70%)}
-html[data-theme="ink"] .hero-glow-2{background:#6c8cff!important}
-html[data-theme="ink"] .cursor-spotlight{background:radial-gradient(circle,rgba(120,150,255,.11),rgba(120,150,255,.05) 30%,transparent 62%)}
 
 /* ---------- Responsive ---------- */
 @media(max-width:1024px){
@@ -260,5 +224,4 @@ html[data-theme="ink"] .cursor-spotlight{background:radial-gradient(circle,rgba(
     .aurora-blob{animation:none}
     .bento-live::before{animation:none}
     #heroName,.gradient-text{animation:none}
-    .cursor-spotlight{display:none}
 }
