@@ -190,11 +190,13 @@ body{
 .reveal-up{opacity:0;transform:translateY(40px);transition:opacity .6s cubic-bezier(.4,0,.2,1),transform .6s cubic-bezier(.4,0,.2,1)}
 .reveal-up.in{opacity:1;transform:none}
 
-/* ---------- 8. Hero headline sheen + living gradient text ---------- */
-#heroName{background:linear-gradient(100deg,var(--t1) 28%,var(--accent2) 47%,#fff 52%,var(--t1) 70%);
-    background-size:220% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-    animation:heroSheen 6.5s linear infinite}
-@keyframes heroSheen{to{background-position:-220% center}}
+/* ---------- 8. Stable hero headline + living gradient text ---------- */
+#heroName{
+    color:var(--t1);background:none;
+    -webkit-text-fill-color:currentColor;
+    animation:none
+}
+#heroName .char{color:inherit;-webkit-text-fill-color:currentColor}
 .gradient-text{background-size:200% auto;animation:gtShimmer 7s linear infinite}
 @keyframes gtShimmer{to{background-position:200% center}}
 

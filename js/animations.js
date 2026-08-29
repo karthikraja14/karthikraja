@@ -3,6 +3,21 @@
    Themed transitions, text scramble, SVG draw-on, parallax
    ================================================================ */
 document.addEventListener('DOMContentLoaded', () => {
+    const loader = document.getElementById('loader');
+    const dismissLoader = () => loader?.classList.add('done');
+    const hasGSAP = typeof window.gsap !== 'undefined' &&
+        typeof window.ScrollTrigger !== 'undefined';
+
+    // Never allow an unavailable or delayed animation CDN to block the page.
+    window.setTimeout(dismissLoader, 2000);
+
+    if (!hasGSAP) {
+        dismissLoader();
+        initNav();
+        initMobileReveal();
+        return;
+    }
+
     gsap.registerPlugin(ScrollTrigger);
 
     const isMobile = window.innerWidth <= 768;
@@ -14,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===== LOADER =====
     const loaderTl = gsap.timeline({
         onComplete: () => {
-            document.getElementById('loader').classList.add('done');
+            dismissLoader();
             startPage();
         }
     });
@@ -22,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (prefersReduced) {
         // Reduced motion: skip the loader animation entirely
         loaderTl.kill();
-        document.getElementById('loader').classList.add('done');
+        dismissLoader();
         startPage();
     } else if (isMobile) {
         // Fast loader on mobile
@@ -66,8 +81,14 @@ document.addEventListener('DOMContentLoaded', () => {
             el.style.opacity = '1';
             el.style.transform = 'none';
         });
-        // Animate hero counters
-        animateCounters();
+        // Animate counters when GSAP is available; otherwise show final values.
+        if (hasGSAP) {
+            animateCounters();
+        } else {
+            document.querySelectorAll('.counter').forEach(el => {
+                el.textContent = el.dataset.target;
+            });
+        }
         // Skill tags
         document.querySelectorAll('.skill-tag').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
     }
