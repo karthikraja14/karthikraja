@@ -7,7 +7,7 @@
 
 ## About
 
-Personal portfolio, blog, and product showcase for Karthik Raja V — Manager, Systems Automation at Insulet Corporation. 10+ years in MedTech quality engineering, building software products under the Vystra brand.
+Personal portfolio, blog, and product showcase for Karthik Raja V — Manager, Systems Automation at ANSR MedTech. Healthcare and MedTech career beginning in 2017, building software products under the Vystra brand.
 
 ### Highlights
 
