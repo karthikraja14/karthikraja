@@ -49,36 +49,40 @@ const STEPS = {
 };
 
 // Where the shape sits. x/y in scene units (about ±5 wide on desktop, ±2 on a phone), s = scale, o = opacity.
+// Shapes 2–7 are dot-matrix readouts showing each role's key result (see READOUTS).
 const POSES = {
   wide: {
-    hero: { x: 2.65, y: 0.15, s: 1, o: 1 },
+    hero: { x: 2.6, y: 0.1, s: 1, o: 1 },
     about: { x: 0, y: 0, s: 1, o: 0.5 },
     career: { x: 0, y: 0, s: 1, o: 0.55 },
-    ansr: { x: 3.35, y: 0, s: 0.8, o: 1 },
-    jnj: { x: 3.7, y: 0, s: 0.34, o: 1 },
-    ltts: { x: 3.65, y: 0, s: 0.52, o: 1 },
-    fresenius: { x: 3.55, y: 0, s: 0.7, o: 1 },
-    apollo: { x: 3.7, y: 0, s: 0.4, o: 1 },
-    impact: { x: 3.7, y: 0, s: 0.36, o: 0.9 },
-    work: { x: 3.45, y: 0.2, s: 0.8, o: 0.85 },
-    tools: { x: 3.45, y: 0, s: 0.8, o: 0.35 },
-    contact: { x: 2.85, y: 0.15, s: 0.95, o: 1 },
+    ansr: { x: 3.35, y: 0, s: 0.95, o: 1 },
+    jnj: { x: 3.35, y: 0, s: 0.95, o: 1 },
+    ltts: { x: 3.35, y: 0, s: 0.95, o: 1 },
+    fresenius: { x: 3.35, y: 0, s: 0.95, o: 1 },
+    apollo: { x: 3.35, y: 0, s: 0.95, o: 1 },
+    impact: { x: 3.35, y: 0, s: 0.95, o: 0 },
+    work: { x: 3.35, y: 0.1, s: 0.9, o: 1 },
+    tools: { x: 3.35, y: 0, s: 0.9, o: 0.3 },
+    contact: { x: 2.8, y: 0.1, s: 0.95, o: 1 },
   },
   narrow: {
     hero: { x: 0, y: 2.05, s: 0.78, o: 1 },
     about: { x: 0, y: 0, s: 0.7, o: 0.45 },
     career: { x: 0, y: 0, s: 0.7, o: 0.45 },
-    ansr: { x: 0.5, y: 2.3, s: 0.55, o: 0.45 },
-    jnj: { x: 0, y: 2.5, s: 0.3, o: 0.5 },
-    ltts: { x: 0, y: 2.4, s: 0.4, o: 0.5 },
-    fresenius: { x: 0.4, y: 2.3, s: 0.55, o: 0.5 },
-    apollo: { x: 0, y: 2.5, s: 0.35, o: 0.5 },
-    impact: { x: 0, y: 0, s: 0.35, o: 0.35 },
-    work: { x: 0.5, y: 2, s: 0.55, o: 0.5 },
-    tools: { x: 0.5, y: 2, s: 0.55, o: 0.3 },
+    ansr: { x: 0, y: 2.6, s: 0.85, o: 0.3 },
+    jnj: { x: 0, y: 2.6, s: 0.85, o: 0.3 },
+    ltts: { x: 0, y: 2.6, s: 0.85, o: 0.3 },
+    fresenius: { x: 0, y: 2.6, s: 0.85, o: 0.3 },
+    apollo: { x: 0, y: 2.6, s: 0.85, o: 0.3 },
+    impact: { x: 0, y: 2.6, s: 0.85, o: 0 },
+    work: { x: 0, y: 2.6, s: 0.85, o: 0.3 },
+    tools: { x: 0, y: 2.6, s: 0.85, o: 0.3 },
     contact: { x: 0, y: 2.45, s: 0.66, o: 0.9 },
   },
 };
+
+// What each readout shows: ANSR MedTech, J&J, LTTS, Fresenius, Apollo and Vijaya, Vystra Build.
+const READOUTS = ['NOW', '75K', '500+', '0', '20%', 'LIVE'];
 
 const hexToRgb = (hex) => {
   const n = parseInt(hex.slice(1), 16);
@@ -105,12 +109,15 @@ function loadPortraitMap() {
   });
 }
 
-const fieldReady = loadPortraitMap().then((portraitMap) => {
+// The readouts are drawn with the page's own font, so wait for it before building them.
+const displayFont = (document.fonts?.load('800 100px Archivo') ?? Promise.resolve()).catch(() => {});
+const fieldReady = Promise.all([loadPortraitMap(), displayFont]).then(([portraitMap]) => {
   try {
     field = new ParticleField(canvas, {
-      count: narrow() ? 11000 : 20000,
+      count: narrow() ? 16000 : 30000,
       colors: THEMES.me,
       portraitMap,
+      readouts: READOUTS,
     });
     if (reduced) field.uniforms.uIntro.value = 1;
   } catch (err) {
