@@ -45,7 +45,7 @@ karthikraja/
 ├── assets/
 │   ├── index-*.js, *.css, ...  # Homepage build files (listed in .homepage-build.json)
 │   ├── fonts/                  # Archivo, Newsreader, IBM Plex Mono (self-hosted, open font licence)
-│   ├── favicon.svg             # Geometric K monogram
+│   ├── favicon.svg             # KR icon (navy and gold); also /favicon.ico and apple-touch-icon.png
 │   ├── og-image.png            # Social sharing image (1200 × 630)
 │   └── karthik_resized.jpg     # Profile photo (optimised)
 ├── blog/
