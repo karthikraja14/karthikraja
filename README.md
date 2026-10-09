@@ -46,7 +46,7 @@ karthikraja/
 │   ├── index-*.js, *.css, ...  # Homepage build files (listed in .homepage-build.json)
 │   ├── fonts/                  # Archivo, Newsreader, IBM Plex Mono (self-hosted, open font licence)
 │   ├── favicon.svg             # Geometric K monogram
-│   ├── og-image.svg            # Social sharing image
+│   ├── og-image.png            # Social sharing image (1200 × 630)
 │   └── karthik_resized.jpg     # Profile photo (optimised)
 ├── blog/
 │   ├── index.html              # Blog listing with filters
@@ -84,6 +84,14 @@ python new_post.py
 ```
 
 It asks for a title, topic, one-line description and the text, then creates the post in the site's design, adds it to the top of the blog list, and updates the sitemap and RSS feed. Commit and push to publish.
+
+## Search engines
+
+- `sitemap.xml` lists every public page; `robots.txt` points to it and keeps `/tools/` and `/portfolio-src/` out of search.
+- Google: add the site in Search Console, submit `https://karthikraja.in/sitemap.xml`, and use URL Inspection → Request indexing after big changes.
+- Bing: in Bing Webmaster Tools, import the site from Google Search Console (or add it and submit the sitemap).
+- IndexNow (Bing, Yandex and others): the key file `ddad5b5bdf9d4317b1107148c60d0a44.txt` in the site root proves ownership. To announce a changed page, open
+  `https://www.bing.com/indexnow?url=https://karthikraja.in/PAGE&key=ddad5b5bdf9d4317b1107148c60d0a44`
 
 ## Local Development (whole site)
 
