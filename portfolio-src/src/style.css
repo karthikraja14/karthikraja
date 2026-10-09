@@ -411,6 +411,9 @@ main { position: relative; z-index: 2; }
   font-family: var(--display); font-size: var(--t-sm);
 }
 .foot p { margin: 0; }
+.foot-links { display: flex; gap: 1.4rem; }
+.foot-links a { text-decoration: none; }
+.foot-links a:hover { color: var(--paper); }
 
 /* ---------- Narrow screens ---------- */
 @media (max-width: 899px) {

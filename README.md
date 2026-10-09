@@ -24,8 +24,8 @@ The homepage is built from `portfolio-src/` and committed as finished files; eve
 | Layer | Tech |
 |-------|------|
 | Homepage | Three.js (3D dot portrait and shapes), GSAP + ScrollTrigger + SplitText, Lenis smooth scroll, built with Vite |
-| Other pages | HTML5, CSS3 custom properties, GSAP 3 (CDN) |
-| Fonts | Homepage: Archivo, Newsreader, IBM Plex Mono (self-hosted). Other pages: Inter + JetBrains Mono |
+| Other pages | Plain HTML with one shared stylesheet (`css/site.css`) and a small script (`js/site.js`); same look as the homepage |
+| Fonts | Archivo, Newsreader, IBM Plex Mono, all self-hosted (no Google Fonts) |
 | Hosting | GitHub Pages with custom domain |
 | SEO | sitemap.xml, robots.txt, JSON-LD, Open Graph, Twitter cards |
 
@@ -44,6 +44,7 @@ karthikraja/
 ├── .nojekyll                   # Disable Jekyll processing
 ├── assets/
 │   ├── index-*.js, *.css, ...  # Homepage build files (listed in .homepage-build.json)
+│   ├── fonts/                  # Archivo, Newsreader, IBM Plex Mono (self-hosted, open font licence)
 │   ├── favicon.svg             # Geometric K monogram
 │   ├── og-image.svg            # Social sharing image
 │   └── karthik_resized.jpg     # Profile photo (optimised)
@@ -55,11 +56,10 @@ karthikraja/
 │   ├── vision-beyond-or.html
 │   └── building-in-public.html
 ├── css/
-│   ├── style.css               # Core styles + responsive
-│   └── blog.css                # Blog page styles
+│   └── site.css                # Shared design for the blog, posts, 404, privacy, terms
 ├── js/
-│   ├── animations.js           # GSAP animation engine
-│   └── blog.js                 # Blog animations + progress bar
+│   ├── site.js                 # Blog filters + reading progress bar
+│   └── analytics.js            # Google Analytics loader (off until an ID is set)
 └── tools/
     └── index.html              # JD Resume Tailor (private)
 ```
@@ -76,6 +76,14 @@ npm run release    # build, then copy index.html and assets/ into the site root
 ```
 
 Then commit and push. `npm run release` also removes the previous build's files from `assets/`, and leaves everything else there alone.
+
+## Writing a blog post
+
+```bash
+python new_post.py
+```
+
+It asks for a title, topic, one-line description and the text, then creates the post in the site's design, adds it to the top of the blog list, and updates the sitemap and RSS feed. Commit and push to publish.
 
 ## Local Development (whole site)
 
