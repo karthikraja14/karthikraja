@@ -66,13 +66,13 @@ uniform vec3  uAccent;     // highlight for the refresh sweep
 
 attribute vec4 aPhoto;  // portrait dot colour (rgb) and diameter (a)
 attribute vec3 aS1;     // dust
-attribute vec3 aS2;     // readouts, one per career step
+attribute vec3 aS2;     // product drawings, one per career step
 attribute vec3 aS3;
 attribute vec3 aS4;
 attribute vec3 aS5;
 attribute vec3 aS6;
 attribute vec3 aS7;
-attribute vec4 aSizeA;  // readout dot diameters for shapes 2–5 (negative = unlit grid dot)
+attribute vec4 aSizeA;  // drawing dot diameters for shapes 2–5 (negative = unlit grid dot)
 attribute vec2 aSizeB;  // and for shapes 6–7
 attribute vec4 aRand;
 
@@ -139,7 +139,7 @@ void main(){
   p += vec3(snoise(p * 0.2 + time * 0.05), snoise(p * 0.2 + 7.0 + time * 0.05), 0.0) * 0.7 * wDust;   // dust drifts
   p += swirl * uTurbulence * 0.3 * (1.0 - crisp * settled);                                           // fast scrolling shakes loose dots only
 
-  // A slow refresh sweep down each readout, like a display redrawing.
+  // A slow refresh sweep down each drawing, like a display redrawing.
   float scanY = 1.6 - mod(time * 0.55, 4.4);
   float scan = exp(-pow((p.y - scanY) * 3.0, 2.0)) * (1.0 - wFace) * (1.0 - wDust);
 
@@ -158,12 +158,12 @@ void main(){
   mv.xy += normalize(away + 0.0001) * smoothstep(radius, 0.0, dist) * mix(0.5, 0.32, wFace) * uMouseForce;
   gl_Position = projectionMatrix * mv;
 
-  // Size: soft glowing points for the dust, exact dots for the portrait and readouts.
+  // Size: soft glowing points for the dust, exact dots for the portrait and drawings.
   float glowSize = uSize * (0.55 + aRand.y * 0.9) * uPixelRatio * (uCamZ / -mv.z);
   float dotPx = dotW * uScale * projectionMatrix[1][1] * uViewportH * 0.5 / -mv.z;
   gl_PointSize = mix(glowSize, dotPx * (1.0 + scan * 0.25 * lit), crisp);
 
-  // Colour: dust mixes the two section colours; readouts are lit (colour A) on an unlit grid (colour B);
+  // Colour: dust mixes the two section colours; drawings are lit (colour A) on an unlit grid (colour B);
   // the portrait uses the photo's own colours.
   vec3 dustCol = mix(uColorA, uColorB, aRand.z);
   vec3 litCol = mix(uColorA, uAccent, scan * 0.55);

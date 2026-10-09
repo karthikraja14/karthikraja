@@ -3,7 +3,7 @@ import {
   ShaderMaterial, Points, Group, Color, AdditiveBlending, Vector3, Vector2,
 } from 'three';
 import { vertexShader, fragmentShader } from './shaders.js';
-import { seeded, portrait, dust, dotDisplay } from './shapes.js';
+import { seeded, portrait, dust, dotDrawing } from './shapes.js';
 
 // Brand colours go to the shader exactly as written (no colour-space conversion),
 // so a hex code here matches the same hex code in the CSS.
@@ -15,12 +15,12 @@ const raw = (hex) => {
 /**
  * The fixed 3D background: one cloud of particles that changes shape as the page scrolls.
  * It starts (and ends) as Karthik's face drawn in halftone dots; in between, the dots
- * become dust and then a dot-matrix readout for each part of the career.
+ * become dust and then a dot-matrix drawing of the product from each part of the career.
  * main.js drives it through: uMorph (which shape), uIntro (fly-in on load),
  * the group's position and scale (where on screen it sits), and setColors (section theme).
  */
 export class ParticleField {
-  constructor(canvas, { count, colors, portraitMap, readouts }) {
+  constructor(canvas, { count, colors, portraitMap, drawings }) {
     this.canvas = canvas;
     this.renderer = new WebGLRenderer({ canvas, antialias: false, alpha: true, powerPreference: 'high-performance' });
     this.renderer.setClearColor(0x000000, 0);
@@ -39,10 +39,10 @@ export class ParticleField {
     geo.setAttribute('position', new BufferAttribute(face.pos, 3));
     geo.setAttribute('aPhoto', new BufferAttribute(face.rgba, 4));
     geo.setAttribute('aS1', new BufferAttribute(dust(count, rand), 3));
-    // Six readouts (shapes 2–7). Their dot sizes are packed four + two into aSizeA and aSizeB.
+    // Six drawings (shapes 2–7). Their dot sizes are packed four + two into aSizeA and aSizeB.
     const sizeA = new Float32Array(count * 4), sizeB = new Float32Array(count * 2);
-    readouts.slice(0, 6).forEach((text, j) => {
-      const r = dotDisplay(text, count, rand);
+    drawings.slice(0, 6).forEach((draw, j) => {
+      const r = dotDrawing(draw, count, rand);
       geo.setAttribute(`aS${j + 2}`, new BufferAttribute(r.pos, 3));
       for (let i = 0; i < count; i++) {
         if (j < 4) sizeA[i * 4 + j] = r.size[i];
@@ -126,7 +126,7 @@ export class ParticleField {
 
     // Ease the pointer so the tilt never jerks.
     this.pointer.lerp(this.pointerTarget, 1 - Math.pow(0.001, delta));
-    // The face holds still and only leans slightly toward the pointer; the readouts sway a little;
+    // The face holds still and only leans slightly toward the pointer; the drawings sway a little;
     // the dust turns more freely.
     const sway = 0.1 + 0.3 * dust;
     this.spin.rotation.y = Math.sin(time * 0.16) * sway * (1 - face) + this.pointer.x * (0.22 - 0.15 * face);
