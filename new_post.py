@@ -172,7 +172,14 @@ def generate_post_html(title, slug, category, read_time, description, body_html,
     <meta property="og:url" content="https://karthikraja.in/blog/{slug}.html">
     <meta property="og:type" content="article">
     <meta property="og:image" content="https://karthikraja.in/assets/og-image.png">
+    <meta property="og:site_name" content="Karthik Raja V">
+    <meta property="og:locale" content="en_IN">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Karthik Raja V, with his portrait drawn in dots">
+    <link rel="icon" href="/favicon.ico" sizes="48x48">
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
     <script type="application/ld+json">
     {{
       "@context": "https://schema.org",
