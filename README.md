@@ -35,8 +35,6 @@ The homepage is built from `portfolio-src/` and committed as finished files; eve
 karthikraja/
 ├── index.html                  # Homepage (built output of portfolio-src/, don't edit by hand)
 ├── portfolio-src/              # Homepage source code (see "Editing the homepage")
-├── resume.html                 # Visual resume
-├── resume-ats.html             # ATS-friendly resume
 ├── privacy.html                # Privacy policy
 ├── terms.html                  # Terms of service
 ├── 404.html                    # Custom 404 page
@@ -58,8 +56,7 @@ karthikraja/
 │   └── building-in-public.html
 ├── css/
 │   ├── style.css               # Core styles + responsive
-│   ├── blog.css                # Blog page styles
-│   └── resume.css              # Resume page styles
+│   └── blog.css                # Blog page styles
 ├── js/
 │   ├── animations.js           # GSAP animation engine
 │   └── blog.js                 # Blog animations + progress bar

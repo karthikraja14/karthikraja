@@ -1,7 +1,12 @@
 // Point-cloud shapes the particle field morphs between, one per part of the page.
-// Every function returns a Float32Array of xyz triples, all with the same count,
-// so the shader can blend from one shape to the next point-for-point.
-// Order down the page: portrait, dust, globe, device field, coil, ring, heartbeat, blocks, portrait.
+// Every shape uses the same number of particles, so the shader can blend from one
+// shape to the next point-for-point.
+//
+// Order down the page:
+//   0 portrait · 1 dust · 2–7 dot-matrix readouts (one per company, then Vystra Build) · 8 portrait again
+//
+// Sizes are dot diameters in scene units. A negative size marks an "unlit" dot on a
+// readout's background grid (drawn small and dim); 0 means the particle is hidden.
 
 export function seeded(seed = 1) {
   // Small deterministic random generator (mulberry32) so the shapes look the same on every load.
@@ -15,79 +20,63 @@ export function seeded(seed = 1) {
   };
 }
 
-function rotate(arr, rx = 0, ry = 0, rz = 0) {
-  const cx = Math.cos(rx), sx = Math.sin(rx);
-  const cy = Math.cos(ry), sy = Math.sin(ry);
-  const cz = Math.cos(rz), sz = Math.sin(rz);
-  for (let i = 0; i < arr.length; i += 3) {
-    let x = arr[i], y = arr[i + 1], z = arr[i + 2];
-    // X axis
-    let y1 = y * cx - z * sx, z1 = y * sx + z * cx;
-    y = y1; z = z1;
-    // Y axis
-    let x1 = x * cy + z * sy; z1 = -x * sy + z * cy;
-    x = x1; z = z1;
-    // Z axis
-    x1 = x * cz - y * sz; y1 = x * sz + y * cz;
-    arr[i] = x1; arr[i + 1] = y1; arr[i + 2] = z;
+// Lays a hexagonal grid over the unit square and keeps the cells `keep(u, v)` accepts,
+// using the finest grid whose kept cells still fit in `count`.
+function hexCells(count, keep, minG = 40, maxG = 420) {
+  const cellsFor = (G) => {
+    const pitch = 1 / G, rowH = pitch * 0.866, out = [];
+    for (let r = 0, v = rowH / 2; v < 1; r++, v += rowH) {
+      for (let u = (r % 2 ? pitch : pitch / 2); u < 1; u += pitch) {
+        const k = keep(u, v);
+        if (k) out.push([u, v, k]);
+      }
+    }
+    return out;
+  };
+  let G = minG, cells = cellsFor(G);
+  for (let g = minG + 6; g <= maxG; g += 6) {
+    const c = cellsFor(g);
+    if (c.length > count) break;
+    G = g; cells = c;
   }
-  return arr;
+  return { G, cells };
 }
 
 // ---------------------------------------------------------------------------
 // Karthik's face, as a halftone grid of dots.
 // `map` is the RGBA pixel data of portrait-map.png: RGB is the colour of the dot,
-// A is its size (0 means no dot there). Dots sit on a hexagonal grid sized so the
-// number of visible dots roughly equals `count`; leftover particles hide (size 0)
-// and only appear once the field changes into another shape.
-// Returns positions plus a colour+size array (rgba per particle).
-export const PORTRAIT_SIZE = 4.8; // width and height in scene units
+// A is its size (0 means no dot there).
+// Returns positions plus colour+size per particle (rgba, size in scene units).
+export const PORTRAIT_SIZE = 4.9; // width and height in scene units
 
 export function portrait(count, rand, map, mapSize) {
   const sample = (u, v) => {
-    const x = Math.min(mapSize - 1, Math.max(0, Math.floor(u * mapSize)));
-    const y = Math.min(mapSize - 1, Math.max(0, Math.floor(v * mapSize)));
+    const x = Math.min(mapSize - 1, Math.floor(u * mapSize));
+    const y = Math.min(mapSize - 1, Math.floor(v * mapSize));
     const i = (y * mapSize + x) * 4;
-    return [map[i], map[i + 1], map[i + 2], map[i + 3]];
+    return map[i + 3] > 8 ? [map[i], map[i + 1], map[i + 2], map[i + 3]] : null;
   };
-  const cellsFor = (G) => {
-    const pitch = 1 / G, rowH = pitch * 0.866, cells = [];
-    for (let r = 0, v = rowH / 2; v < 1; r++, v += rowH) {
-      for (let u = (r % 2 ? pitch : pitch / 2); u < 1; u += pitch) {
-        const px = sample(u, v);
-        if (px[3] > 8) cells.push([u, v, px]);
-      }
-    }
-    return cells;
-  };
-  // Largest grid whose visible dots still fit in `count`.
-  let G = 60, cells = cellsFor(G);
-  for (let g = 70; g <= 320; g += 6) {
-    const c = cellsFor(g);
-    if (c.length > count) break;
-    G = g; cells = c;
-  }
+  let { G, cells } = hexCells(count, sample, 60, 360);
   if (!cells.length) cells = [[0.5, 0.5, [0, 0, 0, 0]]]; // empty map: nothing to draw
+  const S = PORTRAIT_SIZE, pitch = S / G;
   const pos = new Float32Array(count * 3);
   const rgba = new Float32Array(count * 4);
-  const S = PORTRAIT_SIZE;
   for (let i = 0; i < count; i++) {
-    let u, v, px, visible = i < cells.length;
-    if (visible) [u, v, px] = cells[i];
-    else { [u, v] = cells[Math.floor(rand() * cells.length)]; px = [0, 0, 0, 0]; }
-    // Gentle 3D relief: the face and chest bulge toward the viewer, so tilting shows depth.
-    const fx = (u - 0.49) / 0.21, fy = (v - 0.36) / 0.28;
-    const tx = (u - 0.5) / 0.5, ty = (v - 1.0) / 0.5;
-    const z = 0.75 * Math.sqrt(Math.max(0, 1 - fx * fx - fy * fy))
-            + 0.4 * Math.sqrt(Math.max(0, 1 - tx * tx - ty * ty))
-            + (px[3] / 255 - 0.5) * 0.12;
+    const visible = i < cells.length;
+    const [u, v, px] = visible ? cells[i] : cells[Math.floor(rand() * cells.length)];
+    // A very gentle bulge toward the viewer: enough depth to feel 3D when tilted,
+    // not so much that perspective smears the face.
+    const fx = (u - 0.495) / 0.28, fy = (v - 0.47) / 0.37;
+    const tx = (u - 0.507) / 0.667, ty = (v - 1.32) / 0.667;
+    const z = 0.22 * Math.sqrt(Math.max(0, 1 - fx * fx - fy * fy))
+            + 0.1 * Math.sqrt(Math.max(0, 1 - tx * tx - ty * ty));
     pos[i * 3] = (u - 0.5) * S;
     pos[i * 3 + 1] = -(v - 0.5) * S;
-    pos[i * 3 + 2] = z - 0.3;
+    pos[i * 3 + 2] = z - 0.1;
     rgba[i * 4] = px[0] / 255; rgba[i * 4 + 1] = px[1] / 255; rgba[i * 4 + 2] = px[2] / 255;
-    rgba[i * 4 + 3] = visible ? px[3] / 255 : 0;
+    rgba[i * 4 + 3] = visible ? (px[3] / 255) * pitch * 1.2 : 0;
   }
-  return { pos, rgba, pitch: S / G };
+  return { pos, rgba };
 }
 
 // The face breaks apart into slow-drifting dust.
@@ -101,136 +90,69 @@ export function dust(count, rand) {
   return out;
 }
 
-// ANSR MedTech, a global capability centre: a globe drawn with latitude and longitude lines.
-export function globe(count, rand) {
-  const out = new Float32Array(count * 3);
-  const R = 2.05, meridians = 14, parallels = 9;
-  for (let i = 0; i < count; i++) {
-    const pick = rand();
-    let lat, lon;
-    if (pick < 0.45) { lon = (Math.floor(rand() * meridians) / meridians) * Math.PI * 2; lat = (rand() - 0.5) * Math.PI; }
-    else if (pick < 0.85) { lat = ((Math.floor(rand() * parallels) + 1) / (parallels + 1) - 0.5) * Math.PI; lon = rand() * Math.PI * 2; }
-    else { lat = Math.asin(rand() * 2 - 1); lon = rand() * Math.PI * 2; }
-    const r = R * (pick < 0.85 ? 1 : 0.98 + rand() * 0.04);
-    out[i * 3] = Math.cos(lat) * Math.cos(lon) * r;
-    out[i * 3 + 1] = Math.sin(lat) * r;
-    out[i * 3 + 2] = Math.cos(lat) * Math.sin(lon) * r;
-  }
-  return rotate(out, 0.38, 0, 0.22);
-}
+// ---------------------------------------------------------------------------
+// A dot-matrix readout, like the display on a dialysis machine or infusion pump.
+// The text is drawn in Archivo, then sampled onto a hex grid of dots: lit dots form
+// the characters, small unlit dots fill a soft-edged panel behind them.
+export const DISPLAY_W = 3.6;
+export const DISPLAY_H = 2.5;
 
-// LTTS for Baxter, peritoneal dialysis: a coiled tube, like the fluid line of a home dialysis machine.
-export function coil(count, rand) {
-  const out = new Float32Array(count * 3);
-  const L = 6.4, R = 1.15, turns = 4.5, tube = 0.28;
-  for (let i = 0; i < count; i++) {
-    const t = rand();
-    const a = t * turns * Math.PI * 2;
-    // A point near the surface of the tube around the coil's centre line.
-    const u = rand() * 2 - 1, th = rand() * Math.PI * 2, r = tube * (0.75 + rand() * 0.25);
-    const k = Math.sqrt(1 - u * u);
-    out[i * 3] = (t - 0.5) * L + k * Math.cos(th) * r;
-    out[i * 3 + 1] = Math.cos(a) * R + k * Math.sin(th) * r;
-    out[i * 3 + 2] = Math.sin(a) * R + u * r;
-  }
-  return rotate(out, 0.25, -0.35, 0.18);
-}
+export function dotDisplay(text, count, rand, { pitch = 0.034, font = 'Archivo' } = {}) {
+  const W = DISPLAY_W, H = DISPLAY_H, PX = 220; // canvas pixels per scene unit
+  const cw = Math.round(W * PX), ch = Math.round(H * PX);
+  const canvas = document.createElement('canvas');
+  canvas.width = cw; canvas.height = ch;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  // Condensed digits read taller, like a device display.
+  if ('fontStretch' in ctx) ctx.fontStretch = 'condensed';
+  let fs = ch;
+  ctx.font = `800 ${fs}px ${font}, 'Arial Narrow', Arial, sans-serif`;
+  const m = ctx.measureText(text);
+  const glyphH = (m.actualBoundingBoxAscent + m.actualBoundingBoxDescent) || fs * 0.72;
+  fs *= Math.min((cw * 0.86) / m.width, (ch * 0.7) / glyphH);
+  ctx.font = `800 ${fs}px ${font}, 'Arial Narrow', Arial, sans-serif`;
+  const m2 = ctx.measureText(text);
+  const asc = m2.actualBoundingBoxAscent || fs * 0.72, desc = m2.actualBoundingBoxDescent || 0;
+  ctx.fillStyle = '#fff';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'alphabetic';
+  ctx.fillText(text, cw / 2, ch / 2 + (asc - desc) / 2);
+  const alpha = ctx.getImageData(0, 0, cw, ch).data;
+  const lit = (x, y) => alpha[(Math.min(ch - 1, Math.max(0, Math.round(y))) * cw + Math.min(cw - 1, Math.max(0, Math.round(x)))) * 4 + 3];
 
-// Apollo and Vijaya hospitals: a heartbeat trace stretched into a ribbon, like a patient monitor.
-export function ecg(t) {
-  const g = (c, w, a) => a * Math.exp(-(((t - c) / w) ** 2));
-  return g(0.18, 0.035, 0.12) + g(0.37, 0.012, -0.12) + g(0.4, 0.012, 1.0) + g(0.43, 0.014, -0.25) + g(0.65, 0.06, 0.3);
-}
-
-export function signal(count, rand) {
-  const out = new Float32Array(count * 3);
-  const X0 = -4.8, X1 = 4.8, beats = 2.6, amp = 1.55;
-  // Sample the curve densely, then place points evenly along its length so the sharp spike stays filled in.
-  const N = 4000;
-  const xs = new Float32Array(N), ys = new Float32Array(N), cum = new Float32Array(N);
-  for (let i = 0; i < N; i++) {
-    const x = X0 + (X1 - X0) * (i / (N - 1));
-    const t = (((x - X0) / (X1 - X0)) * beats) % 1;
-    xs[i] = x; ys[i] = ecg(t) * amp - 0.25;
-    if (i) cum[i] = cum[i - 1] + Math.hypot(xs[i] - xs[i - 1], ys[i] - ys[i - 1]);
-  }
-  const total = cum[N - 1];
-  const strands = 34;
-  for (let i = 0; i < count; i++) {
-    const target = rand() * total;
-    let lo = 0, hi = N - 1;
-    while (lo < hi) { const mid = (lo + hi) >> 1; if (cum[mid] < target) lo = mid + 1; else hi = mid; }
-    const s = Math.floor(rand() * strands);
-    const zn = s / (strands - 1) - 0.5; // -0.5 .. 0.5
-    const fall = Math.exp(-((zn / 0.32) ** 2)); // strands fade in height toward the edges
-    out[i * 3] = xs[lo] + (rand() - 0.5) * 0.02;
-    out[i * 3 + 1] = (ys[lo] + 0.25) * (0.35 + 0.65 * fall) - 0.25 + (rand() - 0.5) * 0.02;
-    out[i * 3 + 2] = zn * 1.5;
-  }
-  return rotate(out, 0.22, -0.28, 0);
-}
-
-// Johnson & Johnson: a tilted field of evenly spaced points, the 75,000 simulated devices.
-export function fleet(count, rand) {
-  const out = new Float32Array(count * 3);
-  const W = 11, D = 6.6;
-  const cols = Math.ceil(Math.sqrt((count * W) / D));
-  const rows = Math.ceil(count / cols);
-  for (let i = 0; i < count; i++) {
-    const c = i % cols, r = Math.floor(i / cols);
-    out[i * 3] = (c / (cols - 1) - 0.5) * W + (rand() - 0.5) * 0.008;
-    out[i * 3 + 1] = 0;
-    out[i * 3 + 2] = (r / Math.max(1, rows - 1) - 0.5) * D;
-  }
-  rotate(out, 0.62, 0, 0);
-  for (let i = 1; i < out.length; i += 3) out[i] -= 0.35;
-  return out;
-}
-
-// Vystra Build: twelve stacked blocks for its 12+ modules (it's a construction product).
-export function blocks(count, rand) {
-  const out = new Float32Array(count * 3);
-  const u = 0.95, s = 0.84;
+  // Hex grid over the panel in scene units, at the requested spacing (coarser if count is too small).
+  let p = Math.max(pitch, Math.sqrt((W * H) / (count * 0.866)));
   const cells = [];
-  for (const x of [-1, 0, 1]) for (const z of [-0.5, 0.5]) cells.push([x, 0, z]);
-  for (const x of [-0.5, 0.5]) for (const z of [-0.5, 0.5]) cells.push([x, 1, z]);
-  for (const z of [-0.5, 0.5]) cells.push([0, 2, z]);
-  const corners = [-0.5, 0.5];
-  const edges = [];
-  for (const a of corners) for (const b of corners) {
-    edges.push([[-0.5, a, b], [0.5, a, b]]);
-    edges.push([[a, -0.5, b], [a, 0.5, b]]);
-    edges.push([[a, b, -0.5], [a, b, 0.5]]);
-  }
-  for (let i = 0; i < count; i++) {
-    const [cx, cy, cz] = cells[i % cells.length];
-    let px, py, pz;
-    if (rand() < 0.68) {
-      const [p0, p1] = edges[Math.floor(rand() * edges.length)];
-      const t = rand();
-      px = p0[0] + (p1[0] - p0[0]) * t; py = p0[1] + (p1[1] - p0[1]) * t; pz = p0[2] + (p1[2] - p0[2]) * t;
-    } else {
-      const axis = Math.floor(rand() * 3), side = rand() < 0.5 ? -0.5 : 0.5;
-      const a = rand() - 0.5, b = rand() - 0.5;
-      [px, py, pz] = axis === 0 ? [side, a, b] : axis === 1 ? [a, side, b] : [a, b, side];
+  const build = () => {
+    cells.length = 0;
+    const rowH = p * 0.866;
+    for (let r = 0, y = rowH / 2; y < H; r++, y += rowH) {
+      for (let x = (r % 2 ? p : p / 2); x < W; x += p) {
+        // Soft rounded panel: unlit dots shrink toward the edges and vanish outside.
+        const nx = (x / W) * 2 - 1, ny = (y / H) * 2 - 1;
+        const e = Math.pow(Math.pow(Math.abs(nx), 4) + Math.pow(Math.abs(ny), 4), 0.25);
+        const panel = Math.min(1, Math.max(0, (1.0 - e) / 0.3));
+        const on = lit(x * PX, y * PX) > 127;
+        if (!on && panel < 0.05) continue;
+        // A faint top-to-bottom gradient on lit dots, like a backlit segment.
+        const shade = 0.82 + 0.18 * (1 - y / H);
+        cells.push([x - W / 2, -(y - H / 2), on ? p * 0.92 * shade : -p * 0.3 * panel]);
+      }
     }
-    out[i * 3] = (cx * u + px * s) * 1.18;
-    out[i * 3 + 1] = (cy * u - u + py * s) * 1.18;
-    out[i * 3 + 2] = (cz * u + pz * s) * 1.18;
-  }
-  return rotate(out, 0.38, 0.62, 0);
-}
-
-// Fresenius, hemodialysis: a closed ring, like the loop that carries blood out and back.
-export function ring(count, rand) {
-  const out = new Float32Array(count * 3);
-  const R = 2.15, r = 0.36;
+  };
+  build();
+  while (cells.length > count) { p *= 1.03; build(); }
+  // Lit dots first so every character is complete, then the background grid.
+  cells.sort((a, b) => (b[2] > 0) - (a[2] > 0));
+  const litCells = cells.filter((c) => c[2] > 0);
+  const pos = new Float32Array(count * 3);
+  const size = new Float32Array(count);
   for (let i = 0; i < count; i++) {
-    const a = rand() * Math.PI * 2, b = rand() * Math.PI * 2;
-    const rr = r * (0.75 + rand() * 0.3);
-    out[i * 3] = (R + rr * Math.cos(b)) * Math.cos(a);
-    out[i * 3 + 1] = (R + rr * Math.cos(b)) * Math.sin(a);
-    out[i * 3 + 2] = rr * Math.sin(b);
+    const c = i < cells.length ? cells[i] : litCells[Math.floor(rand() * litCells.length)] || [0, 0, 0];
+    pos[i * 3] = c[0];
+    pos[i * 3 + 1] = c[1];
+    pos[i * 3 + 2] = 0;
+    size[i] = i < cells.length ? c[2] : 0;
   }
-  return rotate(out, 1.05, 0.25, 0);
+  return { pos, size };
 }
