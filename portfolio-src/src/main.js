@@ -7,6 +7,7 @@ import Lenis from 'lenis';
 import { ParticleField } from './scene/ParticleField.js';
 import { THEMES } from './themes.js';
 import { initCursor, initMagnetic, initClock, initCopy, initCard } from './ui.js';
+import { connectedCare, surgicalRobot, homeDialysis, hemodialysis, patientMonitor, construction } from './scene/illustrations.js';
 import portraitMapUrl from './assets/portrait-map.png';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
@@ -49,7 +50,7 @@ const STEPS = {
 };
 
 // Where the shape sits. x/y in scene units (about ±5 wide on desktop, ±2 on a phone), s = scale, o = opacity.
-// Shapes 2–7 are dot-matrix readouts showing each role's key result (see READOUTS).
+// Shapes 2–7 are dot-matrix drawings of the product from each role (see DRAWINGS).
 const POSES = {
   wide: {
     hero: { x: 2.6, y: 0.1, s: 1, o: 1 },
@@ -81,8 +82,8 @@ const POSES = {
   },
 };
 
-// What each readout shows: ANSR MedTech, J&J, LTTS, Fresenius, Apollo and Vijaya, Vystra Build.
-const READOUTS = ['NOW', '75K', '500+', '0', '20%', 'LIVE'];
+// What each display draws: ANSR MedTech, J&J, LTTS (Baxter), Fresenius, Apollo and Vijaya, Vystra Build.
+const DRAWINGS = [connectedCare, surgicalRobot, homeDialysis, hemodialysis, patientMonitor, construction];
 
 const hexToRgb = (hex) => {
   const n = parseInt(hex.slice(1), 16);
@@ -109,7 +110,7 @@ function loadPortraitMap() {
   });
 }
 
-// The readouts are drawn with the page's own font, so wait for it before building them.
+// The patient monitor's numbers use the page's own font, so wait for it before drawing.
 const displayFont = (document.fonts?.load('800 100px Archivo') ?? Promise.resolve()).catch(() => {});
 const fieldReady = Promise.all([loadPortraitMap(), displayFont]).then(([portraitMap]) => {
   try {
@@ -117,7 +118,7 @@ const fieldReady = Promise.all([loadPortraitMap(), displayFont]).then(([portrait
       count: narrow() ? 16000 : 30000,
       colors: THEMES.me,
       portraitMap,
-      readouts: READOUTS,
+      drawings: DRAWINGS,
     });
     if (reduced) field.uniforms.uIntro.value = 1;
   } catch (err) {

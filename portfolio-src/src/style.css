@@ -292,9 +292,11 @@ main { position: relative; z-index: 2; }
 .job-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 2rem clamp(2rem, 4vw, 3.5rem); }
 .job h4 { margin: 0 0 0.7rem; font-family: var(--display); font-weight: 600; font-size: var(--t-sm); color: var(--accent); }
 .job-about p { margin: 0; }
-.job-proof { margin-top: 1.6rem; padding-top: 1.2rem; border-top: 1px solid var(--rule); display: grid; gap: 0.2rem; }
-.job-proof b { font-family: var(--display); font-weight: 800; font-stretch: 70%; font-size: clamp(2.4rem, 4.6vw, 3.6rem); line-height: 1; font-variant-numeric: tabular-nums; }
-.job-proof span { color: var(--muted); font-size: 1rem; max-width: 26ch; }
+.job-products { margin-top: 1.6rem; padding-top: 1.2rem; border-top: 1px solid var(--rule); }
+.job-products ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 1rem; }
+.job-products li { display: grid; gap: 0.2rem; }
+.job-products b { font-family: var(--display); font-weight: 700; font-stretch: 105%; font-size: 1.3rem; line-height: 1.15; color: var(--accent); }
+.job-products span { color: var(--muted); font-size: 1rem; max-width: 34ch; }
 .job-work ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.75rem; }
 .job-work li { position: relative; padding-left: 1.5rem; }
 .job-work li::before { content: ""; position: absolute; left: 0; top: 0.8em; width: 0.85rem; height: 2px; background: var(--accent); }

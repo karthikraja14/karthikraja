@@ -3,10 +3,10 @@
 // shape to the next point-for-point.
 //
 // Order down the page:
-//   0 portrait · 1 dust · 2–7 dot-matrix readouts (one per company, then Vystra Build) · 8 portrait again
+//   0 portrait · 1 dust · 2–7 dot-matrix drawings of each role's product (then Vystra Build) · 8 portrait again
 //
 // Sizes are dot diameters in scene units. A negative size marks an "unlit" dot on a
-// readout's background grid (drawn small and dim); 0 means the particle is hidden.
+// display's background grid (drawn small and dim); 0 means the particle is hidden.
 
 export function seeded(seed = 1) {
   // Small deterministic random generator (mulberry32) so the shapes look the same on every load.
@@ -91,36 +91,36 @@ export function dust(count, rand) {
 }
 
 // ---------------------------------------------------------------------------
-// A dot-matrix readout, like the display on a dialysis machine or infusion pump.
-// The text is drawn in Archivo, then sampled onto a hex grid of dots: lit dots form
-// the characters, small unlit dots fill a soft-edged panel behind them.
+// A dot-matrix display, like the screen on a dialysis machine or infusion pump.
+// `draw(ctx, font)` paints a white line drawing (see illustrations.js) in scene units;
+// it is then sampled onto a hex grid of dots. Strong strokes become full-size lit dots,
+// faint fills become smaller lit dots (shading), and small unlit dots fill a soft-edged
+// panel behind the drawing.
 export const DISPLAY_W = 3.6;
 export const DISPLAY_H = 2.5;
 
-export function dotDisplay(text, count, rand, { pitch = 0.034, font = 'Archivo' } = {}) {
+export function dotDrawing(draw, count, rand, { pitch = 0.03, font = 'Archivo' } = {}) {
   const W = DISPLAY_W, H = DISPLAY_H, PX = 220; // canvas pixels per scene unit
   const cw = Math.round(W * PX), ch = Math.round(H * PX);
   const canvas = document.createElement('canvas');
   canvas.width = cw; canvas.height = ch;
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
-  // Condensed digits read taller, like a device display.
-  if ('fontStretch' in ctx) ctx.fontStretch = 'condensed';
-  let fs = ch;
-  ctx.font = `800 ${fs}px ${font}, 'Arial Narrow', Arial, sans-serif`;
-  const m = ctx.measureText(text);
-  const glyphH = (m.actualBoundingBoxAscent + m.actualBoundingBoxDescent) || fs * 0.72;
-  fs *= Math.min((cw * 0.86) / m.width, (ch * 0.7) / glyphH);
-  ctx.font = `800 ${fs}px ${font}, 'Arial Narrow', Arial, sans-serif`;
-  const m2 = ctx.measureText(text);
-  const asc = m2.actualBoundingBoxAscent || fs * 0.72, desc = m2.actualBoundingBoxDescent || 0;
-  ctx.fillStyle = '#fff';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'alphabetic';
-  ctx.fillText(text, cw / 2, ch / 2 + (asc - desc) / 2);
+  ctx.scale(PX, PX);
+  ctx.strokeStyle = ctx.fillStyle = '#fff';
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  draw(ctx, font);
   const alpha = ctx.getImageData(0, 0, cw, ch).data;
-  const lit = (x, y) => alpha[(Math.min(ch - 1, Math.max(0, Math.round(y))) * cw + Math.min(cw - 1, Math.max(0, Math.round(x)))) * 4 + 3];
+  // Average a small neighbourhood so thin lines aren't missed between grid points.
+  const at = (x, y) => {
+    let best = 0;
+    for (const [dx, dy] of [[0, 0], [1.5, 0], [-1.5, 0], [0, 1.5], [0, -1.5]]) {
+      const px = Math.min(cw - 1, Math.max(0, Math.round(x + dx)));
+      const py = Math.min(ch - 1, Math.max(0, Math.round(y + dy)));
+      best = Math.max(best, alpha[(py * cw + px) * 4 + 3]);
+    }
+    return best;
+  };
 
-  // Hex grid over the panel in scene units, at the requested spacing (coarser if count is too small).
   let p = Math.max(pitch, Math.sqrt((W * H) / (count * 0.866)));
   const cells = [];
   const build = () => {
@@ -128,21 +128,20 @@ export function dotDisplay(text, count, rand, { pitch = 0.034, font = 'Archivo' 
     const rowH = p * 0.866;
     for (let r = 0, y = rowH / 2; y < H; r++, y += rowH) {
       for (let x = (r % 2 ? p : p / 2); x < W; x += p) {
-        // Soft rounded panel: unlit dots shrink toward the edges and vanish outside.
         const nx = (x / W) * 2 - 1, ny = (y / H) * 2 - 1;
         const e = Math.pow(Math.pow(Math.abs(nx), 4) + Math.pow(Math.abs(ny), 4), 0.25);
         const panel = Math.min(1, Math.max(0, (1.0 - e) / 0.3));
-        const on = lit(x * PX, y * PX) > 127;
+        const a = at(x * PX, y * PX) / 255;
+        const on = a > 0.16;
         if (!on && panel < 0.05) continue;
-        // A faint top-to-bottom gradient on lit dots, like a backlit segment.
-        const shade = 0.82 + 0.18 * (1 - y / H);
-        cells.push([x - W / 2, -(y - H / 2), on ? p * 0.92 * shade : -p * 0.3 * panel]);
+        const shade = 0.85 + 0.15 * (1 - y / H);
+        cells.push([x - W / 2, -(y - H / 2), on ? p * 0.92 * shade * (0.3 + 0.7 * a) : -p * 0.3 * panel]);
       }
     }
   };
   build();
   while (cells.length > count) { p *= 1.03; build(); }
-  // Lit dots first so every character is complete, then the background grid.
+  // Lit dots first so the whole drawing is always complete, then the background grid.
   cells.sort((a, b) => (b[2] > 0) - (a[2] > 0));
   const litCells = cells.filter((c) => c[2] > 0);
   const pos = new Float32Array(count * 3);
