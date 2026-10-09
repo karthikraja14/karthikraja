@@ -1,30 +1,30 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#08080a">
-    <title>Building in Public: The Vystra Approach | Karthik Raja V</title>
-    <meta name="description" content="Why I document every product built &mdash; decisions, failures, architecture. The rules of building in public at Vystra.">
-    
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://karthikraja.in/assets/og-image.png">
-    <meta name="twitter:title" content="Building in Public: The Vystra Approach | Karthik Raja V">
-    <meta name="twitter:description" content="Why I document every product built &mdash; decisions, failures, architecture. The rules of building in public at Vystra.">
-    <link rel="canonical" href="https://karthikraja.in/blog/building-in-public.html">
-    <meta property="og:title" content="Building in Public: The Vystra Approach | Karthik Raja V">
-    <meta property="og:description" content="Why I document every product built &mdash; decisions, failures, architecture. The rules of building in public at Vystra.">
-    <meta property="og:url" content="https://karthikraja.in/blog/building-in-public.html">
-    <meta property="og:type" content="article">
-    <meta property="og:image" content="https://karthikraja.in/assets/og-image.png">
-    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/blog.css">
-    <link rel="stylesheet" href="../css/enhance.css">
-    <script type="application/ld+json">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#0b1226" name="theme-color"/>
+<title>Building in Public: The Vystra Approach | Karthik Raja V</title>
+<meta content="Why I document every product built — decisions, failures, architecture. The rules of building in public at Vystra." name="description"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://karthikraja.in/assets/og-image.png" name="twitter:image"/>
+<meta content="Building in Public: The Vystra Approach | Karthik Raja V" name="twitter:title"/>
+<meta content="Why I document every product built — decisions, failures, architecture. The rules of building in public at Vystra." name="twitter:description"/>
+<link href="https://karthikraja.in/blog/building-in-public.html" rel="canonical"/>
+<meta content="Building in Public: The Vystra Approach | Karthik Raja V" property="og:title"/>
+<meta content="Why I document every product built — decisions, failures, architecture. The rules of building in public at Vystra." property="og:description"/>
+<meta content="https://karthikraja.in/blog/building-in-public.html" property="og:url"/>
+<meta content="article" property="og:type"/>
+<meta content="https://karthikraja.in/assets/og-image.png" property="og:image"/>
+<link href="/assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+
+
+
+
+
+
+<script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Article",
@@ -39,102 +39,80 @@
       "mainEntityOfPage": { "@type": "WebPage", "@id": "https://karthikraja.in/blog/building-in-public.html" }
     }
     </script>
-</head>
-<body>
-    <nav class="nav" id="nav">
-        <div class="nav-container">
-            <a href="/" class="nav-logo"><span class="logo-mark"><img src="../assets/logo.svg" width="36" height="36" alt="KR monogram"></span><span class="logo-text">Karthik Raja V</span></a>
-            <div class="nav-links" id="navLinks">
-                <a href="/#about" class="nav-link">About</a>
-                <a href="/#journey" class="nav-link">Journey</a>
-                <a href="/#products" class="nav-link">Products</a>
-                <a href="/blog/" class="nav-link">Blog</a>
-                <a href="/#contact" class="nav-link">Contact</a>
-            </div>
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-        </div>
-    </nav>
+<link href="/css/site.css" rel="stylesheet"/></head>
+<body><header class="bar">
+<a aria-label="Karthik Raja V, home" class="mark" href="/">KR</a>
+<nav aria-label="Site" class="nav">
+<a href="/#about">About</a>
+<a href="/#career">Career</a>
+<a href="/#work">Work</a>
+<a aria-current="page" href="/blog/">Blog</a>
+<a href="/#contact">Contact</a>
+</nav>
+</header>
 
-    <article class="blog-post">
-        <div class="blog-post-header" style="opacity:1;transform:none">
-            <a href="/blog/" class="blog-back-link">&larr; Back to Blog</a>
-            <div class="blog-post-meta" style="opacity:1;transform:none">
-                <span class="blog-tag">Engineering</span>
-                <span class="blog-date">July 2026</span>
-                <span class="blog-read-time">4 min read</span>
-            </div>
-            <h1 class="blog-post-title" style="opacity:1;transform:none">Building in Public: The Vystra Approach</h1>
-        </div>
+<div aria-hidden="true" class="read-progress"><span></span></div><main class="page"><article class="blog-post">
+<div class="blog-post-header">
+<a class="blog-back-link" href="/blog/">← All posts</a>
+<div class="blog-post-meta">
+<span class="blog-tag">Engineering</span>
+<span class="blog-date">July 2026</span>
+<span class="blog-read-time">4 min read</span>
+</div>
+<h1 class="blog-post-title">Building in Public: The Vystra Approach</h1>
+</div>
+<div class="blog-post-body">
+<p>Most product builders share the highlight reel — the launch day, the growth chart, the feature announcement. They skip the part where nothing worked, the architecture was wrong, or the market didn’t care.</p>
+<p>This blog exists to document everything. Not just the wins, but the decisions, the failures, and the architecture behind every product built under Vystra.</p>
+<h2>Why Document?</h2>
+<p>Three reasons:</p>
+<ul>
+<li><strong>Accountability</strong> — writing down your reasoning forces you to actually have reasoning. It’s easy to ship something on instinct. It’s harder to explain why you made a specific technical or product decision. The act of documenting keeps you honest.</li>
+<li><strong>Knowledge sharing</strong> — the Indian tech ecosystem is growing fast, but practical build logs are rare. There’s no shortage of tutorials. There’s a massive shortage of “here’s what I actually did, here’s what went wrong, and here’s what I’d do differently.”</li>
+<li><strong>Personal record</strong> — two years from now, I want to look back and see exactly how decisions were made. Not a polished narrative, but the raw truth of what happened.</li>
+</ul>
+<h2>What This Blog Will Cover</h2>
+<ul>
+<li><strong>Build logs</strong> — detailed breakdowns of how each product and feature is built. Architecture decisions, technology choices, trade-offs, and implementation details.</li>
+<li><strong>Product thinking</strong> — how I identify problems, validate ideas, and decide what to build next. The frameworks and mental models behind product decisions.</li>
+<li><strong>Market insights</strong> — what I learn about the industries I’m building for. Construction, professional services, and whatever comes next.</li>
+<li><strong>MedTech x Tech</strong> — how working in regulated medical technology shapes the way I approach product engineering. The crossover between validation mindset and startup speed.</li>
+</ul>
+<h2>The Rules</h2>
+<p>Every post on this blog follows three rules:</p>
+<ol>
+<li><strong>Be honest</strong> — if something failed, say it failed. If a decision was wrong, explain why. No revisionist history.</li>
+<li><strong>Share failures</strong> — the failures are more instructive than the successes. A post about what went wrong is worth more than ten posts about what went right.</li>
+<li><strong>Optimize for being useful</strong> — every post should leave the reader with something actionable. A technique they can use, a mistake they can avoid, or a way of thinking they hadn’t considered.</li>
+</ol>
+<p>This isn’t content marketing. It’s an engineering log that happens to be public.</p>
+<p>Welcome to the blog. Let’s build.</p>
+</div>
+<div class="blog-related">
+<h3>Related Posts</h3>
+<ul>
+<li><a href="why-i-built-vystra-build.html">Why I Built Vystra Build</a> — the first product built under the Vystra brand, documented from day one.</li>
+<li><a href="vision-beyond-or.html">Vision Beyond the OR</a> — a hackathon project that followed the same build-in-public philosophy.</li>
+<li><a href="ai-bug-analyzer.html">AI Bug Analyzer</a> — engineering tooling built with transparency and documented end-to-end.</li>
+</ul>
+</div>
+<nav class="blog-post-nav">
+<span></span>
+<a class="blog-nav-link next" href="vision-beyond-or.html">
+<span class="blog-nav-dir">Next →</span>
+<span class="blog-nav-title">Vision Beyond the OR</span>
+</a>
+</nav>
+</article></main>
 
-        <div class="blog-post-body" style="opacity:1;transform:none">
-            <p>Most product builders share the highlight reel &mdash; the launch day, the growth chart, the feature announcement. They skip the part where nothing worked, the architecture was wrong, or the market didn&rsquo;t care.</p>
 
-            <p>This blog exists to document everything. Not just the wins, but the decisions, the failures, and the architecture behind every product built under Vystra.</p>
 
-            <h2>Why Document?</h2>
 
-            <p>Three reasons:</p>
 
-            <ul>
-                <li><strong>Accountability</strong> &mdash; writing down your reasoning forces you to actually have reasoning. It&rsquo;s easy to ship something on instinct. It&rsquo;s harder to explain why you made a specific technical or product decision. The act of documenting keeps you honest.</li>
-                <li><strong>Knowledge sharing</strong> &mdash; the Indian tech ecosystem is growing fast, but practical build logs are rare. There&rsquo;s no shortage of tutorials. There&rsquo;s a massive shortage of &ldquo;here&rsquo;s what I actually did, here&rsquo;s what went wrong, and here&rsquo;s what I&rsquo;d do differently.&rdquo;</li>
-                <li><strong>Personal record</strong> &mdash; two years from now, I want to look back and see exactly how decisions were made. Not a polished narrative, but the raw truth of what happened.</li>
-            </ul>
 
-            <h2>What This Blog Will Cover</h2>
-
-            <ul>
-                <li><strong>Build logs</strong> &mdash; detailed breakdowns of how each product and feature is built. Architecture decisions, technology choices, trade-offs, and implementation details.</li>
-                <li><strong>Product thinking</strong> &mdash; how I identify problems, validate ideas, and decide what to build next. The frameworks and mental models behind product decisions.</li>
-                <li><strong>Market insights</strong> &mdash; what I learn about the industries I&rsquo;m building for. Construction, professional services, and whatever comes next.</li>
-                <li><strong>MedTech x Tech</strong> &mdash; how working in regulated medical technology shapes the way I approach product engineering. The crossover between validation mindset and startup speed.</li>
-            </ul>
-
-            <h2>The Rules</h2>
-
-            <p>Every post on this blog follows three rules:</p>
-
-            <ol>
-                <li><strong>Be honest</strong> &mdash; if something failed, say it failed. If a decision was wrong, explain why. No revisionist history.</li>
-                <li><strong>Share failures</strong> &mdash; the failures are more instructive than the successes. A post about what went wrong is worth more than ten posts about what went right.</li>
-                <li><strong>Optimize for being useful</strong> &mdash; every post should leave the reader with something actionable. A technique they can use, a mistake they can avoid, or a way of thinking they hadn&rsquo;t considered.</li>
-            </ol>
-
-            <p>This isn&rsquo;t content marketing. It&rsquo;s an engineering log that happens to be public.</p>
-
-            <p>Welcome to the blog. Let&rsquo;s build.</p>
-        </div>
-
-        <div class="blog-related">
-            <h3>Related Posts</h3>
-            <ul>
-                <li><a href="why-i-built-vystra-build.html">Why I Built Vystra Build</a> &mdash; the first product built under the Vystra brand, documented from day one.</li>
-                <li><a href="vision-beyond-or.html">Vision Beyond the OR</a> &mdash; a hackathon project that followed the same build-in-public philosophy.</li>
-                <li><a href="ai-bug-analyzer.html">AI Bug Analyzer</a> &mdash; engineering tooling built with transparency and documented end-to-end.</li>
-            </ul>
-        </div>
-
-        <nav class="blog-post-nav">
-            <span></span>
-            <a href="vision-beyond-or.html" class="blog-nav-link next">
-                <span class="blog-nav-dir">Next &rarr;</span>
-                <span class="blog-nav-title">Vision Beyond the OR</span>
-            </a>
-        </nav>
-    </article>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-bottom">
-                <p>&copy; 2026 Karthik Raja V. All rights reserved.</p>
-                <p class="footer-made">Engineered in India with care.</p>
-            </div>
-        </div>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="../js/blog.js"></script>
-    <script src="../js/analytics.js"></script>
-    <script src="../js/enhance.js"></script>
-</body>
+<footer class="foot">
+<p>© 2026 Karthik Raja V</p>
+<nav aria-label="More"><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/blog/feed.xml">RSS feed</a></nav>
+<p>Engineered in India.</p>
+</footer><script defer="" src="/js/site.js"></script><script defer="" src="/js/analytics.js"></script></body>
 </html>

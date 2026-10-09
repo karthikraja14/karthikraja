@@ -7,7 +7,7 @@ A single-page portfolio with a 3D particle field behind the content. It opens wi
 | Intro | Karthik's face, as halftone dots (from his photo) | Navy and gold (his own) |
 | About | Drifting dust, with a flip card: photo on the front, anime version on the back | Navy and gold |
 | ANSR MedTech (2026 to now) | A phone, the cloud and a body-worn sensor, linked by data | Orange on teal |
-| Johnson & Johnson (2023 to 2026) | A surgical robot arm over an operating table | J&J red |
+| Johnson & Johnson (2023 to 2026) | Operating-room devices linked through one platform to the cloud (the Digital Surgery Platform) | J&J red |
 | L&T Technology Services, for Baxter and Stryker (2021 to 2023) | A home peritoneal dialysis machine | L&T yellow on black |
 | Fresenius Medical Care (2018 to 2021) | A hemodialysis machine | Fresenius blues |
 | Apollo and Vijaya hospitals (2017 to 2018) | A bedside patient monitor | Teal and orange |

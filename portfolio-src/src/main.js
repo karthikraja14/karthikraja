@@ -7,7 +7,7 @@ import Lenis from 'lenis';
 import { ParticleField } from './scene/ParticleField.js';
 import { THEMES } from './themes.js';
 import { initCursor, initMagnetic, initClock, initCopy, initCard } from './ui.js';
-import { connectedCare, surgicalRobot, homeDialysis, hemodialysis, patientMonitor, construction } from './scene/illustrations.js';
+import { connectedCare, connectedOR, homeDialysis, hemodialysis, patientMonitor, construction } from './scene/illustrations.js';
 import portraitMapUrl from './assets/portrait-map.png';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
@@ -83,7 +83,7 @@ const POSES = {
 };
 
 // What each display draws: ANSR MedTech, J&J, LTTS (Baxter), Fresenius, Apollo and Vijaya, Vystra Build.
-const DRAWINGS = [connectedCare, surgicalRobot, homeDialysis, hemodialysis, patientMonitor, construction];
+const DRAWINGS = [connectedCare, connectedOR, homeDialysis, hemodialysis, patientMonitor, construction];
 
 const hexToRgb = (hex) => {
   const n = parseInt(hex.slice(1), 16);

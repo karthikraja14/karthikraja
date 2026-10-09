@@ -105,25 +105,64 @@ export function connectedCare(ctx) {
   ctx.setLineDash([]);
 }
 
-// Johnson & Johnson: robotic surgery. A jointed robot arm reaching over an operating table.
-export function surgicalRobot(ctx) {
-  line(ctx, [[0.2, 2.38], [3.4, 2.38]], 0.03, 0.6);
-  limb(ctx, 0.78, 2.05, 0.78, 1.32, 0.3);
-  limb(ctx, 0.78, 1.25, 1.8, 0.5, 0.26);
-  limb(ctx, 1.8, 0.5, 2.6, 0.95, 0.2);
-  rr(ctx, 0.35, 2.05, 0.85, 0.3, 0.06); paint(ctx, { fill: 0.35 });
-  line(ctx, [[2.6, 0.95], [2.82, 1.72]], 0.05);
-  rr(ctx, 2.63, 1.12, 0.12, 0.26, 0.03); paint(ctx, { fill: 0.6, lw: 0.035 });
-  line(ctx, [[2.82, 1.72], [2.76, 1.84]], 0.035);
-  line(ctx, [[2.82, 1.72], [2.9, 1.83]], 0.035);
-  circle(ctx, 0.78, 1.25, 0.2, { fill: 0.5 });
-  circle(ctx, 1.8, 0.5, 0.17, { fill: 0.5 });
-  circle(ctx, 2.6, 0.95, 0.13, { fill: 0.5 });
-  [[0.78, 1.25], [1.8, 0.5], [2.6, 0.95]].forEach(([x, y]) => circle(ctx, x, y, 0.05, { fill: 1, stroke: 0 }));
-  rr(ctx, 2.1, 1.7, 1.15, 0.16, 0.08); paint(ctx, { fill: 0.25, stroke: 0.6, lw: 0.035 });
-  rr(ctx, 1.95, 1.86, 1.45, 0.14, 0.05); paint(ctx, { fill: 0.45 });
-  ctx.beginPath(); ctx.rect(2.58, 2.0, 0.18, 0.3); paint(ctx, { fill: 0.3, lw: 0.04 });
-  rr(ctx, 2.3, 2.29, 0.75, 0.08, 0.03); paint(ctx, { fill: 0.6, stroke: 0 });
+// Johnson & Johnson: the Digital Surgery Platform. Operating-room devices (a robot arm,
+// an imaging cart, a laptop, an energy console) all linked through one platform hub to the cloud.
+export function connectedOR(ctx, font) {
+  // Platform hub in the middle, labelled DSP (Digital Surgery Platform).
+  rr(ctx, 1.42, 0.92, 0.76, 0.66, 0.1); paint(ctx, { fill: 0.3, lw: 0.07 });
+  label(ctx, 'DSP', 1.5, 1.37, 0.32, 800, font);
+
+  // Cloud above the hub.
+  ctx.beginPath();
+  ctx.moveTo(1.5, 0.5);
+  ctx.bezierCurveTo(1.32, 0.5, 1.32, 0.28, 1.52, 0.28);
+  ctx.bezierCurveTo(1.55, 0.08, 1.85, 0.04, 1.93, 0.22);
+  ctx.bezierCurveTo(2.06, 0.12, 2.3, 0.2, 2.24, 0.36);
+  ctx.bezierCurveTo(2.38, 0.4, 2.34, 0.5, 2.2, 0.5);
+  ctx.closePath();
+  paint(ctx, { fill: 0.3, lw: 0.05 });
+
+  // Links: hub to cloud and hub to each device, with a node dot at every end.
+  const links = [
+    [[1.8, 0.92], [1.8, 0.52]],
+    [[1.42, 1.0], [1.02, 0.62]],
+    [[1.42, 1.5], [0.98, 1.78]],
+    [[2.18, 1.0], [2.6, 0.66]],
+    [[2.18, 1.5], [2.6, 1.8]],
+  ];
+  links.forEach(([a, b]) => {
+    line(ctx, [a, b], 0.035, 1, [0.05, 0.05]);
+    circle(ctx, a[0], a[1], 0.045, { fill: 1, stroke: 0 });
+    circle(ctx, b[0], b[1], 0.045, { fill: 1, stroke: 0 });
+  });
+
+  // Top left: a small surgical robot arm.
+  rr(ctx, 0.22, 0.86, 0.46, 0.12, 0.03); paint(ctx, { fill: 0.5, lw: 0.035 });
+  line(ctx, [[0.42, 0.86], [0.42, 0.56], [0.72, 0.3], [0.96, 0.5]], 0.07);
+  [[0.42, 0.56], [0.72, 0.3]].forEach(([x, y]) => circle(ctx, x, y, 0.07, { fill: 0.6, lw: 0.035 }));
+  line(ctx, [[0.96, 0.5], [0.98, 0.66]], 0.035);
+
+  // Bottom left: an imaging cart with its screen.
+  rr(ctx, 0.25, 1.5, 0.72, 0.5, 0.05); paint(ctx, { fill: 0.25, lw: 0.05 });
+  trace(ctx, 0.33, 0.89, 1.78, 0.16, (u) => Math.sin(u * Math.PI * 4) * 0.5 + 0.5, 0.03, 0.9);
+  line(ctx, [[0.61, 2.0], [0.61, 2.28]], 0.05);
+  line(ctx, [[0.34, 2.3], [0.88, 2.3]], 0.05);
+  circle(ctx, 0.38, 2.36, 0.04, { fill: 1, stroke: 0 });
+  circle(ctx, 0.84, 2.36, 0.04, { fill: 1, stroke: 0 });
+
+  // Top right: a laptop.
+  rr(ctx, 2.62, 0.3, 0.68, 0.44, 0.04); paint(ctx, { fill: 0.25, lw: 0.05 });
+  [0.42, 0.52, 0.62].forEach((y, i) => line(ctx, [[2.72, y], [2.72 + [0.4, 0.3, 0.46][i], y]], 0.03));
+  rr(ctx, 2.52, 0.76, 0.88, 0.07, 0.03); paint(ctx, { fill: 0.7, stroke: 0 });
+
+  // Bottom right: an energy console with a handheld instrument on its cable.
+  rr(ctx, 2.62, 1.6, 0.66, 0.46, 0.06); paint(ctx, { fill: 0.2, lw: 0.05 });
+  rr(ctx, 2.7, 1.68, 0.3, 0.16, 0.03); paint(ctx, { fill: 0.6, stroke: 0 });
+  circle(ctx, 3.12, 1.76, 0.06, { fill: 0.8, stroke: 0 });
+  [2.74, 2.88, 3.02].forEach((x) => circle(ctx, x, 1.96, 0.035, { fill: 1, stroke: 0 }));
+  ctx.lineWidth = 0.03;
+  ctx.beginPath(); ctx.moveTo(3.28, 1.9); ctx.bezierCurveTo(3.5, 1.95, 3.45, 2.3, 3.2, 2.3); ctx.stroke();
+  line(ctx, [[3.2, 2.3], [2.9, 2.36]], 0.06);
 }
 
 // L&T Technology Services, for Baxter: home peritoneal dialysis. A bedside machine,
