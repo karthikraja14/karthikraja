@@ -7,7 +7,7 @@
 
 ## About
 
-Personal portfolio, blog, and product showcase for Karthik Raja V — Manager, Systems Automation at Insulet Corporation. 10+ years in MedTech quality engineering, building software products under the Vystra brand.
+Personal portfolio, blog, and product showcase for Karthik Raja V — Manager, Systems Automation at ANSR MedTech, Bengaluru. 10+ years in MedTech quality engineering, building software products under the Vystra brand.
 
 ### Highlights
 
@@ -19,14 +19,13 @@ Personal portfolio, blog, and product showcase for Karthik Raja V — Manager, S
 
 ## Tech Stack
 
-Zero-dependency static site — no frameworks, no build tools, no npm.
+The homepage is built from `portfolio-src/` and committed as finished files; every other page is plain static HTML, as before.
 
 | Layer | Tech |
 |-------|------|
-| Markup | HTML5, semantic |
-| Styling | CSS3 custom properties, responsive grid |
-| Animation | GSAP 3 + ScrollTrigger (CDN) |
-| Fonts | Inter + JetBrains Mono (Google Fonts) |
+| Homepage | Three.js (3D dot portrait and shapes), GSAP + ScrollTrigger + SplitText, Lenis smooth scroll, built with Vite |
+| Other pages | HTML5, CSS3 custom properties, GSAP 3 (CDN) |
+| Fonts | Homepage: Archivo, Newsreader, IBM Plex Mono (self-hosted). Other pages: Inter + JetBrains Mono |
 | Hosting | GitHub Pages with custom domain |
 | SEO | sitemap.xml, robots.txt, JSON-LD, Open Graph, Twitter cards |
 
@@ -34,7 +33,8 @@ Zero-dependency static site — no frameworks, no build tools, no npm.
 
 ```
 karthikraja/
-├── index.html                  # Main landing page
+├── index.html                  # Homepage (built output of portfolio-src/, don't edit by hand)
+├── portfolio-src/              # Homepage source code (see "Editing the homepage")
 ├── resume.html                 # Visual resume
 ├── resume-ats.html             # ATS-friendly resume
 ├── privacy.html                # Privacy policy
@@ -45,6 +45,7 @@ karthikraja/
 ├── CNAME                       # Custom domain config
 ├── .nojekyll                   # Disable Jekyll processing
 ├── assets/
+│   ├── index-*.js, *.css, ...  # Homepage build files (listed in .homepage-build.json)
 │   ├── favicon.svg             # Geometric K monogram
 │   ├── og-image.svg            # Social sharing image
 │   └── karthik_resized.jpg     # Profile photo (optimised)
@@ -66,9 +67,22 @@ karthikraja/
     └── index.html              # JD Resume Tailor (private)
 ```
 
-## Local Development
+## Editing the homepage
 
-No build step required.
+The homepage source lives in `portfolio-src/` (details in its own README). You need Node.js 20 or newer.
+
+```bash
+cd portfolio-src
+npm install
+npm run dev        # live preview at http://localhost:5173
+npm run release    # build, then copy index.html and assets/ into the site root
+```
+
+Then commit and push. `npm run release` also removes the previous build's files from `assets/`, and leaves everything else there alone.
+
+## Local Development (whole site)
+
+No build step required to preview the whole site.
 
 ```bash
 # Python

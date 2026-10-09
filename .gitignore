@@ -5,3 +5,5 @@ Thumbs.db
 *.pdf
 __pycache__/
 *.pyc
+portfolio-src/dist/
+portfolio-src/dist-single/
